@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+actor "Aluno" as alu
+actor "Secretaria" as sec
+actor "Professor" as pro
+actor "Usuário" as user
+
+
+rectangle Sistema_de_Matricula{
+  usecase "Gerenciar Matrículas" as UC1
+  usecase "Gerenciar Disciplinas" as UC2
+  usecase "Gerar currículo" as UC3
+  usecase "Visualizar alunos matriculados" as UC4
+  usecase "Realizar Login" as UC5
+  usecase "Cadastrar Usuários" as UC6
+  usecase "Cadastrar Cursos" as UC7
+}
+
+user <|-- sec
+user <|-- alu
+user <|-- pro
+
+
+alu --> UC1
+sec --> UC2
+sec --> UC3
+pro --> UC4
+user --> UC5
+sec --> UC6
+sec --> UC7
+@enduml
