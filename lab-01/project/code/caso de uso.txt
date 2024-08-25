@@ -4,10 +4,13 @@ actor "Aluno" as alu
 actor "Secretaria" as sec
 actor "Professor" as pro
 actor "Usuário" as user
+actor "Sistema de Cobrança" as cob
+
 
 
 rectangle Sistema_de_Matricula{
-  usecase "Gerenciar Matrículas" as UC1
+  usecase "Gerenciar Matrículas obrigatórias" as UC1
+  usecase "Gerenciar Matrículas optativas" as UC8
   usecase "Gerenciar Disciplinas" as UC2
   usecase "Gerar currículo" as UC3
   usecase "Visualizar alunos matriculados" as UC4
@@ -20,8 +23,20 @@ user <|-- sec
 user <|-- alu
 user <|-- pro
 
+note right of (UC2)
+  Gerenciar - Operação de Criar, Ler, 
+  Atualizar e Deletar 
+end note
 
-alu --> UC1
+
+
+alu --> UC1 
+UC1 --> cob
+
+alu --> UC8
+UC8 --> cob
+
+
 sec --> UC2
 sec --> UC3
 pro --> UC4
