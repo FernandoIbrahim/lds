@@ -23,7 +23,7 @@ Como ( persona ) , eu ( quero, desejo ), ( para que ) .
 
 - Como secretária, preciso gerar o currículo para ter as informações de cada semestre sobre as disciplinas, professores e alunos.
 - Como secretária, preciso gerenciar as disciplinas ofertadas por cada curso em determinado semestre, para que os alunos possam se matricular.
-- Como secretária, preciso cadastrar os cursos, para futuramente para gerenciá-los.
+- Como secretária, preciso cadastrar os cursos, para futuramente  gerenciá-los.
 - Como secretária, preciso cadastrar os usuários, para a correta delegação de funcionalidades do sistema.
 
 ### Usuário
