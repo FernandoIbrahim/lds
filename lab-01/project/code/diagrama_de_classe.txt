@@ -1,0 +1,115 @@
+@startuml
+abstract class Usuario {
+    - id : Long
+    - nome : String
+    - senha : String
+    - email : String
+    - cpf : String
+    + getId() : Long
+
+}
+
+class Aluno {
+    + getId() : Long
+}
+
+class Professor {
+    + getId() : Long
+}
+
+class Secretaria {
+    + getId() : Long
+
+}
+
+class Disciplina {
+    - nome : String
+    - id: Long
+    - cargaHoraria: int
+    - maximoAlunos : int
+    + getNome() : String
+}
+
+class Curso {
+    - nome : String
+    - id: Long
+    + getNome() : String
+
+}
+
+class MatriculaDisciplina {
+    - id: Long
+    - dataMatricula : Date
+    - semestre : int
+    + getDataMatricula() : Date
+
+}
+
+enum EnumDisciplina {
+    OBRIGATORIA : int
+    OPTATIVA : int
+}
+
+class DisciplinaCurso {
+    - periodo : int
+    + getPeriodo() : int
+
+}
+
+Aluno --> Usuario
+Professor --> Usuario
+Secretaria --> Usuario
+
+Aluno "*" -- "*" Disciplina 
+(Aluno, Disciplina ) . MatriculaDisciplina
+
+Disciplina "*" -- "1..*" Curso
+(Disciplina, Curso) . DisciplinaCurso
+
+Professor "1" -- "0..*" Disciplina
+Disciplina -- EnumDisciplina
+
+class AlunoService {
+    + cadastrarAluno(aluno : Aluno) : void
+    + enviarDadosFinanceiros(aluno : Aluno) : void
+}
+
+class MatriculaService {
+    + matricularAluno(disciplina : Disciplina, aluno : Aluno) : void
+}
+
+class CursoService {
+    + cadastrarCurso(curso : Curso) : void
+    + adicionarDisciplinaCurso(curso : Curso, disciplina : Disciplina, enumDisciplina : EnumDisciplina) : void
+}
+
+class DisciplinaService {
+    + cadastrarDisciplina(disciplina : Disciplina) : void
+    + emitirRelatorioAlunos(disciplina : Disciplina) : void
+}
+
+class ProfessorService {
+    + cadastrarProfessor(professor : Professor) : void
+}
+
+class SecretariaService {
+    + cadastrarSecretaria(secretaria : Secretaria) : void
+}
+
+class LoginService {
+    + verificarLogin(email : String, senha : String) : void
+}
+
+class RelatorioService {
+    + relatorioProfessor(ano : int, semestre int) : void
+    + relatorioAluno(ano : int, semestre int) : void
+    + relatorioDisciplina(ano : int, semestre int) : void
+}
+
+RelatorioService -[hidden]- MatriculaService
+CursoService -[hidden]- MatriculaService
+DisciplinaService -[hidden]- CursoService
+ProfessorService -[hidden]- DisciplinaService
+SecretariaService -[hidden]- ProfessorService
+LoginService -[hidden]- SecretariaService
+@enduml
