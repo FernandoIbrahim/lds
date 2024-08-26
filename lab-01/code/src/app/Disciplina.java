@@ -2,15 +2,15 @@ package app;
 
 public class Disciplina {
 
-    String nome;
-    Long codigo;
-    double credito;
-    int maximoAlunos;
+    private String nome;
+    private Long id;
+    private int cargaHoraria;
+    private int maximoAlunos;
 
-    public Disciplina(String nome, Long codigo, double credito, int maximoAlunos) {
+    public Disciplina(String nome, Long id, int cargaHoraria, int maximoAlunos) {
         setNome(nome);
-        setCodigo(codigo);
-        setCredito(credito);
+        setid(id);
+        setCargaHoraria(cargaHoraria);
         setMaximoAlunos(maximoAlunos);
     }
 
@@ -23,20 +23,20 @@ public class Disciplina {
         this.nome = nome;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public Long getid() {
+        return id;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setid(Long id) {
+        this.id = id;
     }
 
-    public double getCredito() {
-        return credito;
+    public int getCargaHoraria() {
+        return cargaHoraria;
     }
 
-    public void setCredito(double credito) {
-        this.credito = credito;
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 
     public int getMaximoAlunos() {
