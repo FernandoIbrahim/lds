@@ -9,5 +9,5 @@ Escreva um ou dois parágrafo resumindo o objetivo do seu projeto.
 ## Orientadores
 * Cleiton Silva Tavares
 
-## Instruções de utilização
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+### OBS
+Os commits realizados não necessariamente refletem as contribuições individuais de cada integrante do grupo. Todos os trabalhos foram realizados em chamadas com a participação de todos os membros.
