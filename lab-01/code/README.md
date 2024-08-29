@@ -21,7 +21,7 @@ docker-compose down
 Sendo assim, podemos perceber que serão criados dois containers:
 
 - **app-school-management**
-O qual é o responsável por rodar uma imagem openjdk:17-jdk-slim, assim rodando o Java com SpringBoot
+O qual é o responsável por rodar uma imagem openjdk:17-jdk-slim, assim implementado o Java com SpringBoot
 
 - **bc-mariadb-school-management-system**
-O qual é o responsável por rodar uma imagem mariadb:latest, assim rodando o banco de dados relacional Mariadb junto com seus dados iniciais.
+O qual é o responsável por rodar uma imagem mariadb:latest, assim implementado o banco de dados relacional Mariadb junto com seu entrypoint.
