@@ -41,7 +41,9 @@ docker-compose up mariadb --build
 
 Execute separadamente o teste **testDatabaseConnection** presente no diretório 
 
-```/app/SchoolManagementSystem/src/test/java/com/example/SchoolManagementSystem/SchoolManagementSystemApplicationTests.java```
+```
+/app/SchoolManagementSystem/src/test/java/com/example/SchoolManagementSystem/SchoolManagementSystemApplicationTests.java
+```
 
 
 
