@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: bc-mariadb-school-management-system
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: school-management-system-bd
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+      - ./mariadb/entrypoint:/docker-entrypoint-initdb.d
+
+  app:
+    build:
+      context: app/SchoolManagementSystem
+      dockerfile: Dockerfile
+    container_name: app-school-management
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/opt/app
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - mariadb
