@@ -25,3 +25,25 @@ O qual é o responsável por rodar uma imagem openjdk:17-jdk-slim, assim impleme
 
 - **bc-mariadb-school-management-system**
 O qual é o responsável por rodar uma imagem mariadb:latest, assim implementado o banco de dados relacional Mariadb junto com seu entrypoint.
+
+--- 
+
+# Testes
+
+## Conexão
+O teste de conexão entre o Spring e o Banco de dados pode ser realizada da seguinte forma:
+
+Inicialize o banco de dados através do seguinte comando:
+
+```
+docker-compose up mariadb --build
+```
+
+Execute separadamente o teste **testDatabaseConnection** presente no diretório 
+
+```
+/app/SchoolManagementSystem/src/test/java/com/example/SchoolManagementSystem/SchoolManagementSystemApplicationTests.java
+```
+
+
+
