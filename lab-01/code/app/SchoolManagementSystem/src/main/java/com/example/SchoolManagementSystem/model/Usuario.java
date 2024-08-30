@@ -3,12 +3,14 @@ package com.example.SchoolManagementSystem.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 @Entity
 @Table(name = "usuario")
+@AllArgsConstructor
 public class Usuario {
 
     @Id

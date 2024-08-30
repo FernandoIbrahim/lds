@@ -1,0 +1,37 @@
+package com.example.SchoolManagementSystem.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.SchoolManagementSystem.model.Usuario;
+import com.example.SchoolManagementSystem.repository.UsuarioRepository;
+
+public class UsuarioService {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+
+    public Usuario saveOrUpdateUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    // Read - Get all users
+    public List<Usuario> getAllUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    // Read - Get user by ID
+    public Usuario getUsuarioById(Long id) {
+        Optional<Usuario> usuario = this.usuarioRepository.findById(id);
+        return usuario.orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
+    }
+
+    // Delete
+    public void deleteUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+    }
+}
