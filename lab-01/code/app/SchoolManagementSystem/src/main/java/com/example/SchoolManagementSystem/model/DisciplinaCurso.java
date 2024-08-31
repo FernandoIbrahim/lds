@@ -1,10 +1,7 @@
 package com.example.SchoolManagementSystem.model;
 
-import org.checkerframework.checker.units.qual.C;
-
 import com.example.SchoolManagementSystem.model.Enums.EnumDisciplina;
 
-import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

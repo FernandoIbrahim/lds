@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.SchoolManagementSystem.model.Usuario;
 import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
-import com.example.SchoolManagementSystem.model.Enums.EnumDisciplina;
 import com.example.SchoolManagementSystem.repository.UsuarioRepository;
 
 @Service

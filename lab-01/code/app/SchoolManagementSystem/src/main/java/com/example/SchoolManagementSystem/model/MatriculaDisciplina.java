@@ -2,7 +2,6 @@ package com.example.SchoolManagementSystem.model;
 
 import java.time.LocalDate;
 
-import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
