@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.example.SchoolManagementSystem.model.Aluno;
 import com.example.SchoolManagementSystem.model.Usuario;
+import com.example.SchoolManagementSystem.service.AlunoService;
 import com.example.SchoolManagementSystem.service.UsuarioService;
 
 @SpringBootApplication
@@ -16,7 +18,9 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	@Autowired
 	private UsuarioService usuarioService;
-
+	
+	@Autowired
+	private AlunoService alunoService;
 
 	Scanner scanner = new Scanner(System.in);
 
@@ -27,12 +31,9 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	@Override
     public void run(String... args) throws Exception {
         // Interação de exemplo com o controller
-        Usuario usuario = usuarioService.create("Fernando", "1234", "fernando@example.com", "12345678900");
-        System.out.println("Usuário criado: " + usuario.getNome());
+		cadastrarAluno();
 
     }
-
-
 
 
 	public void loginCLI(){
@@ -77,11 +78,13 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		System.out.println("senha: ");
 		senha = scanner.nextLine();
 
-		System.out.println("senha: ");
+		System.out.println("cpf: ");
 		cpf = scanner.nextLine();
 
 		Usuario usuario = usuarioService.create(nome, senha, email, cpf);
-
+		Aluno aluno = alunoService.create(usuario.getId());
+	
+		System.out.println("Aluno criado com sucesso!" + usuario.getId());
 	}
 
 
