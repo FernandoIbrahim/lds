@@ -16,10 +16,11 @@ public class AlunoService {
         return alunoRepository.save(aluno);
     }
 
-
-
+    // Create - Create a new Aluno
     public Aluno create(Long id) {
-        Aluno aluno = new Aluno(id);
+        Aluno aluno = Aluno.builder()
+            .id(id)
+            .build();
         return saveOrUpdateAluno(aluno);
     }
 

@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.SchoolManagementSystem.model.Aluno;
 import com.example.SchoolManagementSystem.model.Usuario;
+import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
 import com.example.SchoolManagementSystem.service.AlunoService;
+import com.example.SchoolManagementSystem.service.LoginService;
 import com.example.SchoolManagementSystem.service.UsuarioService;
 
 @SpringBootApplication
@@ -47,6 +49,23 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		System.out.println("senha: ");
 		senha = scanner.nextLine();
 
+		String acesso = LoginService.login(email, senha);
+
+		switch (acesso) {
+			case "PROFESSOR":
+				professorCLI();
+				break;
+			case "SECRETARIA":
+				secretariaCLI();
+				break;
+			case "ALUNO":
+				alunoCLI();
+				break;
+			default:
+				System.out.println("Acesso inválido!");
+				break;
+		}
+
 	}
 
 
@@ -59,7 +78,11 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	}
 
 
-	public void ClienteCLI(){
+	public void alunoCLI(){
+		
+	}
+
+	public void professorCLI(){
 		
 	}
 
@@ -81,8 +104,8 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		System.out.println("cpf: ");
 		cpf = scanner.nextLine();
 
-		Usuario usuario = usuarioService.create(nome, senha, email, cpf);
-		Aluno aluno = alunoService.create(usuario.getId());
+		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.ALUNO);
+		alunoService.create(usuario.getId());
 	
 		System.out.println("Aluno criado com sucesso!" + usuario.getId());
 	}

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SchoolManagementSystem.model.Usuario;
+import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
+import com.example.SchoolManagementSystem.model.Enums.EnumDisciplina;
 import com.example.SchoolManagementSystem.repository.UsuarioRepository;
 
 @Service
@@ -39,8 +41,15 @@ public class UsuarioService {
 
     //-------------------------------------------------------------
 
-    public Usuario create(String name, String senha, String email, String cpf) {
-        Usuario usuario = new Usuario(null, name, senha, email, cpf);
+    public Usuario create(String name, String senha, String email, String cpf, EnumAutorizacao tipo) {
+        Usuario usuario =  Usuario.builder()
+            .nome(name)
+            .senha(senha)
+            .email(email)
+            .cpf(cpf)
+            .tipo(tipo)
+            .build();
+        
         return saveOrUpdateUsuario(usuario);
     }
 
