@@ -35,4 +35,15 @@ public class UsuarioService {
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
+
+
+    //-------------------------------------------------------------
+
+    public Usuario create(String name, String senha, String email, String cpf) {
+        Usuario usuario = new Usuario(null, name, senha, email, cpf);
+        return saveOrUpdateUsuario(usuario);
+    }
+
+
+
 }
