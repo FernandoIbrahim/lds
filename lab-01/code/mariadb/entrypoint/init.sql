@@ -6,7 +6,7 @@ USE `school-management-system-bd`;
 
 -- Criação da tabela usuario
 CREATE TABLE IF NOT EXISTS usuario (
-    id BIGINT PRIMARY KEY,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -40,13 +40,13 @@ CREATE TABLE IF NOT EXISTS secretaria (
 
 -- Criação da tabela curso
 CREATE TABLE IF NOT EXISTS curso (
-    id BIGINT PRIMARY KEY,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL
 );
 
 -- Criação da tabela disciplina
 CREATE TABLE IF NOT EXISTS disciplina (
-    id BIGINT PRIMARY KEY,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     carga_horaria INT NOT NULL,
     maximo_alunos INT NOT NULL
@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS matricula_disciplina (
 
 -- Criação da tabela professor_disciplina
 CREATE TABLE IF NOT EXISTS professor_disciplina (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     id_professor BIGINT NOT NULL,
     id_disciplina BIGINT NOT NULL,
     FOREIGN KEY (id_professor ) REFERENCES professor(id)
