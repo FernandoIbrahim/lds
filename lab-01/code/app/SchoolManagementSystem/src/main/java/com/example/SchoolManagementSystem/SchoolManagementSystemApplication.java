@@ -11,6 +11,8 @@ import com.example.SchoolManagementSystem.model.Usuario;
 import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
 import com.example.SchoolManagementSystem.service.AlunoService;
 import com.example.SchoolManagementSystem.service.LoginService;
+import com.example.SchoolManagementSystem.service.ProfessorService;
+import com.example.SchoolManagementSystem.service.SecretariaService;
 import com.example.SchoolManagementSystem.service.UsuarioService;
 
 @SpringBootApplication
@@ -23,6 +25,12 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	@Autowired
 	private AlunoService alunoService;
 
+	@Autowired
+	private ProfessorService professorService;
+
+	@Autowired
+	private SecretariaService secretariaService;
+
 	Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -32,7 +40,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	@Override
     public void run(String... args) throws Exception {
         // Interação de exemplo com o controller
-		cadastrarAluno();
+		cadastrarSecretaria();
 
     }
 
@@ -68,13 +76,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	}
 
 
-	public void secretariaCLI(){
-		System.out.println("Digite uma das opções: ");
-		System.out.println("01 - Cadastrar Aluno");
-		System.out.println("02 - Cadastrar Secretaria");
-		System.out.println("03 - Cadastrar Secretaria");
 
-	}
 
 
 	public void alunoCLI(){
@@ -86,6 +88,17 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	}
 
 
+
+	
+	public void secretariaCLI(){
+		System.out.println("Digite uma das opções: ");
+		System.out.println("01 - Cadastrar Aluno");
+		System.out.println("02 - Cadastrar Secretaria");
+		System.out.println("03 - Cadastrar Secretaria");
+
+	}
+
+	// ------------------- Secretária CLI ----------------------- //
 	public void cadastrarAluno(){
 
 		String nome, senha, email, cpf;
@@ -106,7 +119,57 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.ALUNO);
 		alunoService.create(usuario.getId());
 	
-		System.out.println("Aluno criado com sucesso!" + usuario.getId());
+		System.out.println("Aluno criado com sucesso!" + usuario.getNome());
+	}
+
+
+	public void cadastrarProfessor(){
+
+		String nome, senha, email, cpf;
+
+		System.out.println("Informes os dados necessários: ");
+		System.out.println("Nome: ");
+		nome = scanner.nextLine();
+
+		System.out.println("E-mail: ");
+		email = scanner.nextLine();
+
+		System.out.println("senha: ");
+		senha = scanner.nextLine();
+
+		System.out.println("cpf: ");
+		cpf = scanner.nextLine();
+
+		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.PROFESSOR);
+		professorService.create(usuario.getId());
+	
+		System.out.println("Professor criado com sucesso!" + usuario.getNome());
+		
+	}
+
+
+	public void cadastrarSecretaria(){
+
+		String nome, senha, email, cpf;
+
+		System.out.println("Informes os dados necessários: ");
+		System.out.println("Nome: ");
+		nome = scanner.nextLine();
+
+		System.out.println("E-mail: ");
+		email = scanner.nextLine();
+
+		System.out.println("senha: ");
+		senha = scanner.nextLine();
+
+		System.out.println("cpf: ");
+		cpf = scanner.nextLine();
+
+		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.SECRETARIA);
+		secretariaService.create(usuario.getId());
+	
+		System.out.println("Professor criado com sucesso!" + usuario.getNome());
+		
 	}
 
 
