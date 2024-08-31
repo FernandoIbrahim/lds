@@ -3,15 +3,15 @@ CREATE DATABASE IF NOT EXISTS `school-management-system-bd`;
 
 -- Seleção do banco de dados a ser usado
 USE `school-management-system-bd`;
+
 -- Criação da tabela usuario
-
-
 CREATE TABLE IF NOT EXISTS usuario (
     id BIGINT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    cpf VARCHAR(14) NOT NULL
+    cpf VARCHAR(14) NOT NULL,
+    tipo ENUM('ALUNO', 'PROFESSOR', 'SECRETARIA') NOT NULL
 );
 
 -- Criação da tabela aluno
@@ -55,14 +55,14 @@ CREATE TABLE IF NOT EXISTS disciplina (
 -- Criação da tabela disciplina_curso
 CREATE TABLE IF NOT EXISTS disciplina_curso (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    curso_id BIGINT NOT NULL,
-    disciplina_id BIGINT NOT NULL,
+    id_curso BIGINT NOT NULL,
+    id_disciplina BIGINT NOT NULL,
     periodo INT NOT NULL,
     tipo ENUM('OBRIGATORIA', 'OPTATIVA') NOT NULL,
-    FOREIGN KEY (curso_id) REFERENCES curso(id)
+    FOREIGN KEY (id_curso) REFERENCES curso(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
+    FOREIGN KEY (id_disciplina) REFERENCES disciplina(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -70,14 +70,14 @@ CREATE TABLE IF NOT EXISTS disciplina_curso (
 -- Criação da tabela matricula_disciplina
 CREATE TABLE IF NOT EXISTS matricula_disciplina (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id_aluno BIGINT NOT NULL,
+    id_disciplina BIGINT NOT NULL,
     data_matricula DATE NOT NULL,
     semestre INT NOT NULL,
-    aluno_id BIGINT NOT NULL,
-    disciplina_id BIGINT NOT NULL,
-    FOREIGN KEY (aluno_id) REFERENCES aluno(id)
+    FOREIGN KEY (id_aluno) REFERENCES aluno(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
+    FOREIGN KEY (id_disciplina) REFERENCES disciplina(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -85,12 +85,12 @@ CREATE TABLE IF NOT EXISTS matricula_disciplina (
 
 -- Criação da tabela professor_disciplina
 CREATE TABLE IF NOT EXISTS professor_disciplina (
-    professor_id BIGINT NOT NULL,
-    disciplina_id BIGINT NOT NULL,
-    FOREIGN KEY (professor_id ) REFERENCES professor(id)
+    id_professor BIGINT NOT NULL,
+    id_disciplina BIGINT NOT NULL,
+    FOREIGN KEY (id_professor ) REFERENCES professor(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (disciplina_id) REFERENCES disciplina(id)
+    FOREIGN KEY (id_disciplina) REFERENCES disciplina(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
