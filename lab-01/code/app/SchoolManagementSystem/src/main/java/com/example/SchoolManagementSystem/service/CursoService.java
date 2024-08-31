@@ -16,6 +16,12 @@ public class CursoService {
         return cursoRepository.save(curso);
     }
 
-    
+    public Curso createCurso(String nome) {
+        Curso newCurso = Curso.builder()
+        .nome(nome)
+        .build();
+                
+        return saveOrUpdateCurso(newCurso);
+    }
     
 }

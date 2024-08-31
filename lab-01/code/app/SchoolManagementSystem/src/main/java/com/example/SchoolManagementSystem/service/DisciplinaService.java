@@ -23,7 +23,7 @@ public class DisciplinaService {
 		.maximoAlunos(maximoAlunos)
 		.build();
 
-        return newDisciplina;
+        return saveOrUpdateDisciplina(newDisciplina);
     }
 
 }

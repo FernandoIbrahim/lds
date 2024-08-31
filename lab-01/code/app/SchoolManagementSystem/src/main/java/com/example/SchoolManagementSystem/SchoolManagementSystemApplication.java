@@ -7,9 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.example.SchoolManagementSystem.model.Curso;
+import com.example.SchoolManagementSystem.model.Disciplina;
 import com.example.SchoolManagementSystem.model.Usuario;
 import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
 import com.example.SchoolManagementSystem.service.AlunoService;
+import com.example.SchoolManagementSystem.service.CursoService;
+import com.example.SchoolManagementSystem.service.DisciplinaService;
 import com.example.SchoolManagementSystem.service.LoginService;
 import com.example.SchoolManagementSystem.service.ProfessorService;
 import com.example.SchoolManagementSystem.service.SecretariaService;
@@ -31,6 +35,13 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	@Autowired
 	private SecretariaService secretariaService;
 
+	@Autowired
+	private DisciplinaService disciplinaService;
+
+	@Autowired
+	private CursoService cursoService;
+	
+
 	Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -40,7 +51,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	@Override
     public void run(String... args) throws Exception {
         // Interação de exemplo com o controller
-		cadastrarSecretaria();
+		
 
     }
 
@@ -172,7 +183,38 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		
 	}
 
+	public void cadastrarDisicplina() {
 
+		String nome;
+		int cargaHoraria, maximoAlunos;
+
+		System.out.println("Digite o nome da Displina");
+		nome = scanner.nextLine();
+
+		System.out.println("Digite Carga Horaria da Disciplina:");
+		cargaHoraria = scanner.nextInt();
+
+		System.out.println("Digite o maximo de Alunos na Disciplina:");
+		maximoAlunos = scanner.nextInt();
+
+		long id = disciplinaService.createDisciplina(nome, cargaHoraria, maximoAlunos).getId();
+
+		System.out.println("Salvo com sucesso! id: " + id);
+
+	}
+
+	public void cadastrarCurso() {
+
+		String nome;
+
+		System.out.println("Digite o nome do Curso");
+		nome = scanner.nextLine();
+
+		long id = cursoService.createCurso(nome).getId();
+
+		System.out.println("Salvo com sucesso! id: " + id);
+
+	}
 
 
 }
