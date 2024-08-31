@@ -3,12 +3,13 @@ package com.example.SchoolManagementSystem.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.SchoolManagementSystem.model.Usuario;
 import com.example.SchoolManagementSystem.repository.UsuarioRepository;
 
+@Service
 public class UsuarioService {
 
     @Autowired

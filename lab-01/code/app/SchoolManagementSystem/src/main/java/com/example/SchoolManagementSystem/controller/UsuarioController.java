@@ -9,16 +9,19 @@ import com.example.SchoolManagementSystem.service.UsuarioService;
 
 public class UsuarioController {
     @Autowired
-    private UsuarioService usuarioService;
+    static private UsuarioService usuarioService;
 
-    public Usuario findById(Long id) {
-        return this.usuarioService.getUsuarioById(id);
+    @Autowired
+    static public Usuario findById(Long id) {
+        return usuarioService.getUsuarioById(id);
         
     }
 
-    public Usuario create(String name, String senha, String email, String cpf){
+    @Autowired
+    static public Usuario create(String name, String senha, String email, String cpf){
         Usuario usuario = new Usuario(null, name, senha, email, cpf);
-        this.usuarioService.saveOrUpdateUsuario(usuario);
+        usuarioService.saveOrUpdateUsuario(usuario);
         return usuario;
     }
+
 }
