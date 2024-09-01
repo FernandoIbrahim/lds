@@ -14,7 +14,7 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 ## Enunciado
 
-### Projeto: Sistema de Matrículas para Universidade
+Sistema de Matrículas para Universidade
 
 #### Descrição do Sistema
 Uma universidade pretende informatizar seu sistema de matrículas. A secretaria da universidade gera o currículo para cada semestre e mantém as informações sobre as disciplinas, professores e alunos.
