@@ -14,13 +14,6 @@ CREATE TABLE IF NOT EXISTS usuario (
     tipo ENUM('ALUNO', 'PROFESSOR', 'SECRETARIA') NOT NULL
 );
 
--- Criação da tabela aluno
-CREATE TABLE IF NOT EXISTS aluno (
-    id BIGINT PRIMARY KEY,
-    FOREIGN KEY (id) REFERENCES usuario(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
 
 -- Criação da tabela professor
 CREATE TABLE IF NOT EXISTS professor (
@@ -42,6 +35,18 @@ CREATE TABLE IF NOT EXISTS secretaria (
 CREATE TABLE IF NOT EXISTS curso (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL
+);
+
+-- Criação da tabela aluno
+CREATE TABLE IF NOT EXISTS aluno (
+    id BIGINT PRIMARY KEY,
+    id_curso BIGINT,
+    FOREIGN KEY (id) REFERENCES usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (id_curso) REFERENCES curso(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
 );
 
 -- Criação da tabela disciplina

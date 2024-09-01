@@ -74,18 +74,20 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		
 		String email;
 		String senha;
-
+		cleanConsole();
+		System.out.println("Bem vindo ao sistema de gestão da Uni");
 		System.out.println("Digite as credênciais de acesso: ");
 		System.out.println("email: ");
 		email = scanner.nextLine();
+		cleanConsole();
 		System.out.println("senha: ");
 		senha = scanner.nextLine();
 
 		Usuario usuariolog = usuarioService.login(email, senha);
-
+		cleanConsole();
 		this.usuarioLogged = usuariolog;
 		System.out.println("usuário logado: " + this.usuarioLogged.getNome());
-
+		cleanConsole();
 		switch (usuariolog.getTipo().getDescricao()) {
 			case "PROFESSOR":
 				professorCLI();
@@ -112,21 +114,25 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		int response;
 
 		while (stay) {
-			System.out.println("Digite uma das opcoes a baixo");
-			System.out.println("01 - visualizar alunos em uma disciplina");
-			System.out.println("00 - sair");	
-			response = Integer.parseInt(scanner.nextLine());
+			try{
+				System.out.println("Digite uma das opcoes a baixo");
+				System.out.println("01 - visualizar alunos em uma disciplina");
+				System.out.println("00 - sair");	
+				response = Integer.parseInt(scanner.nextLine());
+				cleanConsole();
+				switch (response) {
+					case 0:
+						stay = false;
+						break;
+					case 1:
 
-			switch (response) {
-				case 0:
-					stay = false;
-					break;
-				case 1:
-
-					break;
-				default:
-					throw new RuntimeException("Opção invalida");
-			}	
+						break;
+					default:
+						throw new RuntimeException("Opção invalida");
+				}
+			}catch(Exception e){
+				System.out.println("Exeção: "+ e.getMessage());
+			}
 		}
 
 
@@ -140,6 +146,8 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		boolean stay = true;
 		
 		while (stay) {
+
+			cleanConsole();
 			System.out.println("Digite uma das opções: ");
 			System.out.println("01 - Cadastrar Aluno");
 			System.out.println("02 - Cadastrar Professor");
@@ -153,8 +161,20 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 			switch (response) {
 
 				case 1:
-
+					cadastrarAluno();
 					break;
+				case 2:
+					cadastrarProfessor();
+					break;	
+				case 3:
+					cadastrarSecretaria();
+				case 4:
+					cadastrarDisicplina();
+				case 5:
+					cadastrarCurso();
+				case 6:
+					cadastrarCurso();
+					break;	
 
 				case 0:
 					stay = false;
@@ -170,23 +190,40 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	public void cadastrarAluno(){
 
 		String nome, senha, email, cpf;
+		Long id_curso;
+		Curso selectedCourse;
 
+		cleanConsole();
 		System.out.println("Informes os dados necessários: ");
 		System.out.println("Nome: ");
 		nome = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("E-mail: ");
 		email = scanner.nextLine().toLowerCase();
 
+		cleanConsole();
 		System.out.println("senha: ");
 		senha = scanner.nextLine();
 
+		cleanConsole();
 		System.out.println("cpf: ");
 		cpf = scanner.nextLine();
 
+		cleanConsole();
+		System.out.println("Selecione o curso pelo id: ");
+		List<Curso> cursos = cursoService.findAllCurso();
+
+		for (Curso curso : cursos) {
+			System.out.println(curso.getId() + " - " + curso.getNome());
+		}
+		System.out.println();
+		
+		id_curso = Long.parseLong(scanner.nextLine());
+		selectedCourse = cursoService.findById(id_curso);
+
 		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.ALUNO);
-		alunoService.create(usuario.getId());
-	
+		alunoService.create(usuario.getId() , selectedCourse);
+		cleanConsole();
 		System.out.println("Aluno criado com sucesso!" + usuario.getNome());
 	}
 
@@ -194,20 +231,20 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	public void cadastrarProfessor(){
 
 		String nome, senha, email, cpf;
-
+		cleanConsole();
 		System.out.println("Informes os dados necessários: ");
 		System.out.println("Nome: ");
 		nome = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("E-mail: ");
 		email = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("senha: ");
 		senha = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("cpf: ");
 		cpf = scanner.nextLine();
-
+		cleanConsole();
 		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.PROFESSOR);
 		professorService.create(usuario.getId());
 	
@@ -280,7 +317,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 		List<Disciplina> disciplinas = disciplinaService.findAll(); 
 
-		System.out.println("EScolha a Disciplina pelo Id");
+		System.out.println("Escolha a Disciplina pelo Id");
 		for (Disciplina disc : disciplinas) {
 			System.out.println(disc.getId() + " - " + disc.getNome());
 		}
@@ -291,7 +328,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 		List<Curso> cursos = cursoService.findAllCurso();
 
-		System.out.println("EScolha a Disciplina pelo Id");
+		System.out.println("EScolha o Curso pelo Id");
 		for (Curso curso : cursos) {
 			System.out.println(curso.getId() + " - " + curso.getNome());
 		}
@@ -321,28 +358,35 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	public void alunoCLI(){
 		boolean stay = true;
 		int response;
+		Aluno aluno = alunoService.findById(usuarioLogged.getId());
 
 		while(stay){
 
-			System.out.println("Digite uma das opcoes a baixo: ");
-			System.out.println("01 - matricurlar-se em disciplinas obrigatorias");
-			System.out.println("02 - matricurlar-se em disciplinas optativas");
-			System.out.println("00 - sair: ");
-			response = Integer.parseInt(scanner.nextLine());
-	
-			switch (response) {
-				case 1:
-					
-					break;
-	
-				case 0:
-					stay = false;
-					break;
+			try{
+				System.out.println("Curso atual: " + aluno.getCurso().getNome());
+				System.out.println("Digite uma das opcoes a baixo: ");
+				System.out.println("01 - matricurlar-se em disciplinas obrigatorias");
+				System.out.println("02 - matricurlar-se em disciplinas optativas");
+				System.out.println("00 - sair: ");
+				response = Integer.parseInt(scanner.nextLine());
+			
+				switch (response) {
+					case 1:
+						matricularAlunoDisciplinaObrigatoria();
+						break;
+					case 2:
+						matricularAlunoDisciplinaOptativa();
+						break;
+					case 0:
+						stay = false;
+						break;
 
-				default:
-					throw new RuntimeException("Opção invalida");
+					default:
+						throw new RuntimeException("Opção invalida");
+				}
+			}catch(Exception e){
+				System.out.println("Exception: " + e.getMessage());
 			}
-
 		}
 
 	}
@@ -351,41 +395,60 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	// ---------------------------- AlunoCLI -----------------------------//
 	public void matricularAlunoDisciplinaOptativa(){
 
-		List<Disciplina> disciplinas = disciplinaService.findAll(); 
+		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
+		Curso curso = aluno.getCurso();
 
+		List<DisciplinaCurso> disciplinasCursos = disciplinaCursoService.findByCursoAndTipo(curso, EnumDisciplina.OPTATIVA);
+
+		cleanConsole();
 		System.out.println("Selecione a disciplina por ID: ");
-		for (Disciplina disciplina : disciplinas) {
-			System.out.println(disciplina.getId() + " - " + disciplina.getNome());
+		for(DisciplinaCurso disciplinasCurso : disciplinasCursos){
+			System.out.println(disciplinasCurso.getDisciplina().getId()+ " - " + disciplinasCurso.getDisciplina().getNome() + " - "+ disciplinasCurso.getTipo().getDescricao());
 		}
 
 		Long idDisciplina = Long.parseLong(scanner.nextLine());
 		
 		Disciplina disciplina = disciplinaService.findById(idDisciplina);
 
-		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
-
-		matriculaDisciplinaService.create(aluno, disciplina);
+		matriculaDisciplinaService.matricular(aluno, disciplina, EnumDisciplina.OPTATIVA);
 
 		System.out.println("A sua matricula na disciplina de"  + disciplina.getNome() + "foi realizada com sucesso.");
 
 	}
 
 
+	public void matricularAlunoDisciplinaObrigatoria(){
 
-	/*
-	 * Filtrando disciplinas por curso e tipo
-	 * 
-	 * 	Long id = Long.parseLong("1");
-		Curso curso = cursoService.findById(id);
-		List<DisciplinaCurso> disciplinasCursos = disciplinaCursoService.findByCursoAndTipo(curso, EnumDisciplina.valueOf("OPTATIVA"));
+		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
+		Curso curso = aluno.getCurso();
 
+		List<DisciplinaCurso> disciplinasCursos = disciplinaCursoService.findByCursoAndTipo(curso, EnumDisciplina.OBRIGATORIA);
+
+		System.out.println("Selecione a disciplina por ID: ");
 		for(DisciplinaCurso disciplinasCurso : disciplinasCursos){
-			System.out.println(disciplinasCurso.getDisciplina().getNome() + disciplinasCurso.getTipo().getDescricao());
+			System.out.println(disciplinasCurso.getDisciplina().getId()+ " - " + disciplinasCurso.getDisciplina().getNome() + " - "+ disciplinasCurso.getTipo().getDescricao());
 		}
 
+		Long idDisciplina = Long.parseLong(scanner.nextLine());
+		
+		Disciplina disciplina = disciplinaService.findById(idDisciplina);
 
-	 */
-	
+		matriculaDisciplinaService.matricular(aluno, disciplina, EnumDisciplina.OBRIGATORIA);
 
+		System.out.println("A sua matricula na disciplina de"  + disciplina.getNome() + "foi realizada com sucesso.");
+		try{
+			Thread.sleep(2000);
+		}catch(InterruptedException e){
+			System.out.println("Interrompido!");
+		}
+		
+
+	}
+
+
+	 public void cleanConsole(){
+		System.out.print("\033[H\033[2J");
+        System.out.flush();
+	 }
 
 }

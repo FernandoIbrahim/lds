@@ -22,7 +22,7 @@ public class CursoService {
     public List<Curso> findAllCurso() {
         List<Curso> cursos = cursoRepository.findAll();
         if (cursos.isEmpty()) {
-            throw new RuntimeException("Cursos não encontrado");
+            throw new RuntimeException("Cursos não cadastrados");
         }
         return cursos;
     }

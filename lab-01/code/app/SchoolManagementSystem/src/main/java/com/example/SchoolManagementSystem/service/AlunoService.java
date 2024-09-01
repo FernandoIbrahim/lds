@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.SchoolManagementSystem.model.Aluno;
+import com.example.SchoolManagementSystem.model.Curso;
 import com.example.SchoolManagementSystem.repository.AlunoRepository;
 
 @Service
@@ -20,16 +21,17 @@ public class AlunoService {
     }
 
     // Create - Create a new Aluno
-    public Aluno create(Long id) {
+    public Aluno create(Long id, Curso curso) {
         Aluno aluno = Aluno.builder()
             .id(id)
+            .curso(curso)
             .build();
         return saveOrUpdateAluno(aluno);
     }
 
     public Aluno findById(Long id){
         Optional<Aluno> aluno = alunoRepository.findById(id);
-        return aluno.orElseThrow( () -> new RuntimeException("Aluno não encontrada"));
+        return aluno.orElseThrow( () -> new RuntimeException("Aluno não encontrada") );
     }
 
     public List<Aluno> findAll(){
