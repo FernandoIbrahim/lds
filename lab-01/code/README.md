@@ -3,9 +3,9 @@
 Para iniciar o projeto de maneira eficiente e portátil, utilizamos o Docker Compose. Certifique-se de que o Docker esteja instalado na sua máquina local antes de prosseguir.
 
 
-## Comandos para Execução
-- **Iniciar o Projeto**
-Use o comando abaixo para construir e iniciar os containers:
+## Comandos para Execução do banco de dados:
+- **Iniciar**
+Use o comando abaixo para construir e iniciar o containers:
 ```
 docker-compose up --build
 ```
@@ -18,13 +18,9 @@ docker-compose down
 
 ---
 
-Sendo assim, podemos perceber que serão criados dois containers:
-
-- **app-school-management**
-O qual é o responsável por rodar uma imagem openjdk:17-jdk-slim, assim implementado o Java com SpringBoot
-
 - **bc-mariadb-school-management-system**
-O qual é o responsável por rodar uma imagem mariadb:latest, assim implementado o banco de dados relacional Mariadb junto com seu entrypoint.
+- É o responsável por rodar uma imagem mariadb:latest, assim implementado o banco de dados relacional Mariadb junto com seu entrypoint.
+- Observa-se que a porta 3306 da sua máquina local precisa estar livre para o correto funcionamento do container.
 
 --- 
 
