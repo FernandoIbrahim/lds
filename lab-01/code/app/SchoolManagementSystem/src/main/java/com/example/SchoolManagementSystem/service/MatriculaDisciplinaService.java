@@ -77,7 +77,7 @@ public class MatriculaDisciplinaService {
             List<MatriculaDisciplina> matriculas = matriculaDisciplinaRepository.findByAluno(aluno);
 
             if(matriculas.isEmpty()){
-                throw new RuntimeException("O aluno não possui disciplinas cadastradas");
+                throw new RuntimeException("O aluno não possui disciplinas matriculadas");
             }
             return matriculas;
 
@@ -91,7 +91,7 @@ public class MatriculaDisciplinaService {
         List<MatriculaDisciplina> matriculas = matriculaDisciplinaRepository.findByAluno(aluno);
 
         if(matriculas.isEmpty()){
-            throw new RuntimeException("O aluno não possui disciplinas matriculadas");
+            return 0;
         }
 
         List<Disciplina> disciplinas = new ArrayList<>();
