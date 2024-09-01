@@ -12,5 +12,6 @@ Este repositório contém os projetos desenvolvidos durante a disciplina de Labo
 ## Orientador
 - **Cleiton Silva Tavares**
 
-## OBS
+## obs
+
 Os commits realizados não necessariamente refletem as contribuições individuais de cada integrante do grupo. Todos os trabalhos foram realizados em chamadas com a participação de todos os membros.
