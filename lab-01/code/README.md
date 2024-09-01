@@ -16,13 +16,11 @@ Para parar e remover os containers, use:
 docker-compose down
 ```
 
----
 
 - **bc-mariadb-school-management-system**
 - É o responsável por rodar uma imagem mariadb:latest, assim implementado o banco de dados relacional Mariadb junto com seu entrypoint.
 - Observa-se que a porta 3306 da sua máquina local precisa estar livre para o correto funcionamento do container.
 
---- 
 ## Execução da Aplicação 
 
 Para executar a aplicação, é necessário que você faça a instalação do Java Development Kit (JDK) e do Maven e execute a aplicação através da IDE de sua preferência.
