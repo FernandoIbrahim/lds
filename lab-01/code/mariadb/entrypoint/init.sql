@@ -73,7 +73,6 @@ CREATE TABLE IF NOT EXISTS matricula_disciplina (
     id_aluno BIGINT NOT NULL,
     id_disciplina BIGINT NOT NULL,
     data_matricula DATE NOT NULL,
-    semestre INT NOT NULL,
     FOREIGN KEY (id_aluno) REFERENCES aluno(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,

@@ -19,7 +19,7 @@ public class DisciplinaService {
         return disciplinaRepository.save(disciplina);
     }
 
-    public List<Disciplina> findAllDiscplina() {
+    public List<Disciplina> findAll() {
         List<Disciplina> disciplinas = disciplinaRepository.findAll();
         if (disciplinas.isEmpty()) {
             throw new RuntimeException("Displinas não encontradas");
@@ -27,7 +27,7 @@ public class DisciplinaService {
         return disciplinas;
     }
 
-    public Disciplina findByIdDisciplina(Long id) {
+    public Disciplina findById(Long id) {
         Optional<Disciplina> disciplina = disciplinaRepository.findById(id);
         return disciplina.orElseThrow( () -> new RuntimeException("Disciplina não encontrada"));
     }

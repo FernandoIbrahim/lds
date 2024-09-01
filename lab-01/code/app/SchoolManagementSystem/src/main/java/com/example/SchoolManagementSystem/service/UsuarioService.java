@@ -22,21 +22,25 @@ public class UsuarioService {
     }
 
     // Read - Get all users
-    public List<Usuario> getAllUsuarios() {
+    public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
     // Read - Get user by ID
-    public Usuario getUsuarioById(Long id) {
+    public Usuario findById(Long id) {
         Optional<Usuario> usuario = this.usuarioRepository.findById(id);
         return usuario.orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
     }
 
     // Delete
-    public void deleteUsuario(Long id) {
+    public void delete(Long id) {
         usuarioRepository.deleteById(id);
     }
 
+    public Usuario findByEmail(String email) {
+        Optional<Usuario> usuario = this.usuarioRepository.findByEmail(email);
+        return usuario.orElseThrow(() -> new RuntimeException("Usuario com email " + email + " nao encontrado"));
+    }
 
     //-------------------------------------------------------------
 
@@ -50,6 +54,23 @@ public class UsuarioService {
             .build();
         
         return saveOrUpdateUsuario(usuario);
+    }
+
+    public Usuario login(String email, String senha){
+        
+        Usuario usuario = findByEmail(email);
+        System.out.println(usuario.getEmail());
+        System.out.println(usuario.getSenha());
+
+        if(senha.equals(usuario.getSenha())){
+            return usuario;
+
+        }else{
+
+            throw new RuntimeException("Erro login inválido");
+
+        }
+
     }
 
 

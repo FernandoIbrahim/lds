@@ -1,5 +1,7 @@
 package com.example.SchoolManagementSystem.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +31,14 @@ public class DisciplinaCursoService {
 
         return saveOrUpdateDisciplinaCurso(disciplinaCurso);
     }
+
+    public List<DisciplinaCurso> findByCursoAndTipo(Curso curso, EnumDisciplina tipo) {
+        
+        List<DisciplinaCurso> disciplinaCursos =  disciplinaCursoRepository.findByCursoAndTipo(curso, tipo);
+        if(disciplinaCursos.isEmpty()){
+            throw new RuntimeException("Erro: nenhum curso encontrado");    
+        }
+        return disciplinaCursos;
+    }
+
 }
