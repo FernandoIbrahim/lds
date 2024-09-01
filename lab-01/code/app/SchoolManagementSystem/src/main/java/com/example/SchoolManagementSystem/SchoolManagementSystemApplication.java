@@ -62,14 +62,12 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	@Override
     public void run(String... args) throws Exception {
-		Long id = Long.parseLong("1");
-		Curso curso = cursoService.findById(id);
-		List<DisciplinaCurso> disciplinasCursos = disciplinaCursoService.findByCursoAndTipo(curso, EnumDisciplina.valueOf("OPTATIVA"));
-
-		for(DisciplinaCurso disciplinasCurso : disciplinasCursos){
-			System.out.println(disciplinasCurso.getDisciplina().getNome() + disciplinasCurso.getTipo().getDescricao());
+		while (true) {
+			loginCLI();
 		}
     }
+
+
 
 	//  -------------- loginCLI ---------------
 	public void loginCLI(){
@@ -86,7 +84,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		Usuario usuariolog = usuarioService.login(email, senha);
 
 		this.usuarioLogged = usuariolog;
-		System.out.println("Usuário logado: " + this.usuarioLogged.getNome());
+		System.out.println("usuário logado: " + this.usuarioLogged.getNome());
 
 		switch (usuariolog.getTipo().getDescricao()) {
 			case "PROFESSOR":
@@ -100,6 +98,8 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 				break;
 		}
 
+		System.out.println("Encerrando aplicação");
+
 	}
 
 
@@ -108,9 +108,27 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 
 	public void professorCLI() {
+		boolean stay = true;
+		int response;
 
-		System.out.println("Digite uma das opcoes a baixo");
-		System.out.println("01 - Visualizar alunos em uma disciplina");
+		while (stay) {
+			System.out.println("Digite uma das opcoes a baixo");
+			System.out.println("01 - visualizar alunos em uma disciplina");
+			System.out.println("00 - sair");	
+			response = Integer.parseInt(scanner.nextLine());
+
+			switch (response) {
+				case 0:
+					stay = false;
+					break;
+				case 1:
+
+					break;
+				default:
+					throw new RuntimeException("Opção invalida");
+			}	
+		}
+
 
 	}
 
@@ -118,17 +136,36 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	
 	public void secretariaCLI(){
-		System.out.println("Digite uma das opções: ");
-		System.out.println("01 - Cadastrar Aluno");
-		System.out.println("02 - Cadastrar Professor");
-		System.out.println("03 - Cadastrar Secretaria");
-		System.out.println("04 - Cadastrar Disciplina");
-		System.out.println("05 - Cadastrar Curso");
-		System.out.println("06 - Adicionar disciplina a um curso: ");
-		System.out.println("00 - sair: ");
+		int response;
+		boolean stay = true;
+		
+		while (stay) {
+			System.out.println("Digite uma das opções: ");
+			System.out.println("01 - Cadastrar Aluno");
+			System.out.println("02 - Cadastrar Professor");
+			System.out.println("03 - Cadastrar Secretaria");
+			System.out.println("04 - Cadastrar Disciplina");
+			System.out.println("05 - Cadastrar Curso");
+			System.out.println("06 - Adicionar disciplina a um curso: ");
+			System.out.println("00 - sair: ");
+			response = Integer.parseInt(scanner.nextLine());
 
+			switch (response) {
+
+				case 1:
+
+					break;
+
+				case 0:
+					stay = false;
+					break;
+
+				default:
+					throw new RuntimeException("Opção invalida");
+			}
+	
+		}
 	}
-
 	// ------------------- Secretária CLI ----------------------- //
 	public void cadastrarAluno(){
 
@@ -282,11 +319,34 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 
 	public void alunoCLI(){
-		System.out.println("Digite uma das opcoes a baixo: ");
-		System.out.println("01 - Matricurlar-se em disciplinas obrigatorias");
-		System.out.println("02 - Matricurlar-se em disciplinas optativas");
-		System.out.println("00 - sair: ");
+		boolean stay = true;
+		int response;
+
+		while(stay){
+
+			System.out.println("Digite uma das opcoes a baixo: ");
+			System.out.println("01 - matricurlar-se em disciplinas obrigatorias");
+			System.out.println("02 - matricurlar-se em disciplinas optativas");
+			System.out.println("00 - sair: ");
+			response = Integer.parseInt(scanner.nextLine());
+	
+			switch (response) {
+				case 1:
+					
+					break;
+	
+				case 0:
+					stay = false;
+					break;
+
+				default:
+					throw new RuntimeException("Opção invalida");
+			}
+
+		}
+
 	}
+
 	
 	// ---------------------------- AlunoCLI -----------------------------//
 	public void matricularAlunoDisciplinaOptativa(){
@@ -311,6 +371,20 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	}
 
 
+
+	/*
+	 * Filtrando disciplinas por curso e tipo
+	 * 
+	 * 	Long id = Long.parseLong("1");
+		Curso curso = cursoService.findById(id);
+		List<DisciplinaCurso> disciplinasCursos = disciplinaCursoService.findByCursoAndTipo(curso, EnumDisciplina.valueOf("OPTATIVA"));
+
+		for(DisciplinaCurso disciplinasCurso : disciplinasCursos){
+			System.out.println(disciplinasCurso.getDisciplina().getNome() + disciplinasCurso.getTipo().getDescricao());
+		}
+
+
+	 */
 	
 
 
