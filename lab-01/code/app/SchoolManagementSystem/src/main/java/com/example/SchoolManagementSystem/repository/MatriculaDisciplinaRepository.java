@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.SchoolManagementSystem.model.Aluno;
 import com.example.SchoolManagementSystem.model.Disciplina;
 import com.example.SchoolManagementSystem.model.MatriculaDisciplina;
+
 import java.util.List;
 
 
@@ -16,13 +17,9 @@ public interface MatriculaDisciplinaRepository extends JpaRepository<MatriculaDi
 
     @Query(value = """
         SELECT 
-            u.* 
+            md.*
         FROM 
             `school-management-system-bd`.matricula_disciplina md
-        INNER JOIN 
-            usuario u ON md.id_aluno = u.id  
-        INNER JOIN 
-            disciplina d ON md.id_disciplina = d.id
         INNER JOIN (
             SELECT 
                 md.id, 
@@ -38,5 +35,5 @@ public interface MatriculaDisciplinaRepository extends JpaRepository<MatriculaDi
         AND
             YEAR(md.data_matricula) = :year;
     """, nativeQuery = true)
-    List<Aluno> findByAlunoForSemester(@Param("year") int ano, @Param("sem") int semestre);
+    List<MatriculaDisciplina> findByAlunoForSemester(@Param("year") int ano, @Param("sem") int semestre);
 }

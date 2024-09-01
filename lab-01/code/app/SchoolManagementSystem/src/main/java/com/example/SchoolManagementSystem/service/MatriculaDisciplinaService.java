@@ -128,9 +128,9 @@ public class MatriculaDisciplinaService {
 
     }
 
-    public List<Aluno> getAlunosInSemester(int ano, int semestre) {
+    public List<MatriculaDisciplina> getAlunosMatriculadosInSemester(int ano, int semestre) {
         
-        List<Aluno> alunos = matriculaDisciplinaRepository.findByAlunoForSemester(ano, semestre);
+        List<MatriculaDisciplina> alunos = matriculaDisciplinaRepository.findByAlunoForSemester(ano, semestre);
 
         if (alunos.isEmpty()) {
             throw new RuntimeException("Nao possui alunos matriculados nesse semestre");
