@@ -23,6 +23,9 @@ docker-compose down
 - Observa-se que a porta 3306 da sua máquina local precisa estar livre para o correto funcionamento do container.
 
 --- 
+## Execução da Aplicação 
+
+Para executar a aplicação, é necessário que você faça a instalação do Java Development Kit (JDK) e do Maven e execute a aplicação através da IDE de sua preferência.
 
 # Testes
 
