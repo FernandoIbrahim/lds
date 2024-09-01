@@ -453,6 +453,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	public void listarMatriculas(){
 		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
 		List<MatriculaDisciplina> disciplinasMatriculados = matriculaDisciplinaService.getMatriculasList(aluno);
+		cleanConsole();
 		for (MatriculaDisciplina disciplinaMatriculada : disciplinasMatriculados) {
 			System.out.println(disciplinaMatriculada.getDisciplina().getId() + " - " + disciplinaMatriculada.getDisciplina().getNome());
 		}
