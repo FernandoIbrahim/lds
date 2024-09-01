@@ -13,7 +13,17 @@ Além disso, o sistema emite relatórios que ajudam na tomada de decisões, forn
 * Cleiton Silva Tavares
 
 ## Instruções de utilização
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+
+A instruções de inicilização do projeto estão presente [aqui](https://github.com/FernandoIbrahim/lds/tree/main/lab-01/code#inicialização-do-projeto).
+
+Ao executar o projeto, vamos no deparar com um interface CLI para realizar o login, siga as instruções informadas pelo terminal para assim interagir com a aplicação.
+DadosMock:
+``` cmd
+email:
+maria@escola.com
+senha:
+senha123
+```
 
 --- 
 
