@@ -19,7 +19,7 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 
 ## Enunciado
 
-#### Descrição do Sistema
+### Descrição do Sistema
 Uma universidade pretende informatizar seu sistema de matrículas. A secretaria da universidade gera o currículo para cada semestre e mantém as informações sobre as disciplinas, professores e alunos.
 
 Cada curso tem um nome, um determinado número de créditos, e é constituído por diversas disciplinas.
