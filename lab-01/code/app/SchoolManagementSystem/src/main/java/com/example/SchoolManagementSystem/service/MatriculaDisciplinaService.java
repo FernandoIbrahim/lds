@@ -120,6 +120,22 @@ public class MatriculaDisciplinaService {
                 alunos.add(matriculas.getAluno());
         }
 
+        if (alunos.isEmpty()) {
+            throw new RuntimeException("Não existe alunos cadastrado nessa disciplina");
+        }
+
+        return alunos;
+
+    }
+
+    public List<MatriculaDisciplina> getAlunosMatriculadosInSemester(int ano, int semestre) {
+        
+        List<MatriculaDisciplina> alunos = matriculaDisciplinaRepository.findByAlunoForSemester(ano, semestre);
+
+        if (alunos.isEmpty()) {
+            throw new RuntimeException("Nao possui alunos matriculados nesse semestre");
+        }
+
         return alunos;
 
     }
