@@ -1,5 +1,8 @@
-# Nome do projeto
-Escreva um ou dois parágrafo resumindo o objetivo do seu projeto.
+# Sistema de Matriculas
+O sistema de gestão de matrículas permite o controle completo de operações acadêmicas, como login seguro e cadastro de alunos, professores, administradores, disciplinas. Com ele, é possível gerenciar cursos e disciplinas, facilitando a criação e manutenção de ofertas curriculares.
+
+Além disso, o sistema emite relatórios que ajudam na tomada de decisões, fornecendo informações sobre matrículas, preenchimento de turmas e outras métricas importantes. Essas funcionalidades garantem uma administração acadêmica eficiente e baseada em dados precisos. 
+
 
 ## Integrantes
 * Fernando Antônio Ferreira Ibrahim
@@ -15,8 +18,6 @@ Assim que a primeira versão do sistema estiver disponível, deverá complementa
 --- 
 
 ## Enunciado
-
-### Sistema de Matrículas
 
 #### Descrição do Sistema
 Uma universidade pretende informatizar seu sistema de matrículas. A secretaria da universidade gera o currículo para cada semestre e mantém as informações sobre as disciplinas, professores e alunos.
