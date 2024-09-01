@@ -79,7 +79,8 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		
 		String email;
 		String senha;
-		System.out.println("Bem vindo ao sistema de gestão da Uni");
+		System.out.println("\n\n\nBem vindo ao sistema de gestão de Universidades");
+		System.out.println("----------------Area de Login -------------");
 		System.out.println("Digite as credênciais de acesso: ");
 		System.out.println("email: ");
 		email = scanner.nextLine();
@@ -121,14 +122,17 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 		while (stay) {
 			try{
-				System.out.println("Digite uma das opcoes a baixo");
-				System.out.println("01 - visualizar alunos em uma disciplina");
-				System.out.println("00 - sair");	
+				System.out.println("|---------- Arae do Professor ----------------");
+				System.out.println("| Digite uma das opcoes a baixo              |");
+				System.out.println("| 01 - visualizar alunos em uma disciplina   |");
+				System.out.println("| 00 - sair                                  |");	
+				System.out.println("|--------------------------------------------|");
 				response = Integer.parseInt(scanner.nextLine());
 				cleanConsole();
 				switch (response) {
 					case 0:
 						stay = false;
+						cleanConsole();
 						break;
 					case 1:
 						visualizarAlunosNaDiciplina();
@@ -174,46 +178,53 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		boolean stay = true;
 		
 		while (stay) {
+			try{
+				System.out.println("|------------ Area da Administaçao ------------|");
+				System.out.println("|Digite uma das opções:                        |");
+				System.out.println("| 01 - Cadastrar Aluno                         |");
+				System.out.println("| 02 - Cadastrar Professor                     |");
+				System.out.println("| 03 - Cadastrar Secretaria                    |");
+				System.out.println("| 04 - Cadastrar Disciplina 				   	 |");
+				System.out.println("| 05 - Cadastrar Curso                         |");
+				System.out.println("| 06 - Adicionar disciplina a um curso:        |");
+				System.out.println("| 00 - sair:                                   |");
+				System.out.println("|----------------------------------------------|");
+				response = Integer.parseInt(scanner.nextLine());
 
-			cleanConsole();
-			System.out.println("Digite uma das opções: ");
-			System.out.println("01 - Cadastrar Aluno");
-			System.out.println("02 - Cadastrar Professor");
-			System.out.println("03 - Cadastrar Secretaria");
-			System.out.println("04 - Cadastrar Disciplina");
-			System.out.println("05 - Cadastrar Curso");
-			System.out.println("06 - Adicionar disciplina a um curso: ");
-			System.out.println("00 - sair: ");
-			response = Integer.parseInt(scanner.nextLine());
+				switch (response) {
 
-			switch (response) {
+					case 1:
+						cadastrarAluno();
+						break;
+					case 2:
+						cadastrarProfessor();
+						break;	
+					case 3:
+						cadastrarSecretaria();
+						break;	
+					case 4:
+						cadastrarDisicplina();
+						break;	
+					case 5:
+						cadastrarCurso();
+						break;	
+					case 6:
+						vincularDisciplinaCurso();
+						break;	
+					case 0:
+						cleanConsole();
+						stay = false;
+						break;
 
-				case 1:
-					cadastrarAluno();
-					break;
-				case 2:
-					cadastrarProfessor();
-					break;	
-				case 3:
-					cadastrarSecretaria();
-				case 4:
-					cadastrarDisicplina();
-				case 5:
-					cadastrarCurso();
-				case 6:
-					cadastrarCurso();
-					break;	
+					default:
+						throw new RuntimeException("Opção invalida");
+				}
 
-				case 0:
-					stay = false;
-					break;
-
-				default:
-					throw new RuntimeException("Opção invalida");
+			}catch(RuntimeException e){
+				System.out.println(e.getMessage());
 			}
-	
-		}
-	}
+		}	
+	}	
 	// ------------------- Secretária CLI ----------------------- //
 	public void cadastrarAluno(){
 
@@ -221,7 +232,6 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		Long id_curso;
 		Curso selectedCourse;
 
-		cleanConsole();
 		System.out.println("Informes os dados necessários: ");
 		System.out.println("Nome: ");
 		nome = scanner.nextLine();
@@ -288,20 +298,20 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		System.out.println("Informes os dados necessários: ");
 		System.out.println("Nome: ");
 		nome = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("E-mail: ");
 		email = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("senha: ");
 		senha = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("cpf: ");
 		cpf = scanner.nextLine();
-
+		cleanConsole();
 		Usuario usuario = usuarioService.create(nome, senha, email, cpf, EnumAutorizacao.SECRETARIA);
 		secretariaService.create(usuario.getId());
 	
-		System.out.println("Professor criado com sucesso!" + usuario.getNome());
+		System.out.println("Secretaria criado com sucesso!" + usuario.getNome());
 		
 	}
 
@@ -312,29 +322,17 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 		System.out.println("Digite o nome da Displina");
 		nome = scanner.nextLine();
-
+		cleanConsole();
 		System.out.println("Digite Carga Horaria da Disciplina:");
-		cargaHoraria = scanner.nextInt();
-
+		cargaHoraria = Integer.parseInt(scanner.nextLine());
+		cleanConsole();
 		System.out.println("Digite o maximo de Alunos na Disciplina:");
-		maximoAlunos = scanner.nextInt();
-
+		maximoAlunos = Integer.parseInt(scanner.nextLine());
+		cleanConsole();
 		long id = disciplinaService.createDisciplina(nome, cargaHoraria, maximoAlunos).getId();
-
+		cleanConsole();
 		System.out.println("Salvo com sucesso! id: " + id);
 
-	}
-
-	public void cadastrarCurso() {
-
-		String nome;
-
-		System.out.println("Digite o nome do Curso");
-		nome = scanner.nextLine();
-
-		long id = cursoService.createCurso(nome).getId();
-
-		System.out.println("Salvo com sucesso! id: " + id);
 
 	}
 
@@ -376,10 +374,18 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	}
 
+	public void cadastrarCurso() {
 
+		String nome;
 
+		System.out.println("Digite o nome do Curso");
+		nome = scanner.nextLine();
 
+		cursoService.createCurso(nome).getId();
 
+		System.out.println("Salvo com sucesso!");
+
+	}
 
 
 
@@ -391,12 +397,14 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		while(stay){
 
 			try{
+				System.out.println("|----------------- Area do Aluno -----------------|");
 				System.out.println("Curso atual: " + aluno.getCurso().getNome());
-				System.out.println("Digite uma das opcoes a baixo: ");
-				System.out.println("01 - matricurlar-se em disciplinas obrigatorias");
-				System.out.println("02 - matricurlar-se em disciplinas optativas");
-				System.out.println("03 - vizualizar matriculas");
-				System.out.println("00 - sair: ");
+				System.out.println("|Digite uma das opcoes a baixo:                   |"); 
+				System.out.println("| 01 - matricurlar-se em disciplinas obrigatorias |");
+				System.out.println("| 02 - matricurlar-se em disciplinas optativas    |");
+				System.out.println("| 03 - vizualizar matriculas                      |");
+				System.out.println("| 00 - sair:                                      |");
+				System.out.println("|----------------- Area do Aluno -----------------|");
 				response = Integer.parseInt(scanner.nextLine());
 			
 				switch (response) {
@@ -407,9 +415,10 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 						matricularAlunoDisciplinaOptativa();
 						break;
 					case 3:
-						listarMatriculas();
+						listarMatriculasAluno();
 						break;
 					case 0:
+						cleanConsole();
 						stay = false;
 						break;
 
@@ -468,16 +477,11 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		matriculaDisciplinaService.matricular(aluno, disciplina, EnumDisciplina.OBRIGATORIA);
 
 		System.out.println("A sua matricula na disciplina de"  + disciplina.getNome() + "foi realizada com sucesso.");
-		try{
-			Thread.sleep(2000);
-		}catch(InterruptedException e){
-			System.out.println("Interrompido!");
-		}
 		
 
 	}
 
-	public void listarMatriculas(){
+	public void listarMatriculasAluno(){
 		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
 		List<MatriculaDisciplina> disciplinasMatriculados = matriculaDisciplinaService.getMatriculasList(aluno);
 		cleanConsole();
