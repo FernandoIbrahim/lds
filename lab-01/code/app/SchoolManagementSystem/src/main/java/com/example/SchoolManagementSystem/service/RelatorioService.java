@@ -13,7 +13,7 @@ public class RelatorioService {
 
     public List<MatriculaDisciplina> getAlunosMatriculadosNoSemestre(int ano, int semestre) {
 
-        List<MatriculaDisciplina> alunos = matriculaDisciplinaService.getAlunosMatriculadosInSemester(ano, semestre);
+        List<MatriculaDisciplina> alunos = matriculaDisciplinaService.getMatriculadasInSemester(ano, semestre);
 
         if (alunos.isEmpty()) {
             throw new RuntimeException("Nao existe alunos matriculados nesse semestre");

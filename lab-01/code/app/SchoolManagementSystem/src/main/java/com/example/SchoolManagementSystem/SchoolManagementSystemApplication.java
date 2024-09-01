@@ -210,7 +210,13 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 						break;	
 					case 6:
 						vincularDisciplinaCurso();
-						break;	
+						break;
+					case 7:
+						relatorioAlunosSemestre();
+						break;
+					case 8:
+						enviarRelatorioFinanceiro();
+						break;
 					case 0:
 						cleanConsole();
 						stay = false;
@@ -388,6 +394,28 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	}
 
 
+	public void relatorioAlunosSemestre(){
+		int ano;
+		int mes;
+
+		cleanConsole();
+		System.out.println("Digite o ano: ");
+		ano =  Integer.parseInt(scanner.nextLine());
+		cleanConsole();
+		System.out.println("Digite o mes: ");
+		mes = Integer.parseInt(scanner.nextLine());
+
+		List<MatriculaDisciplina> matriculas = matriculaDisciplinaService.getMatriculadasInSemester(0, 0);
+
+		System.out.println("Alunos matriculados no sementre: " + mes+"/"+ano );
+		for (MatriculaDisciplina matricula : matriculas) {
+			Usuario usuario = usuarioService.findById(matricula.getAluno().getId());
+			System.out.println(matricula.getAluno().getId() + " - " + usuario.getNome());
+		}
+
+	}
+
+
 
 	public void alunoCLI(){
 		boolean stay = true;
@@ -398,7 +426,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 			try{
 				System.out.println("|----------------- Area do Aluno -----------------|");
-				System.out.println("Curso atual: " + aluno.getCurso().getNome());
+				System.out.println("|Curso atual: " + aluno.getCurso().getNome());
 				System.out.println("|Digite uma das opcoes a baixo:                   |"); 
 				System.out.println("| 01 - matricurlar-se em disciplinas obrigatorias |");
 				System.out.println("| 02 - matricurlar-se em disciplinas optativas    |");
@@ -453,7 +481,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 		matriculaDisciplinaService.matricular(aluno, disciplina, EnumDisciplina.OPTATIVA);
 
-		System.out.println("A sua matricula na disciplina de"  + disciplina.getNome() + "foi realizada com sucesso.");
+		System.out.println("A sua matricula na disciplina  "  + disciplina.getNome() + " foi realizada com sucesso.");
 
 	}
 
@@ -476,7 +504,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 		matriculaDisciplinaService.matricular(aluno, disciplina, EnumDisciplina.OBRIGATORIA);
 
-		System.out.println("A sua matricula na disciplina de"  + disciplina.getNome() + "foi realizada com sucesso.");
+		System.out.println("A sua matricula na disciplina "  + disciplina.getNome() + " foi realizada com sucesso.");
 		
 
 	}
@@ -490,6 +518,12 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		}
 
 	}
+
+
+	public void enviarRelatorioFinanceiro(){
+		System.out.println("Relatorio financeiro enviado!");
+	}
+
 
 	 public void cleanConsole(){
 		System.out.print("\033[H\033[2J");

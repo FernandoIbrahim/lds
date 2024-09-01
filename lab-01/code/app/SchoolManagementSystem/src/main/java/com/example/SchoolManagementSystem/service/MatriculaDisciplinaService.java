@@ -128,7 +128,7 @@ public class MatriculaDisciplinaService {
 
     }
 
-    public List<MatriculaDisciplina> getAlunosMatriculadosInSemester(int ano, int semestre) {
+    public List<MatriculaDisciplina> getMatriculadasInSemester(int ano, int semestre) {
         
         List<MatriculaDisciplina> alunos = matriculaDisciplinaRepository.findByAlunoForSemester(ano, semestre);
 
