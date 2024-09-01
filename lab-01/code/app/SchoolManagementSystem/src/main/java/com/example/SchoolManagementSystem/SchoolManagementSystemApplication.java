@@ -1,5 +1,6 @@
 package com.example.SchoolManagementSystem;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import com.example.SchoolManagementSystem.model.Curso;
 import com.example.SchoolManagementSystem.model.Disciplina;
 import com.example.SchoolManagementSystem.model.Usuario;
 import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
+import com.example.SchoolManagementSystem.model.Enums.EnumDisciplina;
 import com.example.SchoolManagementSystem.service.AlunoService;
 import com.example.SchoolManagementSystem.service.CursoService;
+import com.example.SchoolManagementSystem.service.DisciplinaCursoService;
 import com.example.SchoolManagementSystem.service.DisciplinaService;
 import com.example.SchoolManagementSystem.service.LoginService;
 import com.example.SchoolManagementSystem.service.ProfessorService;
@@ -40,6 +43,9 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	@Autowired
 	private CursoService cursoService;
+
+	@Autowired
+	private DisciplinaCursoService disciplinaCursoService;
 	
 
 	Scanner scanner = new Scanner(System.in);
@@ -52,7 +58,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Interação de exemplo com o controller
 		
-
+		cadastrarDisciplinaCurso();
     }
 
 
@@ -213,6 +219,44 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		long id = cursoService.createCurso(nome).getId();
 
 		System.out.println("Salvo com sucesso! id: " + id);
+
+	}
+
+	public void cadastrarDisciplinaCurso() {
+
+		String tipoDisciplina;
+		int periodo;
+
+		List<Disciplina> disciplinas = disciplinaService.findAllDiscplina(); 
+
+		System.out.println("EScolha a Disciplina pelo Id");
+		for (Disciplina disc : disciplinas) {
+			System.out.println(disc.getId() + " - " + disc.getNome());
+		}
+		long idDisciplina = Long.parseLong(scanner.nextLine());
+		
+		Disciplina disciplina = disciplinaService.findByIdDisciplina(idDisciplina);
+
+
+		List<Curso> cursos = cursoService.findAllCurso();
+
+		System.out.println("EScolha a Disciplina pelo Id");
+		for (Curso curso : cursos) {
+			System.out.println(curso.getId() + " - " + curso.getNome());
+		}
+		long idCurso = Long.parseLong(scanner.nextLine());
+
+		Curso curso = cursoService.findById(idCurso);
+
+		System.out.println("Digite o periodo da disciplina: ");
+		periodo = Integer.parseInt(scanner.nextLine());
+
+		System.out.println("Digite o tipo da disciplina (OBRIGATORIA/OPTATIVA)");
+		tipoDisciplina = scanner.nextLine();
+
+		disciplinaCursoService.createDisciplinaCurso(disciplina, curso, periodo, EnumDisciplina.valueOf(tipoDisciplina));
+
+		System.out.println("Vinculo e Disciplina e Curso cadastrado com sucesso.");
 
 	}
 
