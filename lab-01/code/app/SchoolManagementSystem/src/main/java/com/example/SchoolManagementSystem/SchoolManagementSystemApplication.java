@@ -431,6 +431,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 				System.out.println("| 01 - matricurlar-se em disciplinas obrigatorias |");
 				System.out.println("| 02 - matricurlar-se em disciplinas optativas    |");
 				System.out.println("| 03 - vizualizar matriculas                      |");
+				System.out.println("| 04 - cancelar matricula                         |");
 				System.out.println("| 00 - sair:                                      |");
 				System.out.println("|----------------- Area do Aluno -----------------|");
 				response = Integer.parseInt(scanner.nextLine());
@@ -444,6 +445,9 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 						break;
 					case 3:
 						listarMatriculasAluno();
+						break;
+					case 4:
+						desmatricularAluno();
 						break;
 					case 0:
 						cleanConsole();
@@ -509,10 +513,29 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	}
 
+	public void desmatricularAluno(){
+		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
+		Long idDisciplina;
+
+		List<MatriculaDisciplina> disciplinasMatriculados = matriculaDisciplinaService.getMatriculasList(aluno);
+		
+		cleanConsole();
+		System.out.println("Digite o id da qual você deseja de desmetricular");
+		for (MatriculaDisciplina disciplinaMatriculada : disciplinasMatriculados) {
+			System.out.println(disciplinaMatriculada.getDisciplina().getId() + " - " + disciplinaMatriculada.getDisciplina().getNome());
+		}
+		idDisciplina = Long.parseLong(scanner.nextLine());
+
+		Disciplina disciplina = disciplinaService.findById(idDisciplina);
+
+		System.out.println(matriculaDisciplinaService.deleteMatricula(aluno, disciplina));
+
+	}
+
 	public void listarMatriculasAluno(){
 		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
-		List<MatriculaDisciplina> disciplinasMatriculados = matriculaDisciplinaService.getMatriculasList(aluno);
 		cleanConsole();
+		List<MatriculaDisciplina> disciplinasMatriculados = matriculaDisciplinaService.getMatriculasList(aluno);
 		for (MatriculaDisciplina disciplinaMatriculada : disciplinasMatriculados) {
 			System.out.println(disciplinaMatriculada.getDisciplina().getId() + " - " + disciplinaMatriculada.getDisciplina().getNome());
 		}

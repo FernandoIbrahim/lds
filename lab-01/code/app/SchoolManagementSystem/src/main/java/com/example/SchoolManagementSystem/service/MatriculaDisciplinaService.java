@@ -3,7 +3,6 @@ package com.example.SchoolManagementSystem.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,8 @@ import com.example.SchoolManagementSystem.model.Disciplina;
 import com.example.SchoolManagementSystem.model.MatriculaDisciplina;
 import com.example.SchoolManagementSystem.model.Enums.EnumDisciplina;
 import com.example.SchoolManagementSystem.repository.MatriculaDisciplinaRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class MatriculaDisciplinaService {
@@ -140,6 +141,19 @@ public class MatriculaDisciplinaService {
 
     }
 
+
+    @Transactional
+    public String deleteMatricula(Aluno aluno, Disciplina disciplina) {
+        // Verifica se existe a matrícula
+        matriculaDisciplinaRepository
+                .findByDisciplinaAndAluno(disciplina, aluno)
+                .orElseThrow(() -> new RuntimeException("O aluno " + aluno.getId() + " não possui matrícula na disciplina " + disciplina.getNome()));
+    
+        // Deleta a matrícula
+        matriculaDisciplinaRepository.deleteByAlunoAndDisciplina(aluno, disciplina);
+    
+        return "Matrícula na disciplina " + disciplina.getNome() + " retirada com sucesso";
+    }
 
     
 
