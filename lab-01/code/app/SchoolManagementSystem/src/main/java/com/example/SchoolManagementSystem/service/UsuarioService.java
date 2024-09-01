@@ -59,8 +59,6 @@ public class UsuarioService {
     public Usuario login(String email, String senha){
         
         Usuario usuario = findByEmail(email);
-        System.out.println(usuario.getEmail());
-        System.out.println(usuario.getSenha());
 
         if(senha.equals(usuario.getSenha())){
             return usuario;

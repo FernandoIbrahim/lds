@@ -64,7 +64,11 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 	@Override
     public void run(String... args) throws Exception {
 		while (true) {
-			loginCLI();
+			try{
+				loginCLI();
+			}catch(Exception e){
+				System.out.println("Error: " + e.getMessage());
+			}
 		}
     }
 
@@ -75,7 +79,6 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 		
 		String email;
 		String senha;
-		cleanConsole();
 		System.out.println("Bem vindo ao sistema de gestão da Uni");
 		System.out.println("Digite as credênciais de acesso: ");
 		System.out.println("email: ");
@@ -99,6 +102,8 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 			case "ALUNO":
 				alunoCLI();
 				break;
+			default:
+				throw new RuntimeException("autenticação incorreta");
 		}
 
 		System.out.println("Encerrando aplicação");
@@ -126,7 +131,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 						stay = false;
 						break;
 					case 1:
-
+						visualizarAlunosNaDiciplina();
 						break;
 					default:
 						throw new RuntimeException("Opção invalida");
@@ -136,6 +141,28 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 			}
 		}
 
+
+	}
+
+	public void visualizarAlunosNaDiciplina(){
+
+		System.out.println("Selecione o id da disciplina");
+
+		List<Disciplina> disciplinas = disciplinaService.findAll(); 
+
+		System.out.println("Escolha a Disciplina pelo Id");
+		for (Disciplina disc : disciplinas) {
+			System.out.println(disc.getId() + " - " + disc.getNome());
+		}
+		Long idDisciplina = Long.parseLong(scanner.nextLine());
+		Disciplina disciplina = disciplinaService.findById(idDisciplina);
+		List<Aluno> alunos = matriculaDisciplinaService.getAlunosMatriculados(disciplina);
+
+		System.out.println("Aluno matriculados em " + disciplina + ":");
+		for(Aluno aluno : alunos) {
+			Usuario usuario = usuarioService.findById(aluno.getId());
+			System.out.println(aluno.getId() + " - " + usuario.getNome());
+		}
 
 	}
 

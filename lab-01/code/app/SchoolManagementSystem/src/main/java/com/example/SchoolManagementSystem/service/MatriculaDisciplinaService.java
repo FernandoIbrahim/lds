@@ -40,19 +40,22 @@ public class MatriculaDisciplinaService {
         return saveOrUpdateMatriculaDisciplina(matriculaDisciplina);
     }
 
+    //implementa a regra de negócio na matricula
     public MatriculaDisciplina matricular(Aluno aluno, Disciplina disciplina, EnumDisciplina enumDisciplina){
 
         Curso curso = aluno.getCurso();
-        //fazemos a verificação se o curso possui a diciplina na categoria selecionada
 
+        //verifica a quantidade das obrigatorias
         if(getMatriculasQuantity(aluno, EnumDisciplina.OBRIGATORIA) == 4 && enumDisciplina == EnumDisciplina.OBRIGATORIA){
             throw new RuntimeException("Aluno antigiu seu limite de disciplinas obrigatorias");
         }
 
+        //verifica a quantidade das optatívas
         if(getMatriculasQuantity(aluno, EnumDisciplina.OPTATIVA) == 2 && enumDisciplina == EnumDisciplina.OPTATIVA){
             throw new RuntimeException("Aluno antigiu seu limite de disciplinas optativas");
         }
 
+        //fazemos a verificação se o curso possui a diciplina na categoria selecionada
         if (disciplinaCursoService.cursoContainsDiciplina(curso, disciplina, enumDisciplina)) {
 
             MatriculaDisciplina matriculaDisciplina = MatriculaDisciplina.builder()
@@ -80,7 +83,7 @@ public class MatriculaDisciplinaService {
 
     }
 
-
+    //verifica a quantidade de matriculas de um aluno tanto em optativas quanto em obrigatórias
     public int getMatriculasQuantity(Aluno aluno, EnumDisciplina enumDisciplinaRequeired){
 
         int quantity = 0;
@@ -106,6 +109,21 @@ public class MatriculaDisciplinaService {
         return quantity;
 
     }
+
+    public  List<Aluno> getAlunosMatriculados(Disciplina disciplina){
+
+        List<MatriculaDisciplina> matriculasNaDisciplina = matriculaDisciplinaRepository.findByDisciplina(disciplina);
+
+        List<Aluno> alunos = new ArrayList<>();
+
+        for (MatriculaDisciplina matriculas : matriculasNaDisciplina) {
+                alunos.add(matriculas.getAluno());
+        }
+
+        return alunos;
+
+    }
+
 
     
 
