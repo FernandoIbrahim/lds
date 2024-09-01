@@ -12,6 +12,7 @@ import com.example.SchoolManagementSystem.model.Aluno;
 import com.example.SchoolManagementSystem.model.Curso;
 import com.example.SchoolManagementSystem.model.Disciplina;
 import com.example.SchoolManagementSystem.model.DisciplinaCurso;
+import com.example.SchoolManagementSystem.model.MatriculaDisciplina;
 import com.example.SchoolManagementSystem.model.Usuario;
 import com.example.SchoolManagementSystem.model.Enums.EnumAutorizacao;
 import com.example.SchoolManagementSystem.model.Enums.EnumDisciplina;
@@ -367,6 +368,7 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 				System.out.println("Digite uma das opcoes a baixo: ");
 				System.out.println("01 - matricurlar-se em disciplinas obrigatorias");
 				System.out.println("02 - matricurlar-se em disciplinas optativas");
+				System.out.println("03 - vizualizar matriculas");
 				System.out.println("00 - sair: ");
 				response = Integer.parseInt(scanner.nextLine());
 			
@@ -376,6 +378,9 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 						break;
 					case 2:
 						matricularAlunoDisciplinaOptativa();
+						break;
+					case 3:
+						listarMatriculas();
 						break;
 					case 0:
 						stay = false;
@@ -445,6 +450,14 @@ public class SchoolManagementSystemApplication implements CommandLineRunner {
 
 	}
 
+	public void listarMatriculas(){
+		Aluno aluno = alunoService.findById(this.usuarioLogged.getId());
+		List<MatriculaDisciplina> disciplinasMatriculados = matriculaDisciplinaService.getMatriculasList(aluno);
+		for (MatriculaDisciplina disciplinaMatriculada : disciplinasMatriculados) {
+			System.out.println(disciplinaMatriculada.getDisciplina().getId() + " - " + disciplinaMatriculada.getDisciplina().getNome());
+		}
+
+	}
 
 	 public void cleanConsole(){
 		System.out.print("\033[H\033[2J");

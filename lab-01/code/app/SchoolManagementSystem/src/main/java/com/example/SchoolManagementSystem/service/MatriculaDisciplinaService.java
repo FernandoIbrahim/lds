@@ -1,7 +1,7 @@
 package com.example.SchoolManagementSystem.service;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,17 @@ public class MatriculaDisciplinaService {
 
         throw new RuntimeException("O curso não contem a Diciplina como: " + enumDisciplina);
 
-        
+    }
+
+    public List<MatriculaDisciplina> getMatriculasList(Aluno aluno){
+
+            List<MatriculaDisciplina> matriculas = matriculaDisciplinaRepository.findByAluno(aluno);
+
+            if(matriculas.isEmpty()){
+                throw new RuntimeException("O aluno não possui disciplinas cadastradas");
+            }
+            return matriculas;
+
     }
 
 }
