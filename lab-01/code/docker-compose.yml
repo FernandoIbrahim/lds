@@ -6,6 +6,7 @@ services:
     container_name: bc-mariadb-school-management-system
     ports:
       - "3306:3306"
+      - "3307:3307"
     environment:
       MYSQL_DATABASE: school-management-system-bd
       MYSQL_ROOT_PASSWORD: password
