@@ -1,5 +1,5 @@
 @startuml
-abstract class Usuario {
+class Usuario {
     - id : Long
     - nome : String
     - senha : String
@@ -10,14 +10,17 @@ abstract class Usuario {
 }
 
 class Aluno {
+    - id : Long
     + getId() : Long
 }
 
 class Professor {
+    - id : Long
     + getId() : Long
 }
 
 class Secretaria {
+    - id : Long
     + getId() : Long
 
 }
@@ -40,7 +43,6 @@ class Curso {
 class MatriculaDisciplina {
     - id: Long
     - dataMatricula : Date
-    - semestre : int
     + getDataMatricula() : Date
 
 }
@@ -50,66 +52,128 @@ enum EnumDisciplina {
     OPTATIVA : int
 }
 
+enum EnumAutorizacao{
+    SECRETARIA : String
+    PROFESSOR : String
+    ALUNO : String
+}
+
 class DisciplinaCurso {
+    - id : Long
     - periodo : int
     + getPeriodo() : int
 
 }
 
-Aluno --> Usuario
-Professor --> Usuario
-Secretaria --> Usuario
+class ProfessorDisciplina {
+   - id : Long
+}
+
+Aluno --|> Usuario
+Professor --|> Usuario
+Secretaria --|> Usuario
+
+EnumAutorizacao -- Usuario
 
 Aluno "*" -- "*" Disciplina 
 (Aluno, Disciplina ) . MatriculaDisciplina
 
+Professor "*" -- "1" Disciplina
+(Professor, Disciplina) . ProfessorDisciplina 
+
+Aluno "*" -- "1" Curso
+
 Disciplina "*" -- "1..*" Curso
 (Disciplina, Curso) . DisciplinaCurso
 
-Professor "1" -- "0..*" Disciplina
-Disciplina -- EnumDisciplina
+DisciplinaCurso -- EnumDisciplina
 
 class AlunoService {
-    + cadastrarAluno(aluno : Aluno) : void
-    + enviarDadosFinanceiros(aluno : Aluno) : void
+        - AlunoRepository alunoRepository
+
+        + saveOrUpdateAluno(aluno: Aluno): Aluno
+        + create(id: Long, curso: Curso): Aluno
+        + findById(id: Long): Aluno
+        + findAll(): List<Aluno>
+
 }
 
-class MatriculaService {
-    + matricularAluno(disciplina : Disciplina, aluno : Aluno) : void
+
+class MatriculaDisciplinaService {
+        - MatriculaDisciplinaRepository matriculaDisciplinaRepository
+        - DisciplinaCursoService disciplinaCursoService
+
+        + saveOrUpdateMatriculaDisciplina(matriculaDisciplina: MatriculaDisciplina): MatriculaDisciplina
+        + create(aluno: Aluno, disciplina: Disciplina): MatriculaDisciplina
+        + matricular(aluno: Aluno, disciplina: Disciplina, enumDisciplina: EnumDisciplina): MatriculaDisciplina
+        + getMatriculasList(aluno: Aluno): List<MatriculaDisciplina>
+        + getMatriculasQuantity(aluno: Aluno, enumDisciplinaRequeired: EnumDisciplina): int
+        + getAlunosMatriculados(disciplina: Disciplina): List<Aluno>
+        + getAlunosInSemester(ano: int, semestre: int): List<Aluno>
 }
 
 class CursoService {
-    + cadastrarCurso(curso : Curso) : void
-    + adicionarDisciplinaCurso(curso : Curso, disciplina : Disciplina, enumDisciplina : EnumDisciplina) : void
-}
+        - CursoRepository cursoRepository
+
+        + saveOrUpdateCurso(curso: Curso): Curso
+        + findAllCurso(): List<Curso>
+        + findById(id: Long): Curso
+        + createCurso(nome: String): Curso
+
+    }
 
 class DisciplinaService {
-    + cadastrarDisciplina(disciplina : Disciplina) : void
-    + emitirRelatorioAlunos(disciplina : Disciplina) : void
+        - DisciplinaRepository disciplinaRepository
+
+        + saveOrUpdateDisciplina(disciplina: Disciplina): Disciplina
+        + findAll(): List<Disciplina>
+        + findById(id: Long): Disciplina
+        + createDisciplina(nome: String, cargaHoraria: int, maximoAlunos: int): Disciplina
 }
+
+class DisciplinaCursoService {
+        - DisciplinaCursoRepository disciplinaCursoRepository
+
+        + saveOrUpdateDisciplinaCurso(disciplinaCurso: DisciplinaCurso): DisciplinaCurso
+        + createDisciplinaCurso(disciplina: Disciplina, curso: Curso, periodo: int, enumDisciplina: EnumDisciplina): DisciplinaCurso
+        + findByCursoAndTipo(curso: Curso, tipo: EnumDisciplina): List<DisciplinaCurso>
+        + cursoContainsDiciplina(curso: Curso, disciplina: Disciplina, enumDisciplina: EnumDisciplina): boolean
+        + getTipo(curso: Curso, disciplina: Disciplina): EnumDisciplina
+}
+
 
 class ProfessorService {
-    + cadastrarProfessor(professor : Professor) : void
-}
+        - ProfessorRespository professorRespository
+
+        + saveOrUpdateProfessor(professor: Professor): Professor
+        + create(id: Long): Professor
+    }
 
 class SecretariaService {
-    + cadastrarSecretaria(secretaria : Secretaria) : void
+        - SecretariaRepository secretariaRepository
+
+        + saveOrUpdateSecretaria(secretaria: Secretaria): Secretaria
+        + create(id: Long): Secretaria
 }
 
-class LoginService {
-    + verificarLogin(email : String, senha : String) : void
-}
+class UsuarioService {
+        - UsuarioRepository usuarioRepository
 
-class RelatorioService {
-    + relatorioProfessor(ano : int, semestre int) : void
-    + relatorioAluno(ano : int, semestre int) : void
-    + relatorioDisciplina(ano : int, semestre int) : void
-}
+        + saveOrUpdateUsuario(usuario: Usuario): Usuario
+        + findAll(): List<Usuario>
+        + findById(id: Long): Usuario
+        + delete(id: Long): void
+        + findByEmail(email: String): Usuario
+        + create(name: String, senha: String, email: String, cpf: String, tipo: EnumAutorizacao): Usuario
+        + login(email: String, senha: String): Usuario
+        + verificarLogin(email: String, senha: String): void
+    }
 
-RelatorioService -[hidden]- MatriculaService
-CursoService -[hidden]- MatriculaService
+
+DisciplinaCursoService -[hidden]- MatriculaDisciplinaService 
+CursoService -[hidden]- MatriculaDisciplinaService 
 DisciplinaService -[hidden]- CursoService
 ProfessorService -[hidden]- DisciplinaService
 SecretariaService -[hidden]- ProfessorService
-LoginService -[hidden]- SecretariaService
+UsuarioService -[hidden]- SecretariaService
 @enduml
