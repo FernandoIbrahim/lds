@@ -17,7 +17,7 @@ Como ( persona ) , eu ( quero, desejo ), ( para que ) .
 
 ### Cliente
 
--Como cliente, preciso gerenciar meus pedidos de alugueis, para cadastrar, consultar, atualizar e deletar meus pedidos de alugueis
+- Como cliente, preciso gerenciar meus pedidos de alugueis, para cadastrar, consultar, atualizar e deletar meus pedidos de alugueis
 
 
 
