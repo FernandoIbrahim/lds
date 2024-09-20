@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: bc-mariadb-car-rental-system
+    ports:
+      - "3306:3306"
+      - "3307:3307"
+    environment:
+      MYSQL_DATABASE: car-rental-system
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+      - ./mariadb/entrypoint:/docker-entrypoint-initdb.d
