@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.models.enums;
+package com.example.SistemaAluguelCarros.models.Usuarios;
 
 public enum Status {
     AGENTE("AGENTE"),

@@ -9,15 +9,15 @@ CREATE TABLE IF NOT EXISTS usuario(
 
 -- Tabela pessoa_fisica com chave estrangeira para usuario
 CREATE TABLE IF NOT EXISTS pessoa_fisica (
-    id INT NOT NULL,
+
+    id_usuario INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
     rg VARCHAR(15) NOT NULL UNIQUE,
     cpf VARCHAR(15) NOT NULL,
     endereco VARCHAR(255) NOT NULL,
     profissao VARCHAR(255),
     empregadora VARCHAR(255),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id) REFERENCES usuario(id) ON DELETE CASCADE
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
 -- Tabela pessoa_juridica com chave estrangeira para usuario

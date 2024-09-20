@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.SistemaAluguelCarros.models.Usuario;
+import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
 
 import jakarta.validation.Valid;
@@ -64,7 +64,6 @@ public class UsuarioController {
         usuarioRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado!", id));
 
-        user.setId(id);
         Usuario updatedUser = usuarioRepository.save(user);
         return ResponseEntity.ok(updatedUser);
     }
