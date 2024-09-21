@@ -13,13 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
-@Table(name = "pessoa_fisica")
-public class PessoaFisica {
-
+@Table(name = "pessoa_juridica")
+public class PessoaJuridica {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,19 +29,14 @@ public class PessoaFisica {
     @JoinColumn(name = "id_usuario", nullable = false) 
     private Usuario usuario;
 
-    @Column(name = "nome", nullable = false)
-    private String nome;
+    @Column(name = "nome_fantasia", nullable = false)
+    private String nomeFantasia;
 
-    @Column(name = "rg", nullable = false, unique = true)
-    private String rg;
+    @Column(name = "cnpj", nullable = false, unique = true)
+    private String cnpj;
 
-    @Column(name = "cpf", nullable = false, unique = true)
-    private String cpf;
+    
 
-    @Column(name = "profissao", nullable = true)
-    private String profissao;
 
-    @Column(name = "empregadora", nullable = true)
-    private String empregadora;
 
 }

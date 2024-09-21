@@ -51,53 +51,86 @@ public class PessoaFisicaController {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaFisica> post( @RequestBody PessoaFisica pessoaFisica) {
+    public ResponseEntity<PessoaFisica> post(@RequestBody PessoaFisica pessoaFisica) {
         
         
 
-        /**Usuario user = Usuario.builder()
+        Usuario user = Usuario.builder()
             .email(pessoaFisica.getUsuario().getEmail())
             .senha(pessoaFisica.getUsuario().getSenha())
             .status(pessoaFisica.getUsuario().getStatus())
-            .build();**/
+            .endereco(pessoaFisica.getUsuario().getEndereco())
+            .build();
         
-        // user = usuarioRepository.save(user);
-        // pessoaFisica.setUsuario(user);
+        user = usuarioRepository.save(user);
+        pessoaFisica.setUsuario(user);
         PessoaFisica created = pessoaFisicaRepository.save(pessoaFisica);
 
-        /**URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(created.getId())
-                .toUri();**/
+                .toUri();
 
-        return ResponseEntity.ok(created);
+        return ResponseEntity.created(uri).body(created);
 
          
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PessoaFisica> delete(@PathVariable("id") Long id){
-        PessoaFisica person = this.pessoaFisicaRepository.findById(id).get();
-        this.pessoaFisicaRepository.delete(person);
+        this.pessoaFisicaRepository.findById(id).get();
+        this.pessoaFisicaRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
+    
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaFisica> update(@PathVariable("id") Long id, @RequestBody PessoaFisica pessoaFisica) {
-        
-        PessoaFisica person = this.pessoaFisicaRepository.findById(id)
-            .orElseThrow(() -> new ObjectNotFoundException("Pessoa fisica não encontrada", id));
-        
-        
-
-        pessoaFisicaRepository.save(person);
-        
-        return ResponseEntity.ok(person);
+public ResponseEntity<PessoaFisica> update(@PathVariable("id") Long id, @RequestBody PessoaFisica pessoaFisica) {
+    
+    // Buscar a PessoaFisica pelo ID
+    PessoaFisica person = this.pessoaFisicaRepository.findById(id)
+        .orElseThrow(() -> new ObjectNotFoundException("Pessoa física não encontrada", id));
+    
+    // Atualiza os atributos do usuário se não forem nulos
+    if (person.getUsuario() != null) {
+        if (pessoaFisica.getUsuario() != null) {
+            if (pessoaFisica.getUsuario().getEmail() != null) {
+                person.getUsuario().setEmail(pessoaFisica.getUsuario().getEmail());
+            }
+            if (pessoaFisica.getUsuario().getSenha() != null) {
+                person.getUsuario().setSenha(pessoaFisica.getUsuario().getSenha());
+            }
+            if (pessoaFisica.getUsuario().getEndereco() != null) {
+                person.getUsuario().setEndereco(pessoaFisica.getUsuario().getEndereco());
+            }
+            if (pessoaFisica.getUsuario().getStatus() != null) {
+                person.getUsuario().setStatus(pessoaFisica.getUsuario().getStatus());
+            }
+            // Salva as alterações no usuário
+            usuarioRepository.save(person.getUsuario());
+        }
     }
 
+    // Atualiza os atributos da pessoa física se não forem nulos
+    if (pessoaFisica.getNome() != null) {
+        person.setNome(pessoaFisica.getNome());
+    }
+    if (pessoaFisica.getRg() != null) {
+        person.setRg(pessoaFisica.getRg());
+    }
+    if (pessoaFisica.getCpf() != null) {
+        person.setCpf(pessoaFisica.getCpf());
+    }
+    if (pessoaFisica.getProfissao() != null) {
+        person.setProfissao(pessoaFisica.getProfissao());
+    }
+    if (pessoaFisica.getEmpregadora() != null) {
+        person.setEmpregadora(pessoaFisica.getEmpregadora());
+    }
+
+    pessoaFisicaRepository.save(person);
     
-    
-    
-    
+    return ResponseEntity.ok(person);
+}
+
 
 }
