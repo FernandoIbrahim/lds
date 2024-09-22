@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS pessoa_fisica (
     cpf VARCHAR(15) NOT NULL,
     profissao VARCHAR(255),
     empregadora VARCHAR(255),
+    PRIMARY KEY (id),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
