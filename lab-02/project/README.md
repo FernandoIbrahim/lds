@@ -27,7 +27,6 @@ Como ( persona ) , eu ( quero, desejo ), ( para que ) .
 - Como agente, desejo consultar os dados do contratante, para que eu possa analisar as informações pessoais e financeiras necessárias para a aprovação.
 - Como agente, preciso gerenciar os contratos, para que eu possa emitir, consultar, editar ou cancelar contratos de aluguel de automóveis.
 
-
 #### Banco
 
 - Como banco, desejo gerenciar as solicitações de crédito, para que eu possa avaliar e decidir sobre a concessão de crédito associado ao aluguel de automóveis.
