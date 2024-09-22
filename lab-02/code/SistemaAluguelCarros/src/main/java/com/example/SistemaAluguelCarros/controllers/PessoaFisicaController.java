@@ -84,53 +84,54 @@ public class PessoaFisicaController {
     }
     
     @PutMapping("/{id}")
-public ResponseEntity<PessoaFisica> update(@PathVariable("id") Long id, @RequestBody PessoaFisica pessoaFisica) {
-    
-    // Buscar a PessoaFisica pelo ID
-    PessoaFisica person = this.pessoaFisicaRepository.findById(id)
-        .orElseThrow(() -> new ObjectNotFoundException("Pessoa física não encontrada", id));
-    
-    // Atualiza os atributos do usuário se não forem nulos
-    if (person.getUsuario() != null) {
-        if (pessoaFisica.getUsuario() != null) {
-            if (pessoaFisica.getUsuario().getEmail() != null) {
-                person.getUsuario().setEmail(pessoaFisica.getUsuario().getEmail());
+    public ResponseEntity<PessoaFisica> update(@PathVariable("id") Long id, @RequestBody PessoaFisica pessoaFisica) {
+
+        // Buscar a PessoaFisica pelo ID
+        PessoaFisica person = this.pessoaFisicaRepository.findById(id)
+            .orElseThrow(() -> new ObjectNotFoundException("Pessoa física não encontrada", id));
+
+        // Atualiza os atributos do usuário se não forem nulos
+        if (person.getUsuario() != null) {
+            if (pessoaFisica.getUsuario() != null) {
+                if (pessoaFisica.getUsuario().getEmail() != null) {
+                    person.getUsuario().setEmail(pessoaFisica.getUsuario().getEmail());
+                }
+                if (pessoaFisica.getUsuario().getSenha() != null) {
+                    person.getUsuario().setSenha(pessoaFisica.getUsuario().getSenha());
+                }
+                if (pessoaFisica.getUsuario().getEndereco() != null) {
+                    person.getUsuario().setEndereco(pessoaFisica.getUsuario().getEndereco());
+                }
+                if (pessoaFisica.getUsuario().getStatus() != null) {
+                    person.getUsuario().setStatus(pessoaFisica.getUsuario().getStatus());
+                }
+                // Salva as alterações no usuário
+                usuarioRepository.save(person.getUsuario());
             }
-            if (pessoaFisica.getUsuario().getSenha() != null) {
-                person.getUsuario().setSenha(pessoaFisica.getUsuario().getSenha());
-            }
-            if (pessoaFisica.getUsuario().getEndereco() != null) {
-                person.getUsuario().setEndereco(pessoaFisica.getUsuario().getEndereco());
-            }
-            if (pessoaFisica.getUsuario().getStatus() != null) {
-                person.getUsuario().setStatus(pessoaFisica.getUsuario().getStatus());
-            }
-            // Salva as alterações no usuário
-            usuarioRepository.save(person.getUsuario());
         }
-    }
 
-    // Atualiza os atributos da pessoa física se não forem nulos
-    if (pessoaFisica.getNome() != null) {
-        person.setNome(pessoaFisica.getNome());
-    }
-    if (pessoaFisica.getRg() != null) {
-        person.setRg(pessoaFisica.getRg());
-    }
-    if (pessoaFisica.getCpf() != null) {
-        person.setCpf(pessoaFisica.getCpf());
-    }
-    if (pessoaFisica.getProfissao() != null) {
-        person.setProfissao(pessoaFisica.getProfissao());
-    }
-    if (pessoaFisica.getEmpregadora() != null) {
-        person.setEmpregadora(pessoaFisica.getEmpregadora());
-    }
+        // Atualiza os atributos da pessoa física se não forem nulos
+        if (pessoaFisica.getNome() != null) {
+            person.setNome(pessoaFisica.getNome());
+        }
+        if (pessoaFisica.getRg() != null) {
+            person.setRg(pessoaFisica.getRg());
+        }
+        if (pessoaFisica.getCpf() != null) {
+            person.setCpf(pessoaFisica.getCpf());
+        }
+        if (pessoaFisica.getProfissao() != null) {
+            person.setProfissao(pessoaFisica.getProfissao());
+        }
+        if (pessoaFisica.getEmpregadora() != null) {
+            person.setEmpregadora(pessoaFisica.getEmpregadora());
+        }
 
-    pessoaFisicaRepository.save(person);
+        pessoaFisicaRepository.save(person);
+
+        return ResponseEntity.ok(person);
     
-    return ResponseEntity.ok(person);
-}
+    }
 
 
 }
