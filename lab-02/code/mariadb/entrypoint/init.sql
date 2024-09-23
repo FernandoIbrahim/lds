@@ -1,7 +1,7 @@
 -- Tabela usuario
 CREATE TABLE IF NOT EXISTS usuario(
     id INT AUTO_INCREMENT NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     endereco VARCHAR(255) NOT NULL,
     status ENUM('AGENTE', 'CLIENTE', 'BANCO') NOT NULL,
@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS pessoa_fisica (
     id INT AUTO_INCREMENT NOT NULL,
     id_usuario INT NOT NULL,
     nome VARCHAR(100) NOT NULL,
-    rg VARCHAR(15) NOT NULL UNIQUE,
-    cpf VARCHAR(11) NOT NULL UNIQUE,
+    rg VARCHAR(15) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
     profissao VARCHAR(255),
     empregadora VARCHAR(255),
     PRIMARY KEY (id),
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS pessoa_juridica (
     id INT AUTO_INCREMENT NOT NULL,
     id_usuario INT NOT NULL,
     nome_fantasia VARCHAR(100) NOT NULL,
-    cnpj VARCHAR(14) NOT NULL UNIQUE,
+    cnpj VARCHAR(14) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
