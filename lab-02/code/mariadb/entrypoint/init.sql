@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS pedido_aluguel (
 
 
 
--- Tabela  com chave estrangeira para usuario
+-- Tabela  redimentos com chave estrangeira para usuario
 CREATE TABLE IF NOT EXISTS rendimentos (
 	id INT NOT NULL,
 	provento DECIMAL NOT NULL,
@@ -70,5 +70,27 @@ CREATE TABLE IF NOT EXISTS rendimentos (
 	id_usuario INT NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+);
+
+
+-- Tabela  Contrato com chave estrangeira para Pedido Aluguel
+
+CREATE TABLE IF NOT EXISTS contrato (
+	id INT NOT NULL,
+	numero_contrato INT NOT NULL,
+	data_aprovacao DATE NOT NULL,
+	id_pedido INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_pedido) REFERENCES pedido_aluguel(id) ON DELETE CASCADE
+);
+
+
+
+-- Tabela  Contrato de Crédito com chave estrangeira para Pedido Aluguel
+CREATE TABLE IF NOT EXISTS contrato_credito (
+	id INT NOT NULL,
+	id_pedido INT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_pedido) REFERENCES pedido_aluguel(id) ON DELETE CASCADE
 );
 
