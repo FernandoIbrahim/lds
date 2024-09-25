@@ -12,8 +12,6 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +56,7 @@ public class PessoaFisicaController {
         Usuario user = Usuario.builder()
             .email(pessoaFisica.getUsuario().getEmail())
             .senha(pessoaFisica.getUsuario().getSenha())
-            .status(pessoaFisica.getUsuario().getStatus())
+            .userRole(pessoaFisica.getUsuario().getUserRole())
             .endereco(pessoaFisica.getUsuario().getEndereco())
             .build();
         
@@ -102,8 +100,8 @@ public ResponseEntity<PessoaFisica> update(@PathVariable("id") Long id, @Request
             if (pessoaFisica.getUsuario().getEndereco() != null) {
                 person.getUsuario().setEndereco(pessoaFisica.getUsuario().getEndereco());
             }
-            if (pessoaFisica.getUsuario().getStatus() != null) {
-                person.getUsuario().setStatus(pessoaFisica.getUsuario().getStatus());
+            if (pessoaFisica.getUsuario().getUserRole() != null) {
+                person.getUsuario().setUserRole(pessoaFisica.getUsuario().getUserRole());
             }
             // Salva as alterações no usuário
             usuarioRepository.save(person.getUsuario());

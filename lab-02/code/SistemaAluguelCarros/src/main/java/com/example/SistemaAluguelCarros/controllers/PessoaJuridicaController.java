@@ -52,7 +52,7 @@ public class PessoaJuridicaController {
         Usuario user = Usuario.builder()
                 .email(pessoaJuridica.getUsuario().getEmail())
                 .senha(pessoaJuridica.getUsuario().getSenha())
-                .status(pessoaJuridica.getUsuario().getStatus())
+                .userRole(pessoaJuridica.getUsuario().getUserRole())
                 .endereco(pessoaJuridica.getUsuario().getEndereco())
                 .build();
 
@@ -97,8 +97,8 @@ public class PessoaJuridicaController {
                 if (pessoaJuridica.getUsuario().getEndereco() != null) {
                     person.getUsuario().setEndereco(pessoaJuridica.getUsuario().getEndereco());
                 }
-                if (pessoaJuridica.getUsuario().getStatus() != null) {
-                    person.getUsuario().setStatus(pessoaJuridica.getUsuario().getStatus());
+                if (pessoaJuridica.getUsuario().getUserRole() != null) {
+                    person.getUsuario().setUserRole(pessoaJuridica.getUsuario().getUserRole());
                 }
                 // Salva as alterações no usuário
                 usuarioRepository.save(person.getUsuario());

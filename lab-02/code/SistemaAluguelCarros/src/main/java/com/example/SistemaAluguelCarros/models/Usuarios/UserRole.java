@@ -1,6 +1,6 @@
 package com.example.SistemaAluguelCarros.models.Usuarios;
 
-public enum Status {
+public enum UserRole {
     AGENTE("AGENTE"),
     CLIENTE("CLIENTE"),
     BANCO("BANCO");
@@ -8,7 +8,7 @@ public enum Status {
     private final String value;
 
 
-    Status(String value) {
+    UserRole(String value) {
         this.value = value;
     }
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.SistemaAluguelCarros.infraSecurity.TokenService;
 import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
-import com.example.SistemaAluguelCarros.models.Usuarios.Status;
+import com.example.SistemaAluguelCarros.models.Usuarios.UserRole;
 import com.example.SistemaAluguelCarros.models.Usuarios.dto.LoginRequestDTO;
 import com.example.SistemaAluguelCarros.models.Usuarios.dto.ResgisterRequestDTO;
 import com.example.SistemaAluguelCarros.models.Usuarios.dto.ResponseDTO;
@@ -46,8 +46,8 @@ public class AuthController {
     }
 
 
-    @PostMapping("/register")
-    public ResponseEntity register(@RequestBody ResgisterRequestDTO body){
+    @PostMapping("/register/agente")
+    public ResponseEntity registerEmpresa(@RequestBody ResgisterRequestDTO body){
 
         Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
 
@@ -57,7 +57,32 @@ public class AuthController {
             novoUsuario.setSenha(passwordEncoder.encode(body.senha()));
             novoUsuario.setEmail(body.email());
             novoUsuario.setEndereco(body.endereco());
-            novoUsuario.setStatus(Status.CLIENTE);
+            novoUsuario.setUserRole(UserRole.AGENTE);
+
+            usuarioRepository.save(novoUsuario);
+
+            String token = this.tokenService.generateToken(novoUsuario);
+            return ResponseEntity.ok(new ResponseDTO(novoUsuario.getEmail(), token));
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+
+
+
+    @PostMapping("/register/cliente")
+    public ResponseEntity registerCliente(@RequestBody ResgisterRequestDTO body){
+
+        Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
+
+        if(usuario.isEmpty()){
+            Usuario novoUsuario = new Usuario();
+
+            novoUsuario.setSenha(passwordEncoder.encode(body.senha()));
+            novoUsuario.setEmail(body.email());
+            novoUsuario.setEndereco(body.endereco());
+            novoUsuario.setUserRole(UserRole.CLIENTE);
 
             usuarioRepository.save(novoUsuario);
 

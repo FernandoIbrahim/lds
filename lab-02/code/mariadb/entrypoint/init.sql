@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS usuario(
     email VARCHAR(100) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     endereco VARCHAR(255) NOT NULL,
-    status ENUM('AGENTE', 'CLIENTE', 'BANCO') NOT NULL,
+    user_role ENUM('AGENTE', 'CLIENTE', 'BANCO') NOT NULL,
     PRIMARY KEY (id)
 );
 

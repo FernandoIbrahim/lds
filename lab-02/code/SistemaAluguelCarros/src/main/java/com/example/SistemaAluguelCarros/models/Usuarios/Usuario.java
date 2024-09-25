@@ -1,6 +1,13 @@
 package com.example.SistemaAluguelCarros.models.Usuarios;
 
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +44,26 @@ public class Usuario {
     @Column(name = "endereco", nullable = false)
     private String endereco;
     
-    @Column(name = "status", nullable = false)
+    @Column(name = "user_role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private UserRole userRole;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(userRole == UserRole.CLIENTE) return List.of(new SimpleGrantedAuthority("ROLE_CLIENTE"));
+        if(userRole == UserRole.BANCO) return List.of(new SimpleGrantedAuthority("ROLE_EMPRESA"));
+        return List.of(new SimpleGrantedAuthority("ROLE_BANCO")); 
+    }
 
-    // List <Pedido Aluguel>
-    // List <Automoveis>
+    @Override
+    public String getPassword() {
+       return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
     
 }
 
