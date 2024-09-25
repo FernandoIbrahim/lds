@@ -40,6 +40,7 @@ public class PessoaFisicaController {
         return ResponseEntity.ok(this.pessoaFisicaRepository.findAll());
     }
 
+    
     @GetMapping("/{id}")
     public ResponseEntity<PessoaFisica> getMethodName(@PathVariable("id") Long id) {
         PessoaFisica pessoaFisica = this.pessoaFisicaRepository.findById(id)
