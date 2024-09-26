@@ -36,6 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/register/cliente").permitAll()
                         .requestMatchers( "/v3/api-docs/**","/swagger-ui/**", "/swagger-ui.html", "/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuario").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/automovel").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.POST, "/automovel").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
