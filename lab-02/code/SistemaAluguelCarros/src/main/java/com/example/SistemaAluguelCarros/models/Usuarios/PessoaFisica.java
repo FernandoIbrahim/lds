@@ -24,7 +24,7 @@ public class PessoaFisica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id; 
-
+    
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false) 
     private Usuario usuario;

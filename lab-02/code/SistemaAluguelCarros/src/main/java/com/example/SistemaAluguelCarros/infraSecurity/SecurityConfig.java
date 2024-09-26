@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register/agente").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register/cliente").permitAll()
+                        .requestMatchers( "/v3/api-docs/**","/swagger-ui/**", "/swagger-ui.html", "/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuario").hasRole("CLIENTE")
                         .anyRequest().authenticated()
                 )
@@ -52,3 +53,13 @@ public class SecurityConfig {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
