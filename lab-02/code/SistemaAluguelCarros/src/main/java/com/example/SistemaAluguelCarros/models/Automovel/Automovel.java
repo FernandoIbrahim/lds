@@ -1,6 +1,5 @@
 package com.example.SistemaAluguelCarros.models.Automovel;
 
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ public class Automovel {
 
     @Id
     @Column(name = "matricula", nullable = false)
-    private Integer matricula;
+    private Long matricula;
 
     @Column(name = "ano", nullable = false)
     private Integer ano;
@@ -31,6 +30,6 @@ public class Automovel {
     private String placa;
 
     @Column(name = "id_usuario", nullable = false)
-    private long idUsuario;
+    private Long idUsuario;
     
 }

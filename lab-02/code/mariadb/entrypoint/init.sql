@@ -54,9 +54,11 @@ CREATE TABLE IF NOT EXISTS pedido_aluguel (
 	data_fim DATE NOT NULL,
 	id_cliente INT NOT NULL,
 	matricula_automovel INT NOT NULL,
+	id_proprietario INT NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_cliente) REFERENCES pessoa_fisica(id) ON DELETE CASCADE,
-	FOREIGN KEY (matricula_automovel) REFERENCES automovel(matricula) ON DELETE CASCADE
+	FOREIGN KEY (matricula_automovel) REFERENCES automovel(matricula) ON DELETE CASCADE,
+	FOREIGN KEY (id_proprietario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
 
