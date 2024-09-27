@@ -44,7 +44,13 @@ public class AuthController {
 
         System.out.println("As senhas " + usuario.getSenha() + "  " +  body.senha() );
 
+        /* 
         if(passwordEncoder.matches(body.senha(), usuario.getSenha())){
+            String token = this.tokenService.generateToken(usuario);
+            return ResponseEntity.ok(new ResponseRegisterDTO(usuario.getEmail(), token));
+        }*/
+
+        if(usuario.getSenha().equals(body.senha()) ){
             String token = this.tokenService.generateToken(usuario);
             return ResponseEntity.ok(new ResponseRegisterDTO(usuario.getEmail(), token));
         }

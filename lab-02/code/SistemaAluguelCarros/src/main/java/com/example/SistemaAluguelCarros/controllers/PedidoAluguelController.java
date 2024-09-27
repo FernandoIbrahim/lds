@@ -19,6 +19,7 @@ import com.example.SistemaAluguelCarros.repositories.AutomovelRepository;
 import com.example.SistemaAluguelCarros.repositories.PedidoAluguelRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
+import com.example.SistemaAluguelCarros.models.PedidosAlugel.dto.RequestPedidoDTO;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,23 +47,27 @@ public class PedidoAluguelController {
 
 
     @PostMapping
-    public ResponseEntity<PedidoAluguel> post(@RequestBody PedidoAluguel pedidoAluguel) {
+    public ResponseEntity<PedidoAluguel> post(@RequestBody RequestPedidoDTO pedidoAluguelDTO) {
 
 
-        Optional<Automovel> automovel = automovelRepository.findById(pedidoAluguel.getMatriculaAutomovel());
-        Optional<Usuario> proprietario = usuarioRepository.findById(pedidoAluguel.getIdProprietario());
+        Optional<Automovel> automovel = automovelRepository.findById(pedidoAluguelDTO.matriculaAutomovel());
 
+        
+        
         if(!automovel.isPresent()){
             return ResponseEntity.badRequest().build();
         }
+        Automovel realAutomovel = automovel.get();
+        PedidoAluguel pedidoAluguel = new PedidoAluguel();
 
-        if(!proprietario.isPresent()){
-            return ResponseEntity.badRequest().build();
-        }
+        pedidoAluguel.setMatriculaAutomovel(realAutomovel.getMatricula());
+        pedidoAluguel.setIdProprietario(realAutomovel.getIdUsuario());
+        pedidoAluguel.setDataInicio(pedidoAluguelDTO.dataInicio());
+        pedidoAluguel.setDataFim(pedidoAluguelDTO.dataFim());
+        pedidoAluguel.setTotal(pedidoAluguelDTO.total());
+        pedidoAluguel.setAprovacao(false);
+        pedidoAluguel.setIdCliente(pedidoAluguelDTO.idCliente());
 
-        if(! (automovel.get().getIdUsuario().equals(pedidoAluguel.getIdProprietario()) )){
-            return ResponseEntity.badRequest().build();
-        }
 
         PedidoAluguel savedPedidoAluguel = pedidoAluguelRepository.save(pedidoAluguel);
         return ResponseEntity.ok(savedPedidoAluguel); 
@@ -85,17 +90,30 @@ public class PedidoAluguelController {
         Usuario usuarioAutenticado = usuarioOptional.get();
         Optional<PessoaFisica> optionalPessoaFisica = pessoaFisicaRepository.findByUsuario(usuarioAutenticado);
 
-        if (optionalPedido.isPresent() && optionalPessoaFisica.isPresent()) {
+
+        //caso seja proprietario
+        if (optionalPedido.isPresent()) {
+            PedidoAluguel existingPedido = optionalPedido.get();
+
+            if (usuarioAutenticado.getId() == existingPedido.getIdProprietario()) {
+                return ResponseEntity.ok(existingPedido);
+            }
+        }
+
+
+        //caso seja cliente
+        if (optionalPedido.isPresent() &&  optionalPessoaFisica.isPresent()) {
             PedidoAluguel existingPedido = optionalPedido.get();
             PessoaFisica existingClientePF = optionalPessoaFisica.get();
 
-            if (existingPedido.getIdCliente().equals(existingClientePF.getId())) {
+            if (existingPedido.getIdCliente().equals(existingClientePF.getId()) ) {
                 return ResponseEntity.ok(existingPedido);
             }
-
         }
+
         
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
     }
 
 

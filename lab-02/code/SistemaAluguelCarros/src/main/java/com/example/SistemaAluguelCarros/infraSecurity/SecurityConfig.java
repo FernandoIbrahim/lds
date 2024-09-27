@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/usuario").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET, "/automovel").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/automovel").hasRole("CLIENTE")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
