@@ -51,13 +51,14 @@ public class ContratoController {
         if(!pedidoAluguelOptional.isPresent())  
             return ResponseEntity.badRequest().build();
         
-        
         PedidoAluguel pedidoAluguel = pedidoAluguelOptional.get();
+                
+        if(pedidoAluguel.getAprovacao() == true)
+            return ResponseEntity.badRequest().build();
+
+        
         pedidoAluguel.setAprovacao(true);
-
         pedidoAluguelRepository.save(pedidoAluguel);
-    
-
 
         Contrato created = contratoRepository.save(contrato);
 

@@ -38,19 +38,13 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO body){
+    public ResponseEntity<ResponseRegisterDTO>  login(@RequestBody LoginRequestDTO body){
         Usuario usuario = this.usuarioRepository.findByEmail(body.email()).orElseThrow( () -> new RuntimeException("User not found"));
 
 
         System.out.println("As senhas " + usuario.getSenha() + "  " +  body.senha() );
 
-        /* 
         if(passwordEncoder.matches(body.senha(), usuario.getSenha())){
-            String token = this.tokenService.generateToken(usuario);
-            return ResponseEntity.ok(new ResponseRegisterDTO(usuario.getEmail(), token));
-        }*/
-
-        if(usuario.getSenha().equals(body.senha()) ){
             String token = this.tokenService.generateToken(usuario);
             return ResponseEntity.ok(new ResponseRegisterDTO(usuario.getEmail(), token));
         }
@@ -87,7 +81,7 @@ public class AuthController {
 
     
     @PostMapping("/register/agente")
-    public ResponseEntity registerCliente(@RequestBody ResgisterPessoaJuridicaRequestDTO body){
+    public ResponseEntity<ResponseRegisterDTO>   registerCliente(@RequestBody ResgisterPessoaJuridicaRequestDTO body){
 
         Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
 
