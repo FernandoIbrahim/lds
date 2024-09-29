@@ -14,11 +14,17 @@ import com.example.SistemaAluguelCarros.models.Automovel.Automovel;
 import com.example.SistemaAluguelCarros.models.PedidosAlugel.PedidoAluguel;
 import com.example.SistemaAluguelCarros.models.PedidosAlugel.dto.AtualizarPedidoClienteDTO;
 import com.example.SistemaAluguelCarros.models.Usuarios.PessoaFisica;
+import com.example.SistemaAluguelCarros.models.Usuarios.UserRole;
 import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
 import com.example.SistemaAluguelCarros.repositories.AutomovelRepository;
 import com.example.SistemaAluguelCarros.repositories.PedidoAluguelRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import com.example.SistemaAluguelCarros.models.PedidosAlugel.dto.RequestPedidoDTO;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,26 +53,65 @@ public class PedidoAluguelController {
 
 
     @PostMapping
+    @Operation(summary = "Criar um novo pedido de aluguel", 
+               description = "Cria um novo pedido de aluguel com base nas informações fornecidas.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pedido de aluguel criado com sucesso."),
+        @ApiResponse(responseCode = "400", description = "Solicitação inválida. O automóvel pode não existir.")
+    })
     public ResponseEntity<PedidoAluguel> post(@RequestBody RequestPedidoDTO pedidoAluguelDTO) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        System.out.println("Tudo okay até aqui1");
+
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(authentication.getName());
+        if (!usuarioOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        System.out.println("Tudo okay até aqui2");
+        Usuario usuarioAutenticado = usuarioOptional.get();
+
+
+        if (!usuarioAutenticado.getUserRole().equals(UserRole.CLIENTE)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        System.out.println("Tudo okay até aqui3");
 
         Optional<Automovel> automovel = automovelRepository.findById(pedidoAluguelDTO.matriculaAutomovel());
 
-        
-        
         if(!automovel.isPresent()){
             return ResponseEntity.badRequest().build();
         }
+
+
+        
+
         Automovel realAutomovel = automovel.get();
         PedidoAluguel pedidoAluguel = new PedidoAluguel();
+        
+        System.out.println("Tudo okay até aqui4");
 
+        System.out.println(pedidoAluguelRepository.isAutomovelDisponivel(realAutomovel.getMatricula(), pedidoAluguelDTO.dataInicio(), pedidoAluguelDTO.dataFim()));
+
+        if(!pedidoAluguelRepository.isAutomovelDisponivel(realAutomovel.getMatricula(), pedidoAluguelDTO.dataInicio(), pedidoAluguelDTO.dataFim())){
+            return ResponseEntity.badRequest().build();
+        }
+
+        System.out.println("Tudo okay até aqui5");
+        
         pedidoAluguel.setMatriculaAutomovel(realAutomovel.getMatricula());
         pedidoAluguel.setIdProprietario(realAutomovel.getIdUsuario());
         pedidoAluguel.setDataInicio(pedidoAluguelDTO.dataInicio());
         pedidoAluguel.setDataFim(pedidoAluguelDTO.dataFim());
         pedidoAluguel.setTotal(pedidoAluguelDTO.total());
         pedidoAluguel.setAprovacao(false);
-        pedidoAluguel.setIdCliente(pedidoAluguelDTO.idCliente());
+        pedidoAluguel.setIdCliente(usuarioAutenticado.getId());
 
 
         PedidoAluguel savedPedidoAluguel = pedidoAluguelRepository.save(pedidoAluguel);
@@ -76,9 +121,22 @@ public class PedidoAluguelController {
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar pedido de aluguel por ID", 
+    description = "Retorna os detalhes de um pedido de aluguel com base no ID fornecido. " +
+                  "Verifica se o usuário autenticado é o proprietário ou o cliente do pedido.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pedido encontrado com sucesso."),
+        @ApiResponse(responseCode = "403", description = "Acesso proibido. O usuário não é proprietário ou cliente do pedido."),
+        @ApiResponse(responseCode = "400", description = "Solicitação inválida.")
+    })
     public ResponseEntity<PedidoAluguel> getById(@PathVariable Long id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(authentication.getName());
 
         Optional<PedidoAluguel> optionalPedido = pedidoAluguelRepository.findById(id);
@@ -116,8 +174,14 @@ public class PedidoAluguelController {
 
     }
 
-
+    @Operation(summary = "Atualizar pedido de aluguel", 
+               description = "Atualiza as informações de um pedido de aluguel existente com base no ID e nos dados fornecidos.")
     @PutMapping("/{id}")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pedido de aluguel atualizado com sucesso."),
+        @ApiResponse(responseCode = "403", description = "Acesso proibido. O usuário não é o proprietário do pedido."),
+        @ApiResponse(responseCode = "404", description = "Pedido de aluguel não encontrado.")
+    })
     public ResponseEntity<PedidoAluguel> put(@PathVariable Long id, @RequestBody AtualizarPedidoClienteDTO atualizarPedidoDTO) {
 
         // Busca o pedido de aluguel pelo ID
@@ -125,6 +189,11 @@ public class PedidoAluguelController {
 
         // Busca o usuário autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(authentication.getName());
 
         if (!usuarioOptional.isPresent()) {

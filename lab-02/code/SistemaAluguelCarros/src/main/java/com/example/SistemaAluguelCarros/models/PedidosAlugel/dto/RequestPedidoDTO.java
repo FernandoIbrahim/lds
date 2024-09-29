@@ -6,7 +6,6 @@ public record RequestPedidoDTO(
     float total,
     LocalDate dataInicio,
     LocalDate dataFim,
-    Long idCliente,
     Long matriculaAutomovel
 
 ) {
