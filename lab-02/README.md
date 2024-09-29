@@ -10,4 +10,20 @@ O sistema permite o cadastro tanto de clientes quanto de agentes, onde ambos pod
 * Cleiton Silva Tavares
 
 ## Instruções de utilização
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+Inicialização do Projeto
+
+Para iniciar o projeto de maneira eficiente e portátil, utilizamos o Docker Compose. Certifique-se de que o Docker esteja instalado na sua máquina local antes de prosseguir.
+
+Comandos para Execução do banco de dados:
+
+Iniciar Use o comando abaixo para construir e iniciar o containers:
+```
+docker-compose up --build
+```
+Finalizar a Execução Para parar e remover os containers, use:
+```
+docker-compose down
+```
+
+Assim rodamos uma imagem mariadb:latest, assim implementado o banco de dados relacional Mariadb junto com seu entrypoint.
+Observa-se que a porta 3306 da sua máquina local precisa estar livre para o correto funcionamento do containe
