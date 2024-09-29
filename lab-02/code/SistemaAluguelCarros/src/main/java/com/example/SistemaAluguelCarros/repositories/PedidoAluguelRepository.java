@@ -15,10 +15,11 @@ public interface PedidoAluguelRepository extends JpaRepository<PedidoAluguel,Lon
     List<PedidoAluguel> findByIdProprietario(Long idProprietario); //proprietario
 
     @Query("SELECT COUNT(p) = 0 FROM PedidoAluguel p WHERE p.matriculaAutomovel = :matriculaAutomovel " +
-        "AND ((p.dataInicio <= :dataFim AND p.dataFim >= :dataInicio))")
+       "AND p.aprovacao = true " + // Filtra apenas pedidos aprovados
+       "AND ((p.dataInicio <= :dataFim AND p.dataFim >= :dataInicio))")
     boolean isAutomovelDisponivel(@Param("matriculaAutomovel") long matriculaAutomovel,
-                            @Param("dataInicio") LocalDate dataInicio,
-                            @Param("dataFim") LocalDate dataFim);
+        @Param("dataInicio") LocalDate dataInicio,
+        @Param("dataFim") LocalDate dataFim);
 
 } 
 

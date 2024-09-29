@@ -45,6 +45,7 @@ public class ContratoController {
 
     @PostMapping
     public ResponseEntity<Contrato> create(@RequestBody Contrato contrato) {
+        
         contrato.setDataAprovacao(LocalDate.now());
         Optional<PedidoAluguel> pedidoAluguelOptional = pedidoAluguelRepository.findById(contrato.getIdPedido());
         

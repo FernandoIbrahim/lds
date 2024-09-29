@@ -63,29 +63,28 @@ public class PedidoAluguelController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getName() == null) {
+            System.out.println("usuário não autenticado");
             return ResponseEntity.badRequest().build();
         }
-
-        System.out.println("Tudo okay até aqui1");
 
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(authentication.getName());
         if (!usuarioOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        System.out.println("Tudo okay até aqui2");
         Usuario usuarioAutenticado = usuarioOptional.get();
 
 
         if (!usuarioAutenticado.getUserRole().equals(UserRole.CLIENTE)) {
+            System.out.println("O usuário não é um cliente para realizar um pedido de aluguel");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        System.out.println("Tudo okay até aqui3");
 
         Optional<Automovel> automovel = automovelRepository.findById(pedidoAluguelDTO.matriculaAutomovel());
 
         if(!automovel.isPresent()){
+            System.out.println("O sistema não possui altomóvel com o id informado");
             return ResponseEntity.badRequest().build();
         }
 
@@ -95,15 +94,13 @@ public class PedidoAluguelController {
         Automovel realAutomovel = automovel.get();
         PedidoAluguel pedidoAluguel = new PedidoAluguel();
         
-        System.out.println("Tudo okay até aqui4");
 
         System.out.println(pedidoAluguelRepository.isAutomovelDisponivel(realAutomovel.getMatricula(), pedidoAluguelDTO.dataInicio(), pedidoAluguelDTO.dataFim()));
 
         if(!pedidoAluguelRepository.isAutomovelDisponivel(realAutomovel.getMatricula(), pedidoAluguelDTO.dataInicio(), pedidoAluguelDTO.dataFim())){
+            System.out.println("Automovel nas datas informadas indisponível");
             return ResponseEntity.badRequest().build();
         }
-
-        System.out.println("Tudo okay até aqui5");
         
         pedidoAluguel.setMatriculaAutomovel(realAutomovel.getMatricula());
         pedidoAluguel.setIdProprietario(realAutomovel.getIdUsuario());
