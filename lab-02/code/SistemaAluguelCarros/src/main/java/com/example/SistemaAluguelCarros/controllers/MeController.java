@@ -20,6 +20,11 @@ import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaJuridicaRepository;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/me")
 public class MeController {
@@ -40,12 +45,28 @@ public class MeController {
     private PessoaJuridicaRepository pessoaJuridicaRepository;
 
     @GetMapping
+    @Operation(summary = "Obter dados do usuário autenticado", description = "Retorna os dados pessoais do usuário autenticado, seja Pessoa Física ou Jurídica.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Dados do usuário encontrados"),
+        @ApiResponse(responseCode = "400", description = "Usuário não encontrado ou sem dados")
+    })
     public ResponseEntity findUserOwnData() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Verifica se o usuário está autenticado
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.badRequest().body("Usuário não autenticado.");
+        }
+
+
         Optional<Usuario> usuario = usuarioRepository.findByEmail(authentication.getName());
 
-        Usuario findedUsuario = usuario.orElseThrow( () -> new RuntimeException("Usuario Não encontrado"));
+        if(!usuario.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        Usuario findedUsuario = usuario.get();
 
         System.out.println(findedUsuario.getUsername());
         System.out.println(findedUsuario.getId());
@@ -56,24 +77,34 @@ public class MeController {
             return ResponseEntity.ok(pessoaFisica.orElseThrow( () -> new RuntimeException("Pessoa Física não encontrada")));
         }
 
-
         Optional<PessoaJuridica> pessoaJuridica = pessoaJuridicaRepository.findByUsuario(findedUsuario);
         if(pessoaJuridica.isPresent()){
             return ResponseEntity.ok(pessoaJuridica.orElseThrow( () -> new RuntimeException("Pessoa Juridica não encontrada")));
         }
-
-        System.out.println("Dados do usuário não encontrado");
 
         return ResponseEntity.badRequest().build();
 
     }
 
 
+
+
+    @Operation(summary = "Listar pedidos de aluguel como locatário", description = "Lista todos os pedidos de aluguel em que o usuário autenticado é o locatário (cliente que aluga veículos).")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pedidos encontrados"),
+        @ApiResponse(responseCode = "404", description = "Usuário ou pedidos não encontrados")
+    })
     @GetMapping("/pedido-aluguel/locatario")
     public ResponseEntity<List<PedidoAluguel>> getAllLocatario() {
 
         //procura o usuário
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Verifica se o usuário está autenticado
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<Usuario> usuario = usuarioRepository.findByEmail(authentication.getName());
 
         if(!usuario.isPresent()){
@@ -95,13 +126,27 @@ public class MeController {
     }
 
 
+    @Operation(summary = "Listar pedidos de aluguel como locador", description = "Lista todos os pedidos de aluguel em que o usuário autenticado é o locador (proprietário que oferece veículos para aluguel).")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pedidos encontrados"),
+        @ApiResponse(responseCode = "404", description = "Usuário ou pedidos não encontrados")
+    })
     @GetMapping("/pedido-aluguel/locador")
     public ResponseEntity<List<PedidoAluguel>> getAllLocador() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Verifica se o usuário está autenticado
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<Usuario> usuario = usuarioRepository.findByEmail(authentication.getName());
 
-
+        if(!usuario.isPresent()){
+            return ResponseEntity.notFound().build(); //se não estiver presente lança a exeção
+        }
+        
         Usuario findedUsuario = usuario.orElseThrow( () -> new RuntimeException("Seu usuario não encontrado"));
         return ResponseEntity.ok(pedidoAluguelRepository.findByIdProprietario(findedUsuario.getId()));
 

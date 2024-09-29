@@ -22,6 +22,8 @@ import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaJuridicaRepository;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +39,7 @@ public class AuthController {
     private final TokenService tokenService;
 
 
+    @Operation(summary = "Login de usuário", description = "Autenticação do usuário e geração de token JWT.")
     @PostMapping("/login")
     public ResponseEntity<ResponseRegisterDTO>  login(@RequestBody LoginRequestDTO body){
         Usuario usuario = this.usuarioRepository.findByEmail(body.email()).orElseThrow( () -> new RuntimeException("User not found"));
@@ -52,7 +55,7 @@ public class AuthController {
         return ResponseEntity.badRequest().build();
     }
 
-
+    @Operation(summary = "Registro de cliente", description = "Registro de um novo cliente e geração de token JWT.")
     @PostMapping("/register/cliente")
     public ResponseEntity<ResponseRegisterDTO> registerCliente(@RequestBody ResgisterPessoaFisicaRequestDTO body){
 
@@ -79,7 +82,7 @@ public class AuthController {
         return ResponseEntity.badRequest().build();
     }
 
-    
+    @Operation(summary = "Registro de agente", description = "Registro de um novo agente e geração de token JWT.")
     @PostMapping("/register/agente")
     public ResponseEntity<ResponseRegisterDTO>   registerCliente(@RequestBody ResgisterPessoaJuridicaRequestDTO body){
 
