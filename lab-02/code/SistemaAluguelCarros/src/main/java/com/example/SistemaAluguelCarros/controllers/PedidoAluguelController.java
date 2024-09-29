@@ -54,7 +54,7 @@ public class PedidoAluguelController {
 
     @PostMapping
     @Operation(summary = "Criar um novo pedido de aluguel", 
-               description = "Cria um novo pedido de aluguel com base nas informações fornecidas.")
+               description = "Cria um novo pedido de aluguel ligado ao cliente autenticado com base nas informações fornecidas.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Pedido de aluguel criado com sucesso."),
         @ApiResponse(responseCode = "400", description = "Solicitação inválida. O automóvel pode não existir.")

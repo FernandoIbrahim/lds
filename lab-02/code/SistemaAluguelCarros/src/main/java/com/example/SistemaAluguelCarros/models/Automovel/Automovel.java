@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "automovel")
-public class Automovel {
+public class    Automovel {
 
     @Id
     @Column(name = "matricula", nullable = false)

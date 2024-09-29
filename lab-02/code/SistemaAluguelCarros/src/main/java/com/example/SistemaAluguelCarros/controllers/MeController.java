@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ public class MeController {
     private PessoaJuridicaRepository pessoaJuridicaRepository;
 
     @GetMapping
+    @PreAuthorize("hasRole('CLIENTE')")
     @Operation(summary = "Obter dados do usuário autenticado", description = "Retorna os dados pessoais do usuário autenticado, seja Pessoa Física ou Jurídica.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Dados do usuário encontrados"),
