@@ -56,7 +56,7 @@ public class AuthController {
     }
 
     @Operation(summary = "Registro de cliente", description = "Registro de um novo cliente e geração de token JWT.")
-    @PostMapping("/register/cliente")
+    @PostMapping("/registro/cliente")
     public ResponseEntity<ResponseRegisterDTO> registerCliente(@RequestBody ResgisterPessoaFisicaRequestDTO body){
 
         Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
@@ -83,8 +83,8 @@ public class AuthController {
     }
 
     @Operation(summary = "Registro de agente", description = "Registro de um novo agente e geração de token JWT.")
-    @PostMapping("/register/agente")
-    public ResponseEntity<ResponseRegisterDTO>   registerCliente(@RequestBody ResgisterPessoaJuridicaRequestDTO body){
+    @PostMapping("/registro/agente")
+    public ResponseEntity<ResponseRegisterDTO>   registroAgente(@RequestBody ResgisterPessoaJuridicaRequestDTO body){
 
         Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
 

@@ -44,7 +44,7 @@ public class ContratoController {
     }
 
     @PostMapping
-    public ResponseEntity<Contrato> create(@RequestBody Contrato contrato) {
+    public ResponseEntity<Contrato> post(@RequestBody Contrato contrato) {
         
         contrato.setDataAprovacao(LocalDate.now());
         Optional<PedidoAluguel> pedidoAluguelOptional = pedidoAluguelRepository.findById(contrato.getIdPedido());
@@ -73,7 +73,7 @@ public class ContratoController {
 
     // Atualizar contrato por ID
     @PutMapping("/{id}")
-    public ResponseEntity<Contrato> update(@PathVariable Long id, @RequestBody Contrato contratoDetails) {
+    public ResponseEntity<Contrato> put(@PathVariable Long id, @RequestBody Contrato contratoDetails) {
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Contrato não encontrado!", id));
 

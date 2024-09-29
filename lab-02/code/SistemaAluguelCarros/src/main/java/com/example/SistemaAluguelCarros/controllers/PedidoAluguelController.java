@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/pedido-aluguel")
+@RequestMapping("/pedidos-aluguel")
 public class PedidoAluguelController {
     
 

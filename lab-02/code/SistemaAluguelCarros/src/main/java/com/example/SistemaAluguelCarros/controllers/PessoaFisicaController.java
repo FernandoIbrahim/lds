@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/pessoa-fisica")
+@RequestMapping("/pessoas-fisicas")
 public class PessoaFisicaController {
     
     @Autowired
@@ -42,7 +42,7 @@ public class PessoaFisicaController {
 
     
     @GetMapping("/{id}")
-    public ResponseEntity<PessoaFisica> getMethodName(@PathVariable("id") Long id) {
+    public ResponseEntity<PessoaFisica> getById(@PathVariable("id") Long id) {
         PessoaFisica pessoaFisica = this.pessoaFisicaRepository.findById(id)
             .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!", id));
 
@@ -83,7 +83,7 @@ public class PessoaFisicaController {
     }
     
     @PutMapping("/{id}")
-public ResponseEntity<PessoaFisica> update(@PathVariable("id") Long id, @RequestBody PessoaFisica pessoaFisica) {
+public ResponseEntity<PessoaFisica> put(@PathVariable("id") Long id, @RequestBody PessoaFisica pessoaFisica) {
     
     // Buscar a PessoaFisica pelo ID
     PessoaFisica person = this.pessoaFisicaRepository.findById(id)

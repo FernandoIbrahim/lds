@@ -24,21 +24,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Usuario> getById(@PathVariable("id") Long id) {
         Usuario user = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!", id));
         return ResponseEntity.ok(user);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll () {
+    public ResponseEntity<List<Usuario>> getAll () {
         
         List<Usuario> users = usuarioRepository.findAll();
         return ResponseEntity.ok(users);
@@ -47,7 +47,7 @@ public class UsuarioController {
     
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody @Valid Usuario user) {
+    public ResponseEntity<Usuario> post(@RequestBody @Valid Usuario user) {
         Usuario created = usuarioRepository.save(user);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -59,7 +59,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable("id") Long id, @RequestBody Usuario user) {
+    public ResponseEntity<Usuario> put(@PathVariable("id") Long id, @RequestBody Usuario user) {
         usuarioRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado!", id));
 
@@ -68,7 +68,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         Usuario user = this.usuarioRepository.findById(id).get();
         this.usuarioRepository.delete(user);
         return ResponseEntity.noContent().build();

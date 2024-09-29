@@ -16,20 +16,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/automovel")
+@RequestMapping("/automoveis")
 public class AutomovelController {
     
     @Autowired
     AutomovelRepository automovelRepository;
 
     @GetMapping
-    public ResponseEntity<List<Automovel>> getAllAutomoveis() {
+    public ResponseEntity<List<Automovel>> getAll() {
         List<Automovel> automoveis = automovelRepository.findAll();
         return ResponseEntity.ok(automoveis);
     }   
 
     @PostMapping
-    public ResponseEntity<Automovel> createAutomovel(@RequestBody Automovel automovel) {
+    public ResponseEntity<Automovel> post(@RequestBody Automovel automovel) {
         Automovel savedAutomovel = automovelRepository.save(automovel);
         return ResponseEntity.ok(savedAutomovel); 
     }

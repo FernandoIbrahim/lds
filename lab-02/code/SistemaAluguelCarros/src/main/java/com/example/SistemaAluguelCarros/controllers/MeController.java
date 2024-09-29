@@ -96,7 +96,7 @@ public class MeController {
         @ApiResponse(responseCode = "200", description = "Pedidos encontrados"),
         @ApiResponse(responseCode = "404", description = "Usuário ou pedidos não encontrados")
     })
-    @GetMapping("/pedido-aluguel/locatario")
+    @GetMapping("/pedidos-aluguel/locatario")
     public ResponseEntity<List<PedidoAluguel>> getAllLocatario() {
 
         //procura o usuário
@@ -133,7 +133,7 @@ public class MeController {
         @ApiResponse(responseCode = "200", description = "Pedidos encontrados"),
         @ApiResponse(responseCode = "404", description = "Usuário ou pedidos não encontrados")
     })
-    @GetMapping("/pedido-aluguel/locador")
+    @GetMapping("/pedidos-aluguel/locador")
     public ResponseEntity<List<PedidoAluguel>> getAllLocador() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
