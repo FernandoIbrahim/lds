@@ -23,10 +23,11 @@ Como ( persona ) , eu ( quero, desejo ), ( para que ) .
 
 ### Empresas Parceiras
 - Como empresa parceira, eu quero realizar meu cadastro no sistema, para que eu possa oferecer vantagens aos alunos em troca de moedas.
-- Como empresa parceira, eu quero cadastrar as vantagens que desejo oferecer, para que os alunos possam utilizá-las em troca de moedas.
-- Como empresa parceira, eu quero adicionar uma descrição e foto do produto que estou oferecendo, para que os alunos tenham informações completas sobre a vantagem.
+- Como empresa parceira, eu quero gerenciar as vantagens que desejo oferecer, para que os alunos possam utilizá-las em troca de moedas.
+- Como empresa parceira, eu quero adicionar uma descrição e foto do produto que estou oferecendo, para que os alunos tenham informações completas sobre a vantagem. ??
 - Como empresa parceira, eu quero receber notificações por email quando um aluno resgatar uma vantagem, para que eu possa conferir a troca e verificar o uso do meu produto.
 
-### Administração
-- Como administrador, eu quero gerenciar as contas de alunos, professores e empresas parceiras, para que o sistema funcione de maneira organizada e eficiente.
-- Como administrador, eu quero monitorar o saldo de moedas dos professores, para garantir que a distribuição esteja dentro dos limites estabelecidos.
+
+## Instituição de Ensino
+- Como instituição de ensino desejo  cadastrar meus professores, para a sua futura utilização do sistema 
+- Como Instituição de ensino desejo cadastrar alunos, para a sua futura utilização do sistema.
