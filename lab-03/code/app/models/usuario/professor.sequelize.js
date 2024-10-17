@@ -1,7 +1,7 @@
 // models/professores.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize');
-const Usuario = require('./usuario'); // Importando o modelo Usuario
+const sequelize = require('../../config/sequelize');
+const Usuario = require('./usuario.sequelize'); // Importando o modelo Usuario
 
 const Professor = sequelize.define('Professor', {
   id: {

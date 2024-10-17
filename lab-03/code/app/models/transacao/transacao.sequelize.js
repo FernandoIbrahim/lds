@@ -1,8 +1,8 @@
 // models/transacao.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize'); // Certifique-se de que o caminho está correto
-const Usuario = require('./usuario'); // Importando o modelo Usuario
-const Vantagem = require('./vantagem'); // Importando o modelo Vantagens
+const sequelize = require('../../config/sequelize'); // Certifique-se de que o caminho está correto
+const Usuario = require('../usuario/usuario.sequelize'); // Importando o modelo Usuario
+const Vantagem = require('../vantagem/vantagem.sequelize'); // Importando o modelo Vantagens
 
 const Transacao = sequelize.define('Transacao', {
   id: {

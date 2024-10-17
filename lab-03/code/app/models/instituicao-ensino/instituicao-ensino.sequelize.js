@@ -1,6 +1,6 @@
 // models/instituicoesEnsino.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize'); // Certifique-se de que o caminho está correto
+const sequelize = require('../../config/sequelize'); 
 
 const InstituicoesEnsino = sequelize.define('InstituicoesEnsino', {
   id: {

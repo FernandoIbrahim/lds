@@ -1,15 +1,15 @@
 // models/empresas.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize');
-const Usuario = require('./usuario'); // Importando o modelo Usuario
+const sequelize = require('../../../config/sequelize');
+const Usuario = require('../usuario.sequelize'); 
 
 const Empresa = sequelize.define('Empresa', {
   id: {
     type: DataTypes.INTEGER,
-    primaryKey: true, // A chave primária deve ser verdadeira
+    primaryKey: true, 
     references: {
       model: Usuario,
-      key: 'id', // Referenciando o id do modelo Usuario
+      key: 'id', 
     },
   },
   nome_fantasia: {
@@ -25,5 +25,6 @@ const Empresa = sequelize.define('Empresa', {
   tableName: 'empresas', // Nome da tabela
 });
 
+Empresa.belongsTo(Usuario, { foreignKey: 'id' });
 // Exporta o modelo
 module.exports = Empresa;

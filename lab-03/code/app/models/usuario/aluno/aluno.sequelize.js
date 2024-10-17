@@ -1,27 +1,18 @@
 // models/alunos.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize');
-const Usuario = require('./usuario'); // Importando o modelo Usuario
+const sequelize = require('../../../config/sequelize');
+const Usuario = require('../usuario.sequelize'); // Importando o modelo Usuario
 
 const Aluno = sequelize.define('Aluno', {
   id: {
     type: DataTypes.INTEGER,
-    primaryKey: true, // A chave primária deve ser verdadeira
+    primaryKey: true,
     references: {
       model: Usuario,
-      key: 'id', // Referenciando o id do modelo Usuario
+      key: 'id', 
     },
   },
   nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  senha: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -36,13 +27,14 @@ const Aluno = sequelize.define('Aluno', {
   instituicao_id: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'instituicoes_ensino', // O nome da tabela no plural
+      model: 'instituicoes_ensino', 
       key: 'id',
     },
   },
 }, {
-  tableName: 'alunos', // Nome da tabela
+  tableName: 'alunos', 
 });
 
-// Exporta o modelo
+Aluno.belongsTo(Usuario, { foreignKey: 'id' });
+
 module.exports = Aluno;
