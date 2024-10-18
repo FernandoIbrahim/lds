@@ -1,7 +1,7 @@
 // models/vantagens.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/sequelize'); // Certifique-se de que o caminho está correto
-const Empresa = require('./empresa'); // Importando o modelo Empresas
+const Empresa = require('../usuario/empresa/empresa.sequelize'); // Importando o modelo Empresas
 
 const Vantagem = sequelize.define('Vantagens', {
   id: {

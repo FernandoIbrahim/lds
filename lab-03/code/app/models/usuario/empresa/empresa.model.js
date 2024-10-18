@@ -4,12 +4,12 @@ const { Error } = require('sequelize');
 
 async function create(nome_fantasia, email,senha ,cnpj) {
 
-    const usuario = Usuario.create({
+    const usuario = await Usuario.create({
         email,
         senha
     });
 
-    const empresa = Empresa.create({
+    const empresa = await Empresa.create({
         id: usuario.id,
         nome_fantasia,
         cnpj
@@ -20,7 +20,7 @@ async function create(nome_fantasia, email,senha ,cnpj) {
 };
 
 
-async function update(nome_fantasia, email,senha ,cnpj){
+async function update(id, nome_fantasia, email,senha ,cnpj){
 
     const usuario = await Usuario.findByPk(id);
     const empresa = await Empresa.findByPk(id);
@@ -31,6 +31,7 @@ async function update(nome_fantasia, email,senha ,cnpj){
     })
 
     empresa.set({
+        id,
         nome_fantasia,
         cnpj
     })
@@ -40,7 +41,7 @@ async function update(nome_fantasia, email,senha ,cnpj){
     }
 
     await usuario.save();
-    return await aluno.save();
+    return await empresa.save();
 
 }
 

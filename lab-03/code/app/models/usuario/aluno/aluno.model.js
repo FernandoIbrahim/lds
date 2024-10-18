@@ -6,6 +6,7 @@ async function create(nome, email,senha ,endereco, curso, instituicao_id) {
 
     const usuario = await Usuario.create({email,senha});
 
+
     const aluno = await Aluno.create({
         id: usuario.id,
         nome,

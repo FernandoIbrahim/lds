@@ -1,14 +1,14 @@
-const alunoModel = require('../../models/usuario/aluno/aluno.model');
+const empresaModel= require('../../models/usuario/empresa/empresa.model');
 
 async function httpPost(req, res){
 
     try{
     
-        const { nome, email, senha, endereco, curso, instituicao_id } = req.body;
+        const { nome_fantasia, email, senha, cnpj  } = req.body;
 
-        const aluno = await alunoModel.create(nome, email, senha, endereco, curso, instituicao_id );
+        const empresa = await empresaModel.create(nome_fantasia, email, senha, cnpj);
 
-        return res.status(201).json(aluno);
+        return res.status(201).json(empresa);
 
     }catch(error){
         console.log(error);
@@ -21,10 +21,10 @@ async function httpGetAll(req, res){
 
     try{
 
-        const alunos = await alunoModel.findAll();
+        const empresas = await empresaModel.findAll();
 
-        console.log(alunos);
-        return res.status(200).json(alunos);
+        console.log(empresas);
+        return res.status(200).json(empresas);
 
     }catch(error){
         console.log(error);
@@ -40,9 +40,9 @@ async function httpGetById(req, res){
         
         const id = req.params.id;
 
-        const aluno = await alunoModel.findById(id);
+        const empresa = await empresaModel.findById(id);
 
-        return res.status(200).json(aluno);
+        return res.status(200).json(empresa);
 
     }catch(error){
         return res.status(500).json({error: 'error ao encontrar o usuário'});
@@ -56,12 +56,12 @@ async function httpPut(req, res){
 
     try{
     
-        const { nome, email, senha, endereco, curso, instituicao_id } = req.body;
+        const { nome_fantasia, email, senha, cnpj  } = req.body;
         const id = req.params.id;
 
-        const aluno = await alunoModel.update(id, nome, email, senha, endereco, curso, instituicao_id );
+        const updatedEmpresa = await empresaModel.update( id, nome_fantasia, email, senha, cnpj  );
 
-        return res.status(200).json(aluno);
+        return res.status(200).json(updatedEmpresa);
 
     }catch(error){
         return res.status(500).json({error: 'error ao encontrar usuário'});
@@ -77,9 +77,9 @@ async function httpDelete(req, res){
     
         const id = req.params.id;
 
-        const deletedAluno =  await alunoModel.deleteById(id);
+        const deletedEmpresa =  await empresaModel.deleteById(id);
 
-        return res.status(204).json(deletedAluno);
+        return res.status(204).json(deletedEmpresa);
 
     }catch(error){
         return res.status(500).json({error: 'error ao deletar usuário'});
