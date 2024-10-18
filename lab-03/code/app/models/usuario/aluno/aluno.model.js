@@ -1,11 +1,17 @@
 const Aluno = require('./aluno.sequelize');
 const Usuario = require('../usuario.sequelize');
+const bcrypt = require('bcryptjs');
 const { Error } = require('sequelize');
 
-async function create(nome, email,senha ,endereco, curso, instituicao_id) {
+async function create(nome, email, senha ,endereco, curso, instituicao_id) {
 
-    const usuario = await Usuario.create({email,senha});
 
+    if(senha){
+        const salt = await bcrypt.genSalt(10);
+        encryptedSenha = await bcrypt.hash(senha, salt);
+    }
+
+    const usuario = await Usuario.create({email, senha: encryptedSenha});
 
     const aluno = await Aluno.create({
         id: usuario.id,
