@@ -1,0 +1,67 @@
+@startchen
+
+entity Usuario{
+  "id" as ID <<key>>
+  "email" as Email
+  "senha" as Senha
+  "pontos" as Pontos : int
+}
+
+entity Professor{
+  "cpf" as CPF <<key>>
+  "nome" as Nome
+  "materia" as Materia
+}
+
+entity Aluno{
+  "cpf" as CPF <<key>>
+  "nome" as Nome
+  "email" as Email
+  "senha" as Senha
+  "endereco" as Endereco
+  "curso" as Curso
+}
+
+entity "Transacao" as TRANSACAO {
+  "id" as ID <<key>>
+  "tipo" as Tipo : Enum
+  "data" as Data : Date
+  "valor" as Valor : float
+}
+
+entity Vantagem{
+  "id" as ID <<key>>
+  "nome" as Nome
+  "descricao" as Descricao
+  "foto" as Foto
+  "preco" as Preco : double
+}
+
+entity Empresa {
+  "id" as ID <<key>>
+  "nome" as Nome
+  "cnpj" as CNPJ
+  "endereco" as Endereco
+}
+
+relationship POSSUI {
+}
+
+relationship UTILIZA {
+}
+
+relationship OFERECE {
+}
+
+POSSUI =2= Usuario
+POSSUI -N- TRANSACAO 
+
+UTILIZA =1= TRANSACAO
+UTILIZA -N- Vantagem
+
+OFERECE =1= Empresa
+OFERECE -N- Vantagem
+
+Usuario ->- o { Professor, Aluno }
+
+@endchen
