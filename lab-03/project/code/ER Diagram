@@ -2,6 +2,7 @@
 
 entity Usuario{
   "id" as ID <<key>>
+  "nome" as Nome
   "email" as Email
   "senha" as Senha
   "pontos" as Pontos : int
@@ -9,15 +10,11 @@ entity Usuario{
 
 entity Professor{
   "cpf" as CPF <<key>>
-  "nome" as Nome
   "materia" as Materia
 }
 
 entity Aluno{
   "cpf" as CPF <<key>>
-  "nome" as Nome
-  "email" as Email
-  "senha" as Senha
   "endereco" as Endereco
   "curso" as Curso
 }
