@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const PORT = 3000;
 
 const authRouter = require('./routes/auth/auth.router')
@@ -9,7 +10,7 @@ const empresaRouter = require('./routes/empresa/empresa.routes');
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 
 app.use('/alunos', alunoRouter);
 app.use('/empresas', empresaRouter);
