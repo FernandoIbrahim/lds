@@ -25,31 +25,45 @@ async function create(nome, email, senha ,endereco, curso, instituicao_id) {
 
 };
 
-async function update(id, nome, email,senha ,endereco, curso, instituicao_id){
+
+
+async function update(id, nome, email, senha, endereco, curso, instituicao_id) {
+
+    console.log("id")
 
     const usuario = await Usuario.findByPk(id);
     const aluno = await Aluno.findByPk(id);
 
-    usuario.set({
-        email,
-        senha
-    })
 
-    aluno.set({
-        nome,
-        endereco,
-        curso,
-        instituicao_id
-    })
-
-    if(!usuario || !aluno){
-        throw new Error('Usuário não encontrado com o id infomado!');
+    if (!usuario || !aluno) {
+        throw new Error('Usuário ou Aluno não encontrado com o id informado!');
     }
 
-    await usuario.save();
-    return await aluno.save();
 
+    const usuarioUpdateFields = {};
+    if (email) {
+        usuarioUpdateFields.email = email;
+    }
+    if (senha) {
+        const salt = await bcrypt.genSalt(10);
+        usuarioUpdateFields.senha = await bcrypt.hash(senha, salt);
+    }
+
+
+    await usuario.update(usuarioUpdateFields);
+
+    const alunoUpdateFields = {};
+    if (nome) alunoUpdateFields.nome = nome;
+    if (endereco) alunoUpdateFields.endereco = endereco;
+    if (curso) alunoUpdateFields.curso = curso;
+    if (instituicao_id) alunoUpdateFields.instituicao_id = instituicao_id;
+
+
+    await aluno.update(alunoUpdateFields);
+
+    return await aluno; 
 }
+
 
 async function findAll(){
 

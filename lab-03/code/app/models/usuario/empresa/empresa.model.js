@@ -20,30 +20,36 @@ async function create(nome_fantasia, email,senha ,cnpj) {
 };
 
 
-async function update(id, nome_fantasia, email,senha ,cnpj){
-
+async function update(id, nome_fantasia, email, senha, cnpj) {
     const usuario = await Usuario.findByPk(id);
     const empresa = await Empresa.findByPk(id);
 
-    usuario.set({
-        email,
-        senha
-    })
-
-    empresa.set({
-        id,
-        nome_fantasia,
-        cnpj
-    })
-
-    if(!usuario || !empresa){
-        throw new Error('Usuário não encontrado com o id infomado!');
+    if (!usuario || !empresa) {
+        throw new Error('Usuário ou Empresa não encontrado com o id informado!');
     }
 
-    await usuario.save();
-    return await empresa.save();
 
+    const usuarioUpdateFields = {};
+    if (email) usuarioUpdateFields.email = email; 
+    if (senha) {
+        const salt = await bcrypt.genSalt(10);
+        usuarioUpdateFields.senha = await bcrypt.hash(senha, salt); 
+    }
+
+
+    await usuario.update(usuarioUpdateFields);
+
+
+    const empresaUpdateFields = {};
+    if (nome_fantasia) empresaUpdateFields.nome_fantasia = nome_fantasia;
+    if (cnpj) empresaUpdateFields.cnpj = cnpj;
+
+
+    await empresa.update(empresaUpdateFields);
+
+    return empresa; 
 }
+
 
 async function findAll(){
 
