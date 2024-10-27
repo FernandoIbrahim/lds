@@ -13,31 +13,27 @@ async function testDatabase() {
     await sequelize.sync({ force: true });
     console.log('Todas as tabelas foram criadas com sucesso!');
 
-    // Adicionando um usuário
     const usuario = await Usuario.create({
       email: 'usuario@example.com',
       senha: 'senha123',
     });
     console.log('Usuário criado:', usuario.toJSON());
 
-    // Adicionando uma instituição de ensino
     const instituicao = await InstituicaoEnsino.create({
       cnpj: '12.345.678/0001-90',
       nome: 'Instituição de Exemplo',
     });
     console.log('Instituição de ensino criada:', instituicao.toJSON());
 
-    // Adicionando um aluno
     const aluno = await Aluno.create({
       nome: 'Aluno Exemplo',
       endereco: 'Rua de Exemplo, 123',
       curso: 'Curso de Exemplo',
-      instituicao_id: instituicao.id, // Usando o ID da instituição criada
-      id: usuario.id, // Referência ao id do usuário
+      instituicao_id: instituicao.id, 
+      id: usuario.id,
     });
     console.log('Aluno criado:', aluno.toJSON());
 
-    // Adicionando uma empresa
     const empresa = await Empresa.create({
       nome_fantasia: 'Empresa Exemplo',
       cnpj: '12.345.678/0001-90',
@@ -65,14 +61,13 @@ async function testDatabase() {
     });
     console.log('Vantagem criada:', vantagem.toJSON());
 
-    // Adicionando uma transação
     const transacao = await Transacao.create({
       tipo: 'compra',
-      usuario1: usuario.id, // Referência ao primeiro usuário
-      usuario2: usuario.id, // Referência ao segundo usuário (aluno)
+      usuario1: usuario.id,
+      usuario2: usuario.id,
       data: new Date(),
       valor: 50.00,
-      vantagem_id: vantagem.id, // Referência à vantagem
+      vantagem_id: vantagem.id, 
     });
     console.log('Transação criada:', transacao.toJSON());
 

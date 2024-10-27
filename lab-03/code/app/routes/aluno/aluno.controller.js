@@ -23,7 +23,6 @@ async function httpGetAll(req, res){
 
         const alunos = await alunoModel.findAll();
 
-        console.log(alunos);
         return res.status(200).json(alunos);
 
     }catch(error){
