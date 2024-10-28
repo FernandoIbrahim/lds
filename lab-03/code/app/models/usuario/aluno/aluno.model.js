@@ -86,10 +86,11 @@ async function findById(id){
 
 
 async function deleteById(id){
-    const findedUser = await Usuario.findByPk(id);
+    const findedAluno = await Aluno.findByPk(id);
+    const findedUsuario = await Usuario.findByPk(id);
 
-    return await findedUser.destroy();
-    
+     await findedAluno.destroy();
+    return await findedUsuario.destroy();
 }
 
 module.exports = {

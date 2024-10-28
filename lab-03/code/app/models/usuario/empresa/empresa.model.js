@@ -73,9 +73,10 @@ async function findById(id){
 
 async function deleteById(id){
     const findedEmpresa = await Empresa.findByPk(id);
+    const findedUsuario = await Usuario.findByPk(id);
 
-    return await findedEmpresa.destroy();
-    
+     await findedEmpresa.destroy();
+    return await findedUsuario.destroy();
 }
 
 module.exports = {
