@@ -18,3 +18,4 @@ app.use('/auth', authRouter);
 
 
 app.listen(PORT);
+console.log("rodando na porta " + PORT)
