@@ -3,8 +3,8 @@ package com.example.SistemaAluguelCarros.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.SistemaAluguelCarros.models.Usuarios.PessoaFisica;
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
+import com.example.SistemaAluguelCarros.models.usuarios.PessoaFisica;
+import com.example.SistemaAluguelCarros.models.usuarios.Usuario;
 import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
 

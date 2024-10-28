@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.models.Automovel;
+package com.example.SistemaAluguelCarros.models;
 
 
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "automovel")
-public class    Automovel {
+public class Automovel {
 
     @Id
     @Column(name = "matricula", nullable = false)

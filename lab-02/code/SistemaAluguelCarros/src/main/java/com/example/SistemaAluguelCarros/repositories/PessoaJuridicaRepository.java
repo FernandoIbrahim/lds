@@ -2,8 +2,8 @@ package com.example.SistemaAluguelCarros.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.SistemaAluguelCarros.models.Usuarios.PessoaJuridica;
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
+import com.example.SistemaAluguelCarros.models.usuarios.PessoaJuridica;
+import com.example.SistemaAluguelCarros.models.usuarios.Usuario;
 
 import java.util.Optional;
 

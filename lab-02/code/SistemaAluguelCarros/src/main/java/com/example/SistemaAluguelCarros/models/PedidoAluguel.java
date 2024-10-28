@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.models.PedidosAlugel;
+package com.example.SistemaAluguelCarros.models;
 
 
 import java.time.LocalDate;

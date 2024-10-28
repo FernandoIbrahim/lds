@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.SistemaAluguelCarros.models.PedidosAlugel.PedidoAluguel;
-import com.example.SistemaAluguelCarros.models.Usuarios.PessoaFisica;
-import com.example.SistemaAluguelCarros.models.Usuarios.PessoaJuridica;
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
+import com.example.SistemaAluguelCarros.models.PedidoAluguel;
+import com.example.SistemaAluguelCarros.models.usuarios.PessoaFisica;
+import com.example.SistemaAluguelCarros.models.usuarios.PessoaJuridica;
+import com.example.SistemaAluguelCarros.models.usuarios.Usuario;
 import com.example.SistemaAluguelCarros.repositories.PedidoAluguelRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaJuridicaRepository;
@@ -24,7 +24,6 @@ import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/me")

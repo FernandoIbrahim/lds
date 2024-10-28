@@ -1,22 +1,18 @@
 package com.example.SistemaAluguelCarros.controllers;
 
 
-import com.example.SistemaAluguelCarros.models.Contratos.Contrato;
+import com.example.SistemaAluguelCarros.models.Contrato;
+import com.example.SistemaAluguelCarros.models.PedidoAluguel;
 import com.example.SistemaAluguelCarros.repositories.ContratoRepository;
 
 import java.util.Optional;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.validator.internal.engine.PredefinedScopeValidatorContextImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.SistemaAluguelCarros.repositories.PedidoAluguelRepository;
 import java.time.LocalDate;
-import com.example.SistemaAluguelCarros.models.PedidosAlugel.PedidoAluguel;
-
-
-
 import java.net.URI;
 import java.util.List;
 

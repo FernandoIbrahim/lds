@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.infraSecurity;
+package com.example.SistemaAluguelCarros.infra_security;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
+import com.example.SistemaAluguelCarros.models.usuarios.Usuario;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
 
 import jakarta.servlet.FilterChain;

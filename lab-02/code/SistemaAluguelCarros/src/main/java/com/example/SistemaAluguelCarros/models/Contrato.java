@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.models.Contratos;
+package com.example.SistemaAluguelCarros.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

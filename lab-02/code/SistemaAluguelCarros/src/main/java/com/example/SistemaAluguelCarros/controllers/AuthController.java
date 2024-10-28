@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.SistemaAluguelCarros.infraSecurity.TokenService;
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
-import com.example.SistemaAluguelCarros.models.Auth.dto.LoginRequestDTO;
-import com.example.SistemaAluguelCarros.models.Auth.dto.ResgisterPessoaFisicaRequestDTO;
-import com.example.SistemaAluguelCarros.models.Auth.dto.ResgisterPessoaJuridicaRequestDTO;
-import com.example.SistemaAluguelCarros.models.Auth.dto.ResponseRegisterDTO;
-import com.example.SistemaAluguelCarros.models.Usuarios.PessoaFisica;
-import com.example.SistemaAluguelCarros.models.Usuarios.PessoaJuridica;
-import com.example.SistemaAluguelCarros.models.Usuarios.UserRole;
+import com.example.SistemaAluguelCarros.dtos.auth.LoginRequestDTO;
+import com.example.SistemaAluguelCarros.dtos.auth.RegistrarPessoaFisicaRequestDTO;
+import com.example.SistemaAluguelCarros.dtos.auth.RegistrarPessoaJuridicaRequestDTO;
+import com.example.SistemaAluguelCarros.dtos.auth.ResponseRegisterDTO;
+import com.example.SistemaAluguelCarros.infra_security.TokenService;
+import com.example.SistemaAluguelCarros.models.usuarios.PessoaFisica;
+import com.example.SistemaAluguelCarros.models.usuarios.PessoaJuridica;
+import com.example.SistemaAluguelCarros.models.usuarios.UserRole;
+import com.example.SistemaAluguelCarros.models.usuarios.Usuario;
 import com.example.SistemaAluguelCarros.repositories.PessoaFisicaRepository;
 import com.example.SistemaAluguelCarros.repositories.PessoaJuridicaRepository;
 import com.example.SistemaAluguelCarros.repositories.UsuarioRepository;
@@ -41,7 +41,7 @@ public class AuthController {
 
     @Operation(summary = "Login de usuário", description = "Autenticação do usuário e geração de token JWT.")
     @PostMapping("/login")
-    public ResponseEntity<ResponseRegisterDTO>  login(@RequestBody LoginRequestDTO body){
+    public ResponseEntity<ResponseRegisterDTO> login(@RequestBody LoginRequestDTO body){
         Usuario usuario = this.usuarioRepository.findByEmail(body.email()).orElseThrow( () -> new RuntimeException("User not found"));
 
 
@@ -57,7 +57,7 @@ public class AuthController {
 
     @Operation(summary = "Registro de cliente", description = "Registro de um novo cliente e geração de token JWT.")
     @PostMapping("/registro/cliente")
-    public ResponseEntity<ResponseRegisterDTO> registerCliente(@RequestBody ResgisterPessoaFisicaRequestDTO body){
+    public ResponseEntity<ResponseRegisterDTO> registerCliente(@RequestBody RegistrarPessoaFisicaRequestDTO body){
 
         Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
 
@@ -84,7 +84,7 @@ public class AuthController {
 
     @Operation(summary = "Registro de agente", description = "Registro de um novo agente e geração de token JWT.")
     @PostMapping("/registro/agente")
-    public ResponseEntity<ResponseRegisterDTO>   registroAgente(@RequestBody ResgisterPessoaJuridicaRequestDTO body){
+    public ResponseEntity<ResponseRegisterDTO>  registerAgente(@RequestBody RegistrarPessoaJuridicaRequestDTO body){
 
         Optional<Usuario> usuario = this.usuarioRepository.findByEmail(body.email());
 

@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.infraSecurity;
+package com.example.SistemaAluguelCarros.infra_security;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.example.SistemaAluguelCarros.models.Usuarios.Usuario;
+import com.example.SistemaAluguelCarros.models.usuarios.Usuario;
 
 
 @Service

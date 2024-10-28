@@ -1,4 +1,4 @@
-package com.example.SistemaAluguelCarros.models.Usuarios;
+package com.example.SistemaAluguelCarros.models.usuarios;
 
 
 import java.util.Collection;
