@@ -8,7 +8,7 @@ function HomePage() {
 
   useEffect(() => {
     if (userId == null) {
-      //navigate('/');
+      // navigate('/');
     }
   }, [userId, navigate]); // Adicione userId e navigate como dependências
 
@@ -17,9 +17,12 @@ function HomePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-8 underline">Bem-vindo ao Sistema de Gerenciamento</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="flex flex-col items-center bg-gray-100 p-4 min-h-screen">
+      {/* Adicione um espaçamento acima da navbar */}
+      <div className="mt-4 mb-8"> {/* Ajuste aqui para a distância desejada */}
+        <h1 className="text-3xl font-bold underline">Bem-vindo ao Sistema de Gerenciamento</h1>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"> {/* Grid para 3 cards */}
         {/* Card Listar Empresas Parceiras */}
         <div
           className="bg-blue-50 border-2 border-blue-300 shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow"
@@ -56,20 +59,17 @@ function HomePage() {
             <p className="text-gray-700">Altere suas informações pessoais.</p>
           </div>
         ) : (
-            <div
+          <div
             className="bg-blue-50 border-2 border-blue-300 shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow"
             onClick={() => {
-                alert('Você não está cadastrado no sistema')
-                handleNavigation(`/`)
+              alert('Você não está cadastrado no sistema');
+              handleNavigation(`/`);
             }} // Rota para editar empresa
           >
             <h2 className="text-xl font-semibold mb-2">Editar Perfil</h2>
             <p className="text-gray-700">Altere suas informações pessoais.</p>
           </div>
         )}
-
-        {/* Card Excluir Perfil */}
-        
       </div>
     </div>
   );
