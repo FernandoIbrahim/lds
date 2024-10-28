@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Para obter parâmetros da URL e navegação
+import { useUserContext } from '../../hooks/UserContext';
+
 
 function EditarDadosEmpresa() {
+  const { setUserId, setUserType } = useUserContext(); // Usa o contexto
+
+
   const { id } = useParams(); // Obtém o ID da empresa da URL
   const navigate = useNavigate(); // Hook para navegação
   const [empresa, setEmpresa] = useState({
@@ -62,6 +67,8 @@ function EditarDadosEmpresa() {
       if (!response.ok) {
         throw new Error("Erro ao deletar empresa");
       }
+      setUserId(null)
+      setUserType(null)
       navigate("/listar-empresas"); // Navega de volta para a lista de empresas após a exclusão
     } catch (error) {
       console.error("Erro ao deletar empresa:", error);
