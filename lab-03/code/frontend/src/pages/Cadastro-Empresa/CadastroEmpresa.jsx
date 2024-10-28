@@ -46,6 +46,8 @@ function CadastroEmpresa() {
     } catch (error) {
       console.error("Erro ao cadastrar empresa:", error);
       alert("Erro ao cadastrar empresa. Tente novamente."); // Alerta de erro
+      navigate('/cadastro-empresa')
+
     }
   };
 

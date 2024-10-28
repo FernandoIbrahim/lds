@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Para obter parâmetros da URL e navegação
+import { useUserContext } from '../../hooks/UserContext';
+
 
 function EditarDadosAluno() {
+  const { setUserId, setUserType } = useUserContext(); // Usa o contexto
+
   const { id } = useParams(); // Obtém o ID do aluno da URL
   const navigate = useNavigate(); // Hook para navegação
   const [aluno, setAluno] = useState({
@@ -62,6 +66,8 @@ function EditarDadosAluno() {
       if (!response.ok) {
         throw new Error("Erro ao deletar aluno");
       }
+      setUserId(null)
+      setUserType(null)
       navigate("/listar-alunos"); // Navega de volta para a lista de alunos após a exclusão
     } catch (error) {
       console.error("Erro ao deletar aluno:", error);
