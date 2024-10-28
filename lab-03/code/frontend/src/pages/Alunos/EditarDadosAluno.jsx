@@ -16,6 +16,7 @@ function EditarDadosAluno() {
       pontos: 0,
     },
   }); // Estado para armazenar os dados do aluno
+  const [showModal, setShowModal] = useState(false); // Estado para controlar a visibilidade do modal
 
   // Função para buscar os dados do aluno
   const fetchAluno = async () => {
@@ -51,6 +52,23 @@ function EditarDadosAluno() {
     }
   };
 
+  // Função para deletar o aluno
+  const handleDelete = async () => {
+    console.log(id)
+    try {
+      const response = await fetch(`http://localhost:3000/alunos/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Erro ao deletar aluno");
+      }
+      navigate("/listar-alunos"); // Navega de volta para a lista de alunos após a exclusão
+    } catch (error) {
+      console.error("Erro ao deletar aluno:", error);
+    }
+  };
+
+  // Efeito para buscar os dados do aluno ao montar o componente
   useEffect(() => {
     fetchAluno(); // Chama a função ao montar o componente
   }, [id]);
@@ -115,15 +133,46 @@ function EditarDadosAluno() {
           />
         </div>
 
-        
-
         <button
           type="submit"
           className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
         >
           Atualizar Dados
         </button>
+
+        {/* Botão para deletar o aluno */}
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          className="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors ml-4"
+        >
+          Deletar Aluno
+        </button>
       </form>
+
+      {/* Modal de confirmação */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-lg font-bold mb-4">Confirmar Exclusão</h2>
+            <p>Tem certeza de que deseja deletar este aluno?</p>
+            <div className="mt-4">
+              <button
+                onClick={handleDelete}
+                className="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-700 mr-2"
+              >
+                Deletar
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-300 text-black font-semibold py-2 px-4 rounded-lg hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
