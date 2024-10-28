@@ -53,6 +53,7 @@ function CadastroAluno() {
     } catch (error) {
       console.error("Erro ao cadastrar aluno:", error);
       alert("Erro ao cadastrar aluno. Tente novamente."); // Alerta de erro
+      navigate('/')
     }
   };
 
