@@ -34,8 +34,10 @@ public class ContratoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Contrato> getById(@PathVariable Long id) {
+
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Contrato não encontrado!", id));
+                
         return ResponseEntity.ok(contrato);
     }
 
