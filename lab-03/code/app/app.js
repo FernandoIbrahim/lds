@@ -5,6 +5,7 @@ const PORT = 3000;
 const authRouter = require('./routes/auth/auth.router')
 const alunoRouter = require('./routes/aluno/aluno.routes');
 const empresaRouter = require('./routes/empresa/empresa.routes');
+const vantagensRouter = require('./routes/vantagem/vatagem.router');
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use('/alunos', alunoRouter);
 app.use('/empresas', empresaRouter);
 app.use('/auth', authRouter);
+app.use('/vantagens', vantagensRouter)
 
 
 app.listen(PORT);

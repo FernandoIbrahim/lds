@@ -1,35 +1,33 @@
-const Empresa = require('./empresa.sequelize');
+const Professor = require('./professor.sequelize');
 const Usuario = require('../usuario.sequelize');
-const bcrypt = require('bcryptjs');
 const { Error } = require('sequelize');
 
-async function create(nome_fantasia, email,senha ,cnpj) {
-
-    const salt = await bcrypt.genSalt(10);
-    hashSenha = await bcrypt.hash(senha, salt); 
+async function create(nome, cpf, materia, instituicao_id ,email, senha) {
 
     const usuario = await Usuario.create({
         email,
-        senha: hashSenha
+        senha
     });
 
-    const empresa = await Empresa.create({
+    const professor = await Professor.create({
         id: usuario.id,
-        nome_fantasia,
-        cnpj
+        cpf,
+        nome,
+        materia,
+        instituicao_id
     })
 
-    return empresa;
+    return professor;
 
 };
 
 
-async function update(id, nome_fantasia, email, senha, cnpj) {
+async function update(nome, cpf, materia, instituicao_id ,email, senha) {
     const usuario = await Usuario.findByPk(id);
-    const empresa = await Empresa.findByPk(id);
+    const professor = await Professor.findByPk(id);
 
-    if (!usuario || !empresa) {
-        throw new Error('Usuário ou Empresa não encontrado com o id informado!');
+    if (!usuario || !professor) {
+        throw new Error('Usuário ou Professor não encontrado com o id informado!');
     }
 
 
@@ -44,9 +42,11 @@ async function update(id, nome_fantasia, email, senha, cnpj) {
     await usuario.update(usuarioUpdateFields);
 
 
-    const empresaUpdateFields = {};
-    if (nome_fantasia) empresaUpdateFields.nome_fantasia = nome_fantasia;
-    if (cnpj) empresaUpdateFields.cnpj = cnpj;
+    const professorUpdateFields = {};
+    if (nome) professorUpdateFields.nome = nome;
+    if (cpf) professorUpdateFields.cpf = cpf;
+    if(materia) professorUpdateFields.materia = materia;
+    if(instituicao_id) professorUpdateFields.instituicao_id = instituicao_id;
 
 
     await empresa.update(empresaUpdateFields);
