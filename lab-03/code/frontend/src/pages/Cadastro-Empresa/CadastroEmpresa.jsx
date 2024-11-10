@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Para navegação programátic
 import { useUserContext } from '../../hooks/UserContext';
 
 function CadastroEmpresa() {
-  const { setUserId, setUserType } = useUserContext(); // Usa o contexto
+  const { setUserId, setUserType, setToken } = useUserContext(); // Usa o contexto
 
   const [nomeFantasia, setNomeFantasia] = useState("");
   const [email, setEmail] = useState(""); // Novo estado para o email
@@ -40,6 +40,30 @@ function CadastroEmpresa() {
 
       setUserId(createdEmpresa.id);
       setUserType('empresa');
+      
+
+      // Realiza o login após o cadastro da empresa
+      const loginResponse = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          senha
+        }),
+      });
+
+      if (!loginResponse.ok) {
+        throw new Error("Erro ao fazer login");
+      }
+
+      const loginData = await loginResponse.json();
+      console.log("Login realizado com sucesso:", loginData);
+
+      // Atualiza o contexto com o token recebido
+      setToken(loginData.token);
+
       alert("Empresa cadastrada com sucesso!"); // Alerta de sucesso
       navigate("/pagina-inicial"); // Redireciona para a página de sucesso
 
@@ -47,7 +71,6 @@ function CadastroEmpresa() {
       console.error("Erro ao cadastrar empresa:", error);
       alert("Erro ao cadastrar empresa. Tente novamente."); // Alerta de erro
       navigate('/cadastro-empresa')
-
     }
   };
 

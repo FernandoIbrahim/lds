@@ -72,6 +72,11 @@ function LoginPage() {
             </div>
           )}
         </div>
+
+        {/* Link para login caso já tenha cadastro */}
+        <div className="mt-6 text-center text-gray-700">
+          <p>Já tem cadastro? <Link to="/login" className="text-blue-500 hover:text-blue-700">Faça Login</Link></p>
+        </div>
       </div>
     </div>
   );

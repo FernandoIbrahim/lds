@@ -23,6 +23,7 @@ function HomePage() {
         <h1 className="text-3xl font-bold underline">Bem-vindo ao Sistema de Gerenciamento</h1>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"> {/* Grid para 3 cards */}
+
         {/* Card Listar Empresas Parceiras */}
         <div
           className="bg-blue-50 border-2 border-blue-300 shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow"
@@ -39,6 +40,15 @@ function HomePage() {
         >
           <h2 className="text-xl font-semibold mb-2">Listar Alunos</h2>
           <p className="text-gray-700">Consulte todos os alunos cadastrados no sistema.</p>
+        </div>
+
+        {/* Card Listar Vantagens */}
+        <div
+          className="bg-blue-50 border-2 border-blue-300 shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => handleNavigation("/listar-vantagens")}
+        >
+          <h2 className="text-xl font-semibold mb-2">Listar Vantagens</h2>
+          <p className="text-gray-700">Descubra as vantagens disponíveis.</p>
         </div>
 
         {/* Card Editar Perfil com lógica de userType */}
@@ -64,7 +74,7 @@ function HomePage() {
             onClick={() => {
               alert('Você não está cadastrado no sistema');
               handleNavigation(`/`);
-            }} // Rota para editar empresa
+            }}
           >
             <h2 className="text-xl font-semibold mb-2">Editar Perfil</h2>
             <p className="text-gray-700">Altere suas informações pessoais.</p>

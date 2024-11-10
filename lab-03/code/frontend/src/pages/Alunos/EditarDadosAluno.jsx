@@ -4,7 +4,7 @@ import { useUserContext } from '../../hooks/UserContext';
 
 
 function EditarDadosAluno() {
-  const { setUserId, setUserType } = useUserContext(); // Usa o contexto
+  const { setUserId, setUserType,setToken } = useUserContext(); // Usa o contexto
 
   const { id } = useParams(); // Obtém o ID do aluno da URL
   const navigate = useNavigate(); // Hook para navegação
@@ -68,6 +68,7 @@ function EditarDadosAluno() {
       }
       setUserId(null)
       setUserType(null)
+      setToken(null)
       navigate("/listar-alunos"); // Navega de volta para a lista de alunos após a exclusão
     } catch (error) {
       console.error("Erro ao deletar aluno:", error);

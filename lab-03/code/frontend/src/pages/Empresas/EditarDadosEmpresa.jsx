@@ -4,7 +4,7 @@ import { useUserContext } from '../../hooks/UserContext';
 
 
 function EditarDadosEmpresa() {
-  const { setUserId, setUserType } = useUserContext(); // Usa o contexto
+  const { setUserId, setUserType, setToken } = useUserContext(); // Usa o contexto
 
 
   const { id } = useParams(); // Obtém o ID da empresa da URL
@@ -69,6 +69,7 @@ function EditarDadosEmpresa() {
       }
       setUserId(null)
       setUserType(null)
+      setToken(null)
       navigate("/listar-empresas"); // Navega de volta para a lista de empresas após a exclusão
     } catch (error) {
       console.error("Erro ao deletar empresa:", error);
