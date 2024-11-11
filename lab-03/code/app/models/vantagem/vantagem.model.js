@@ -59,7 +59,8 @@ async function findAll(){
 
 
 async function findById(id){
-    const vantagem = await Empresa.findByPk(id, {
+
+    const vantagem = await Vantagem.findByPk(id, {
         include: Empresa
     });
 

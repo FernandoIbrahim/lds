@@ -34,7 +34,25 @@ async function httpGetAll(req, res){
     }
 }
 
+
+async function httpGetById(req, res){
+    try{
+
+        const vantagemId = req.params.id;
+        console.log(vantagemId);
+
+        const vantagem = await vantagemModel.findById(vantagemId);
+
+        return res.status(200).json(vantagem);
+
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({error: 'error ao encontrar vantagem'});
+    }
+}
+
 module.exports = {
     httpGetAll,
+    httpGetById,
     httpPost
 }
