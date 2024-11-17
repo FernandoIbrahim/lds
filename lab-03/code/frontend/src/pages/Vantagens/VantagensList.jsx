@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../hooks/UserContext";
 import Modal from "./Modal"; // Importando o Modal
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 function VantagensList() {
-  const [vantagens, setVantagens] = useState([]); // Estado para armazenar vantagens
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar a visibilidade do modal
-  const { userType, token } = useUserContext(); // Usa o contexto para pegar o tipo de usuário e token
+  const [vantagens, setVantagens] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { userType, token, userId } = useUserContext();
 
-  // Função para buscar as vantagens
   const fetchVantagens = async () => {
     try {
       const response = await fetch("http://localhost:3000/vantagens");
@@ -15,85 +15,100 @@ function VantagensList() {
         throw new Error("Erro ao buscar vantagens");
       }
       const data = await response.json();
-      setVantagens(data);
+
+      if (userType === "empresa") {
+        const vantagensDaEmpresa = data.filter(
+          (vantagem) => vantagem.empresa_id === userId
+        );
+        setVantagens(vantagensDaEmpresa);
+      } else {
+        setVantagens(data);
+      }
     } catch (error) {
       console.error("Erro ao buscar vantagens:", error);
     }
   };
 
-  // Função para cadastrar uma nova vantagem
   const handleCadastrarVantagem = async (novaVantagem) => {
+    if(novaVantagem.preco < 1){
+      alert("Não é possível cadastrar vantagens com preço negativo!")
+      return
+    }
+
     try {
       const response = await fetch("http://localhost:3000/vantagens", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` // Passando o token no cabeçalho Authorization
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(novaVantagem)
+        body: JSON.stringify(novaVantagem),
       });
 
       if (!response.ok) {
         throw new Error("Erro ao cadastrar vantagem");
       }
 
-      // Após o cadastro, refazer a busca das vantagens para obter a lista completa
-      fetchVantagens(); // Chama novamente a função de buscar as vantagens
-      
-      console.log("Vantagem cadastrada com sucesso!");
-      setIsModalOpen(false); // Fecha o modal após o cadastro
+      fetchVantagens();
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Erro ao cadastrar vantagem:", error);
     }
   };
 
-  // Função para abrir o modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Função para fechar o modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    fetchVantagens(); // Chama a função ao montar o componente
-  }, []);
+    fetchVantagens();
+  }, [userType]);
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-6 text-green-600">Lista de Vantagens</h1>
+      <h1 className="text-3xl font-bold mb-6 text-green-700">
+        {userType === "empresa" ? "Vantagens Cadastradas" : "Lista de Vantagens"}
+      </h1>
 
-      {/* Botão de Cadastrar Vantagem (exibido apenas para empresas) */}
       {userType === "empresa" && (
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-green-600 transition-colors"
-          onClick={openModal} // Abre o modal
+          className="bg-green-500 text-white px-4 py-2 rounded-lg mb-14 hover:bg-green-600 transition-colors"
+          onClick={openModal}
         >
           Cadastrar Vantagem
         </button>
       )}
 
-      {/* Modal para cadastrar vantagem */}
       <Modal
         isOpen={isModalOpen}
-        onClose={closeModal} // Fecha o modal
-        onSubmit={handleCadastrarVantagem} // Envia os dados do formulário para cadastrar
+        onClose={closeModal}
+        onSubmit={handleCadastrarVantagem}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {vantagens.map((vantagem) => (
           <div
             key={vantagem.id}
-            className="bg-green-50 border-2 border-green-300 shadow-md rounded-lg p-6"
+            className="bg-white border-2 border-gray-200 shadow-md rounded-lg p-4 hover:shadow-lg transition-all"
           >
-            <h2 className="text-xl font-semibold mb-2 text-green-600">
-              {vantagem.nome}
-            </h2>
-            <p className="text-gray-700"><strong>Descrição:</strong> {vantagem.desc}</p>
-            <p className="text-gray-700"><strong>Preço:</strong>  {vantagem.preco.toFixed(2)} Moedas</p>
-            <p className="text-gray-700"><strong>Empresa:</strong> {vantagem.Empresa.nome_fantasia}</p>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-green-700">
+                {vantagem.nome}
+              </h2>
+              {userType === "empresa" && (
+                <div className="flex gap-2">
+                  
+                </div>
+              )}
+            </div>
+            <p className="text-gray-600">
+              <strong>Descrição:</strong> {vantagem.desc}
+            </p>
+            <p className="text-gray-600">
+              <strong>Preço:</strong> {vantagem.preco.toFixed(2)} Moedas
+            </p>
+            <p className="text-gray-600">
+              <strong>Empresa:</strong> {vantagem.Empresa.nome_fantasia}
+            </p>
           </div>
         ))}
       </div>

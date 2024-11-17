@@ -20,6 +20,9 @@ import { UserProvider } from './hooks/UserContext'; // Ajuste o caminho conforme
 import CadastroEmpresa from './pages/Cadastro-Empresa/CadastroEmpresa';
 import EditarDadosEmpresa from './pages/Empresas/EditarDadosEmpresa';
 import VantagensList from './pages/Vantagens/VantagensList';
+import CadastroProfessor from './pages/Cadastro-Professor/CadastroProfessor';
+import ListaTransacoes from './pages/Transacoes/ListaTransacoes';
+import EditarDadosProfessor from './pages/Professores/EditarDadosProfessor';
 
 function App() {
   return (
@@ -32,12 +35,15 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path='/cadastro-aluno' element={<CadastroAluno />} />
           <Route path='/cadastro-empresa' element={<CadastroEmpresa />} />
+          <Route path='/cadastro-professor' element={<CadastroProfessor/>}></Route>
           <Route path='/pagina-inicial' element={<HomePage />} />
           <Route path='/listar-empresas' element={<EmpresaList />} />
           <Route path='/listar-alunos' element={<AlunoList />} />
           <Route path='/editar-alunos/:id' element={<EditarDadosAluno />} />
           <Route path='/editar-empresas/:id' element={<EditarDadosEmpresa />} />
+          <Route path='/editar-professores/:id' element={<EditarDadosProfessor/>}/>
           <Route path='/listar-vantagens' element={<VantagensList/>}/>
+          <Route path='/extrato' element={<ListaTransacoes/>}></Route>
 
 
         </Routes>

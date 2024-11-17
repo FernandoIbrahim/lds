@@ -36,5 +36,6 @@ const Professor = sequelize.define('Professor', {
   tableName: 'professores', // Nome da tabela
 });
 
-// Exporta o modelo
+Professor.belongsTo(Usuario, { foreignKey: 'id' });
+
 module.exports = Professor;
