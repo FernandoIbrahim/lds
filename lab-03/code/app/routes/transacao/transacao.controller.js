@@ -7,6 +7,11 @@ async function httpPost(req, res){
     try{
         const userId = getUserIdFromToken(req);
 
+
+        if (!userId) {
+            return res.status(401).json({ message: 'Usuário não autenticado.' });
+        }
+
         const { tipo, receptorUserId, valor, vantagemId } = req.body;
 
         if (!tipo) {
