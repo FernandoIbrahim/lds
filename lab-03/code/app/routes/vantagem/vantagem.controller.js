@@ -1,4 +1,4 @@
-const vantagemModel= require('../../models/vantagem/vantagem.model');
+const vantagemModel= require('../../models/vantagem/vantagem.repository');
 
 const { getUserIdFromToken } = require('../../services/jwt-decoder');
 
