@@ -3,7 +3,7 @@ import { useUserContext } from "../../hooks/UserContext";
 import { FaGift } from "react-icons/fa";
 
 function AlunoList() {
-  const { userType, token } = useUserContext();
+  const { userType, token, setMudar, mudar } = useUserContext();
   const [alunos, setAlunos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +25,7 @@ function AlunoList() {
 
   useEffect(() => {
     fetchAlunos();
-  }, []);
+  }, [mudar]);
 
   const alunosFiltrados = alunos.filter((aluno) =>
     aluno.nome.toLowerCase().includes(filtro.toLowerCase())
@@ -57,6 +57,8 @@ function AlunoList() {
       setValorDoacao("");
       setShowModal(false);
       alert("Doação realizada com sucesso!");
+      setMudar(mudar + 1)
+      console.log(mudar)
     } catch (error) {
       console.error("Erro ao doar:", error);
     }
@@ -114,7 +116,7 @@ function AlunoList() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h2 className="text-lg font-bold mb-4">Doação de Moedas</h2>
-            <p>Você está doando para: <strong>{alunoSelecionado?.nome}</strong></p>
+            <p className="mb-4">Você está doando para: <strong>{alunoSelecionado?.nome}</strong></p>
             <input
               type="number"
               placeholder="Valor da Doação"

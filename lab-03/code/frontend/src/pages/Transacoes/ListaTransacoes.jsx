@@ -30,6 +30,10 @@ function ListaTransacoes() {
         }
 
         const data = await response.json();
+        
+        // Ordenando as transações pela data (do mais recente para o mais antigo)
+        data.sort((a, b) => new Date(b.data) - new Date(a.data));
+
         setTransacoesOriginais(data);
         setTransacoesFiltradas(data);
       } catch (error) {
