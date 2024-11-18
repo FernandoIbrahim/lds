@@ -58,6 +58,7 @@ function Navbar() {
             <>
               <div className="text-white flex items-center space-x-7">
                 <span className="font-semibold">Olá, {userInfo?.email}</span>
+                <span className="font-semibold">ID: {userId}</span>
                 <span className="px-3 py-1 bg-yellow-600 rounded-full text-black text-sm ">
                   {userInfo?.pontos} pontos
                 </span>

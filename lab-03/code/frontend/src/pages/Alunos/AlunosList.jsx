@@ -124,6 +124,12 @@ function AlunoList() {
               onChange={(e) => setValorDoacao(e.target.value)}
               className="border border-gray-300 rounded-lg p-3 w-full mb-4"
             />
+
+            <input
+              type="text"
+              placeholder="Justificativa"
+              className="border border-gray-300 rounded-lg p-3 w-full mb-4"
+            />
             <div className="flex justify-between">
               <button
                 onClick={handleDoar}

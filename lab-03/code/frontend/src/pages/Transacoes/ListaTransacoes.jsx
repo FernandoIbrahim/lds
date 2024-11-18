@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FaDonate, FaShoppingCart, FaFilter } from "react-icons/fa";
+import { FaDonate, FaShoppingCart, FaFilter, FaBitcoin } from "react-icons/fa";
 import { useUserContext } from "../../hooks/UserContext";
+import { GrTransaction } from "react-icons/gr";
+
+
+
 
 function ListaTransacoes() {
-  const { token } = useUserContext();
+  const { token, userId } = useUserContext();
   const [transacoesOriginais, setTransacoesOriginais] = useState([]);
   const [transacoesFiltradas, setTransacoesFiltradas] = useState([]);
   const [erro, setErro] = useState(null);
@@ -90,15 +94,21 @@ function ListaTransacoes() {
                 className="flex items-center justify-between border-b py-4 last:border-b-0"
               >
                 <div className="flex items-center">
-                  {transacao.tipo === "doacao" ? (
-                    <FaDonate className="text-green-500 mr-3 text-lg" />
-                  ) : (
+                  {transacao.tipo === "doacao" && userId == transacao.usuario1 ? (
+                    
+                    <GrTransaction className="text-red-500 mr-3 text-lg" />
+                    
+                  ) : transacao.tipo === "doacao" && userId != transacao.usuario1 ? (
+                    <GrTransaction className="text-green-500 mr-3 text-lg" />
+
+                  ): (
                     <FaShoppingCart className="text-blue-500 mr-3 text-lg" />
                   )}
                   <div>
-                    <p className="text-gray-800 font-medium">
+                    <p className="text-gray-800 font-medium flex flex-nowrap">
                       {transacao.tipo.charAt(0).toUpperCase() + transacao.tipo.slice(1)} - R$
-                      {transacao.valor.toFixed(2)}
+                      
+                      {transacao.valor.toFixed(2)} <span className="text-yellow-600 ml-3 mt-1"><FaBitcoin/></span>
                     </p>
                     <p className="text-gray-500 text-sm">
                       Data: {new Date(transacao.data).toLocaleString()}
