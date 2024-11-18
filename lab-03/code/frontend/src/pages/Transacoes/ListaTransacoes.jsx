@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaDonate, FaShoppingCart, FaFilter, FaBitcoin } from "react-icons/fa";
 import { useUserContext } from "../../hooks/UserContext";
 import { GrTransaction } from "react-icons/gr";
+import ItemTransacao from "./ItemTransacao";
 
 
 
@@ -94,16 +95,7 @@ function ListaTransacoes() {
                 className="flex items-center justify-between border-b py-4 last:border-b-0"
               >
                 <div className="flex items-center">
-                  {transacao.tipo === "doacao" && userId == transacao.usuario1 ? (
-                    
-                    <GrTransaction className="text-red-500 mr-3 text-lg" />
-                    
-                  ) : transacao.tipo === "doacao" && userId != transacao.usuario1 ? (
-                    <GrTransaction className="text-green-500 mr-3 text-lg" />
-
-                  ): (
-                    <FaShoppingCart className="text-blue-500 mr-3 text-lg" />
-                  )}
+                  <ItemTransacao transaction={transacao}/>
                   <div>
                     <p className="text-gray-800 font-medium flex flex-nowrap">
                       {transacao.tipo.charAt(0).toUpperCase() + transacao.tipo.slice(1)} - R$
