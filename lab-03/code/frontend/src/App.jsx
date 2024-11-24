@@ -23,6 +23,7 @@ import VantagensList from './pages/Vantagens/VantagensList';
 import CadastroProfessor from './pages/Cadastro-Professor/CadastroProfessor';
 import ListaTransacoes from './pages/Transacoes/ListaTransacoes';
 import EditarDadosProfessor from './pages/Professores/EditarDadosProfessor';
+import DetalhesTransacao from './pages/Transacoes/DetalhesTransacao';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path='/editar-professores/:id' element={<EditarDadosProfessor/>}/>
           <Route path='/listar-vantagens' element={<VantagensList/>}/>
           <Route path='/extrato' element={<ListaTransacoes/>}></Route>
+          <Route path='/extrato/:id' element={<DetalhesTransacao/>}></Route>
 
 
         </Routes>

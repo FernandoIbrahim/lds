@@ -8,6 +8,7 @@ function AlunoList() {
   const [filtro, setFiltro] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [valorDoacao, setValorDoacao] = useState("");
+  const [justificativa, setJustificativa] = useState(""); // Novo estado para justificativa
   const [alunoSelecionado, setAlunoSelecionado] = useState(null);
 
   const fetchAlunos = async () => {
@@ -32,8 +33,8 @@ function AlunoList() {
   );
 
   const handleDoar = async () => {
-    if (valorDoacao <= 0 || !alunoSelecionado) {
-      alert('Não foi possível realizar a transação');
+    if (valorDoacao <= 0 || !justificativa || !alunoSelecionado) {
+      alert("Preencha todos os campos obrigatórios.");
       return;
     }
     try {
@@ -41,12 +42,13 @@ function AlunoList() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           tipo: "doacao",
           receptorUserId: alunoSelecionado.usuario.id,
           valor: parseInt(valorDoacao),
+          desc: justificativa,
         }),
       });
 
@@ -55,10 +57,10 @@ function AlunoList() {
       }
 
       setValorDoacao("");
+      setJustificativa(""); // Limpar o estado da justificativa
       setShowModal(false);
       alert("Doação realizada com sucesso!");
-      setMudar(mudar + 1)
-      console.log(mudar)
+      setMudar(mudar + 1);
     } catch (error) {
       console.error("Erro ao doar:", error);
     }
@@ -124,10 +126,11 @@ function AlunoList() {
               onChange={(e) => setValorDoacao(e.target.value)}
               className="border border-gray-300 rounded-lg p-3 w-full mb-4"
             />
-
             <input
               type="text"
               placeholder="Justificativa"
+              value={justificativa}
+              onChange={(e) => setJustificativa(e.target.value)}
               className="border border-gray-300 rounded-lg p-3 w-full mb-4"
             />
             <div className="flex justify-between">
