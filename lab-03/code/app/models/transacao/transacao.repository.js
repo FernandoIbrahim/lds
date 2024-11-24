@@ -5,7 +5,7 @@ const { Error, where } = require('sequelize');
 const { Op } = require('sequelize'); 
 
 
-async function create(tipo, loggedUserId, receptorUserId , valor, vantagemId) {
+async function create(tipo, loggedUserId, receptorUserId , valor, vantagemId, desc) {
 
     const loggedUser = await Usuario.findByPk(loggedUserId);
 
@@ -16,7 +16,7 @@ async function create(tipo, loggedUserId, receptorUserId , valor, vantagemId) {
     var transacao;
 
     if(tipo == "doacao" ){
-        transacao = await donation(loggedUser, valor, receptorUserId);
+        transacao = await donation(loggedUser, valor, desc ,receptorUserId);
     }
 
     if(tipo == "compra" ){
@@ -65,7 +65,7 @@ async function purchase(comprador, vantagemId) {
 
 
 
-async function donation(doador, valor, receptorUserId) {
+async function donation(doador, valor, desc ,receptorUserId){
     const receptorUser = await Usuario.findByPk(receptorUserId);
 
     if (!receptorUser) {
@@ -86,6 +86,7 @@ async function donation(doador, valor, receptorUserId) {
         tipo: "doacao",
         usuario1: doador.id,
         usuario2: receptorUser.id,
+        desc: desc,
         valor: valor,
         data: new Date(),
     });

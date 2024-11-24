@@ -8,6 +8,7 @@ const empresaRouter = require('./routes/empresa/empresa.routes');
 const vantagensRouter = require('./routes/vantagem/vatagem.router');
 const transacaoRouter = require('./routes/transacao/transacao.router');
 const userRouter = require('./routes/usuario/usuario.router');
+const uploadRouter = require('./routes/uploads/uploads.router');
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use('/auth', authRouter);
 app.use('/vantagens', vantagensRouter)
 app.use('/transacao', transacaoRouter)
 app.use('/user', userRouter);
+
+app.use('/uploads', express.static('uploads'));
+app.use('/api', uploadRouter);
 
 app.listen(PORT);
 console.log("rodando na porta " + PORT)

@@ -30,6 +30,10 @@ const Transacao = sequelize.define('Transacao', {
       key: 'id', // Chave que será usada para a referência
     },
   },
+  desc: {
+    type: DataTypes.TEXT, 
+    allowNull: true, 
+  },
   data: {
     type: DataTypes.DATE,
     allowNull: false, // A data não pode ser nula

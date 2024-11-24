@@ -12,14 +12,14 @@ async function httpPost(req, res){
             return res.status(401).json({ message: 'Usuário não autenticado.' });
         }
 
-        const { tipo, receptorUserId, valor, vantagemId } = req.body;
+        const { tipo, receptorUserId, valor, vantagemId, desc} = req.body;
 
         if (!tipo) {
             return res.status(400).json({ error: 'Dados insuficientes para criar a transação' });
         }
 
 
-        const transacao = await transacaoRepository.create(tipo, userId ,receptorUserId, valor, vantagemId );
+        const transacao = await transacaoRepository.create(tipo, userId ,receptorUserId, valor, vantagemId, desc);
 
         return res.status(201).json(transacao);
 
