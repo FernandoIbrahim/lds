@@ -1,12 +1,18 @@
 const Professor = require('./professor.sequelize');
 const Usuario = require('../usuario.sequelize');
+const bcrypt = require('bcryptjs');
+
 const { Error } = require('sequelize');
 
 async function create(nome, cpf, materia, instituicao_id ,email, senha) {
 
+    const salt = await bcrypt.genSalt(10);
+    hashSenha = await bcrypt.hash(senha, salt); 
+
     const usuario = await Usuario.create({
         email,
-        senha
+        senha: hashSenha,
+        pontos: 1000
     });
 
     const professor = await Professor.create({
@@ -22,7 +28,7 @@ async function create(nome, cpf, materia, instituicao_id ,email, senha) {
 };
 
 
-async function update(nome, cpf, materia, instituicao_id ,email, senha) {
+async function update(id, nome, cpf, materia, instituicao_id ,email, senha) {
     const usuario = await Usuario.findByPk(id);
     const professor = await Professor.findByPk(id);
 
@@ -49,15 +55,15 @@ async function update(nome, cpf, materia, instituicao_id ,email, senha) {
     if(instituicao_id) professorUpdateFields.instituicao_id = instituicao_id;
 
 
-    await empresa.update(empresaUpdateFields);
+    await professor.update(professorUpdateFields);
 
-    return empresa; 
+    return professor; 
 }
 
 
 async function findAll(){
 
-    const empresas = await Empresa.findAll({
+    const empresas = await Professor.findAll({
         include: Usuario
     })
 
@@ -67,7 +73,7 @@ async function findAll(){
 
 
 async function findById(id){
-    const empresas = await Empresa.findByPk(id, {
+    const empresas = await Professor.findByPk(id, {
         include: Usuario
     });
 
@@ -76,7 +82,7 @@ async function findById(id){
 
 
 async function deleteById(id){
-    const findedEmpresa = await Empresa.findByPk(id);
+    const findedEmpresa = await Professor.findByPk(id);
     const findedUsuario = await Usuario.findByPk(id);
 
      await findedEmpresa.destroy();

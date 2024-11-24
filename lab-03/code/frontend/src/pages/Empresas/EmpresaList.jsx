@@ -28,26 +28,32 @@ function EmpresaList() {
   );
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600">Lista de Empresas</h1>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-4xl font-bold text-blue-700 mb-6">Lista de Empresas</h1>
       {/* Barra de Pesquisa */}
-      <input
-        type="text"
-        placeholder="Buscar por Nome Fantasia"
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value)} // Atualiza o filtro
-        className="border border-gray-300 rounded-lg p-2 mb-4 w-full"
-      />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Buscar por Nome Fantasia"
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)} // Atualiza o filtro
+          className="w-full p-3 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      {/* Listagem das Empresas */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {empresasFiltradas.map((empresa) => (
           <div
             key={empresa.id}
-            className="bg-blue-50 border-2 border-blue-300 shadow-md rounded-lg p-6 cursor-pointer hover:shadow-lg transition-shadow"
+            className="bg-white border-2 border-blue-300 rounded-lg shadow-lg p-6 transition-all hover:shadow-xl hover:scale-105 transform"
           >
-            <h2 className="text-xl font-semibold mb-2 text-blue-600">
-              {empresa.nome_fantasia}
-            </h2>
-            <p className="text-gray-700">CNPJ: {empresa.cnpj}</p>
+            <h2 className="text-2xl font-semibold text-blue-600 mb-4">{empresa.nome_fantasia}</h2>
+            <p className="text-gray-700 text-sm mb-2">
+              <strong>CNPJ:</strong> {empresa.cnpj}
+            </p>
+            <p className="text-gray-700 text-sm">
+              <strong>Atividade:</strong> {empresa.atividade_economica || "Não especificada"}
+            </p>
           </div>
         ))}
       </div>
