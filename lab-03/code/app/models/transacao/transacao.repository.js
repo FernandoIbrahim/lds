@@ -75,7 +75,7 @@ async function purchase(comprador, vantagemId) {
         cupom_id: cupom.id
     });
 
-    sendEmailToUser(comprador.id, vantagem, cupom);
+    sendEmaitoUserPurchase(comprador.id, vantagem, cupom);
 
     return transacao;
 }
@@ -177,7 +177,7 @@ async function cupomCreate(vantagemId) {
 
 
 
-async function sendEmailToUser(loggedUserId, vantagem, cupom){
+async function sendEmaitoUserPurchase(loggedUserId, vantagem, cupom){
 
     const user = await Usuario.findByPk(loggedUserId);
 

@@ -15,7 +15,7 @@ async function sendEmail(to, subject, text, html = '') {
     service: 'gmail', 
     auth: {
       user: 'offut14@gmail.com', 
-      pass: 'sssssssss', 
+      pass: 'xxxxxxxxxxx', 
     },
   });
 
