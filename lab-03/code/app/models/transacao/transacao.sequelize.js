@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/sequelize'); // Certifique-se de que o caminho está correto
 const Usuario = require('../usuario/usuario.sequelize'); // Importando o modelo Usuario
 const Vantagem = require('../vantagem/vantagem.sequelize'); // Importando o modelo Vantagens
+const Cupom = require('../cupom/cupom.sequelize');
 
 const Transacao = sequelize.define('Transacao', {
   id: {
@@ -50,6 +51,14 @@ const Transacao = sequelize.define('Transacao', {
       key: 'id', // Chave que será usada para a referência
     },
   },
+  cupom_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true, // O cupom vinculado pode ser nulo
+    references: {
+      model: Cupom, // Referência ao modelo Cupom
+      key: 'id', // Chave que será usada para a referência
+    },
+  },
 }, {
   tableName: 'transacoes', // Nome da tabela no banco de dados
 });
@@ -58,6 +67,7 @@ const Transacao = sequelize.define('Transacao', {
 Transacao.belongsTo(Usuario, { foreignKey: 'usuario1', targetKey: 'id', onDelete: 'CASCADE' });
 Transacao.belongsTo(Usuario, { foreignKey: 'usuario2', targetKey: 'id', onDelete: 'CASCADE' });
 Transacao.belongsTo(Vantagem, { foreignKey: 'vantagem_id', targetKey: 'id', onDelete: 'SET NULL' }); // Vínculo a uma vantagem
+Transacao.belongsTo(Cupom, { foreignKey: 'cupom_id', targetKey: 'id', onDelete: 'SET NULL' }); // Vínculo a um cupom
 
 // Exporta o modelo
 module.exports = Transacao;

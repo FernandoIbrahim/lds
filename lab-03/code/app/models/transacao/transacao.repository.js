@@ -1,6 +1,8 @@
 const Usuario = require('../usuario/usuario.sequelize');
 const Transacao = require('./transacao.sequelize');
+const Cupom = require('../cupom/cupom.sequelize');
 const Vantagem = require('../vantagem/vantagem.sequelize');
+const { v4: uuidv4 } = require('uuid'); 
 const { Error, where } = require('sequelize');
 const { Op } = require('sequelize'); 
 
@@ -28,12 +30,23 @@ async function create(tipo, loggedUserId, receptorUserId , valor, vantagemId, de
 
 
 async function purchase(comprador, vantagemId) {
+
     const vantagem = await Vantagem.findByPk(vantagemId);
+
+      
 
     if (!vantagem) {
         throw new Error('Vantagem não encontrada');
     }
 
+    const cupom = await cupomCreate(vantagemId);
+
+      
+    if (cupom) {
+      console.log('Cupom encontrado:', cupom.toJSON());
+    } else {
+      console.log('Nenhum cupom encontrado com o nome fornecido.');
+    }
 
     if(comprador.pontos < vantagem.preco){
         throw new Error('Usuário é incapaz de completar a transão');
@@ -56,8 +69,9 @@ async function purchase(comprador, vantagemId) {
         usuario1: comprador.id,
         usuario2: receptorUser.id,
         valor: vantagem.preco,
-        vantagem_id: vantagemId,
+        vantagem_id: vantagem.id,
         data: new Date(),
+        cupom_id: cupom.id
     });
 
     return transacao;
@@ -120,3 +134,38 @@ module.exports = {
     findAll
 }
 
+
+
+
+async function cupomCreate(vantagemId) {
+  try {
+    // Obtém a vantagem pelo ID
+    const vantagem = await Vantagem.findByPk(vantagemId);
+
+    if (!vantagem) {
+      throw new Error(`Vantagem com ID ${vantagemId} não encontrada`);
+    }
+
+    // Gera um código único e define um nome baseado na vantagem
+    const codigo = uuidv4().slice(0, 8); // Pega os 8 primeiros caracteres do UUID
+    const nome = `Cupom-${vantagem.nome.replace(/\s+/g, '-')}`; // Substitui espaços no nome da vantagem por '-'
+
+    // Cria o cupom
+    const cupom = await Cupom.create({
+      nome,
+      codigo,
+      vantagem_id: vantagem.id, // Relaciona com a vantagem
+    });
+
+    console.log('Cupom criado com sucesso:', cupom.toJSON());
+    return cupom;
+  } catch (error) {
+    console.error('Erro ao criar o cupom:', error.message);
+  }
+}
+
+// Exemplo de uso
+(async () => {
+  const vantagemId = 1; // Substitua pelo ID real da vantagem
+  await cupomCreate(vantagemId);
+})();
