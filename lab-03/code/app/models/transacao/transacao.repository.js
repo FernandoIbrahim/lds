@@ -108,6 +108,8 @@ async function donation(doador, valor, desc ,receptorUserId){
         data: new Date(),
     });
 
+    sendEmailToUserDonation(doador.id, valor, receptorUserId);
+
     return transacao;
 
 }
@@ -186,6 +188,23 @@ async function sendEmailToUser(loggedUserId, vantagem, cupom){
     const title = "Vatagem comprada";
 
     const text = "Vatagem " + vantagem.nome + " comprada com sucesso! \nToken de resgate: " + cupom.codigo;
+
+    sendEmail(userEmail, title, text);
+
+}
+
+
+async function sendEmailToUserDonation(loggedUserId, valor, id_receptor){
+
+    const user = await Usuario.findByPk(loggedUserId);
+
+    const userEmail = user.email;
+
+    const recetor = await Usuario.findByPk(id_receptor);
+
+    const title = "Vatagem comprada";
+
+    const text = "Doação de  " + valor + "ponto feita com sucesso, para o usuário " + recetor.nome;  
 
     sendEmail(userEmail, title, text);
 
