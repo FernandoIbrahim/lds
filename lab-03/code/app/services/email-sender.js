@@ -14,14 +14,14 @@ async function sendEmail(to, subject, text, html = '') {
   const transporter = nodemailer.createTransport({
     service: 'gmail', 
     auth: {
-      user: 'your-email@gmail.com', 
-      pass: 'your-email-password', 
+      user: 'offut14@gmail.com', 
+      pass: 'xxxxxxxxxxxxx', 
     },
   });
 
   // Configuração da mensagem
   const mailOptions = {
-    from: 'your-email@gmail.com',
+    from: 'offut14@gmail.com',
     to: to, 
     subject: subject, 
     text: text, 
@@ -36,6 +36,4 @@ async function sendEmail(to, subject, text, html = '') {
   }
 }
 
-sendEmail('recipient@example.com', 'Assunto do E-mail', 'Corpo do e-mail em texto')
-  .then(() => console.log('E-mail enviado com sucesso!'))
-  .catch((err) => console.error('Erro ao enviar e-mail:', err));
+module.exports = sendEmail;

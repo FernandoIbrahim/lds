@@ -2,6 +2,11 @@ const Usuario = require('../usuario/usuario.sequelize');
 const Transacao = require('./transacao.sequelize');
 const Cupom = require('../cupom/cupom.sequelize');
 const Vantagem = require('../vantagem/vantagem.sequelize');
+
+
+const sendEmail = require('../../services/email-sender');
+
+
 const { v4: uuidv4 } = require('uuid'); 
 const { Error, where } = require('sequelize');
 const { Op } = require('sequelize'); 
@@ -33,8 +38,6 @@ async function purchase(comprador, vantagemId) {
 
     const vantagem = await Vantagem.findByPk(vantagemId);
 
-      
-
     if (!vantagem) {
         throw new Error('Vantagem não encontrada');
     }
@@ -42,14 +45,12 @@ async function purchase(comprador, vantagemId) {
     const cupom = await cupomCreate(vantagemId);
 
       
-    if (cupom) {
-      console.log('Cupom encontrado:', cupom.toJSON());
-    } else {
-      console.log('Nenhum cupom encontrado com o nome fornecido.');
+    if (!cupom) {
+        throw new Error('Não foi possivel cirar o cupom');
     }
 
     if(comprador.pontos < vantagem.preco){
-        throw new Error('Usuário é incapaz de completar a transão');
+        throw new Error('Usuário é incapaz de completar a transão devido ao saldo');
     }
 
     const receptorUser = await Usuario.findByPk(vantagem.empresa_id);
@@ -73,6 +74,8 @@ async function purchase(comprador, vantagemId) {
         data: new Date(),
         cupom_id: cupom.id
     });
+
+    sendEmailToUser(comprador.id, vantagem, cupom);
 
     return transacao;
 }
@@ -169,3 +172,21 @@ async function cupomCreate(vantagemId) {
   const vantagemId = 1; // Substitua pelo ID real da vantagem
   await cupomCreate(vantagemId);
 })();
+
+
+
+async function sendEmailToUser(loggedUserId, vantagem, cupom){
+
+    const user = await Usuario.findByPk(loggedUserId);
+
+    const userEmail = user.email;
+
+    console.log(userEmail)
+
+    const title = "Vatagem comprada";
+
+    const text = "Vatagem " + vantagem.nome + " comprada com sucesso! \nToken de resgate: " + cupom.codigo;
+
+    sendEmail(userEmail, title, text);
+
+}
