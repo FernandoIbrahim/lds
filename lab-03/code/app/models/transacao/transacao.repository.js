@@ -75,7 +75,7 @@ async function purchase(comprador, vantagemId) {
         cupom_id: cupom.id
     });
 
-    sendEmaitoUserPurchase(comprador.id, vantagem, cupom);
+    sendEmailPurchase(comprador.id, vantagem, cupom);
 
     return transacao;
 }
@@ -108,7 +108,7 @@ async function donation(doador, valor, desc ,receptorUserId){
         data: new Date(),
     });
 
-    sendEmailToUserDonation(doador.id, valor, receptorUserId);
+    sendEmailDonation(doador.id, valor, receptorUserId);
 
     return transacao;
 
@@ -177,7 +177,7 @@ async function cupomCreate(vantagemId) {
 
 
 
-async function sendEmaitoUserPurchase(loggedUserId, vantagem, cupom){
+async function sendEmailPurchase(loggedUserId, vantagem, cupom){
 
     const user = await Usuario.findByPk(loggedUserId);
 
@@ -194,18 +194,20 @@ async function sendEmaitoUserPurchase(loggedUserId, vantagem, cupom){
 }
 
 
-async function sendEmailToUserDonation(loggedUserId, valor, id_receptor){
+async function sendEmailDonation(loggedUserId, valor, id_receptor){
 
     const user = await Usuario.findByPk(loggedUserId);
 
-    const userEmail = user.email;
+    const receptor = await Usuario.findByPk(id_receptor);
 
-    const recetor = await Usuario.findByPk(id_receptor);
+    const receptorEmail = receptor.email;
 
     const title = "Vatagem comprada";
 
-    const text = "Doação de  " + valor + "ponto feita com sucesso, para o usuário " + recetor.nome;  
-
-    sendEmail(userEmail, title, text);
+    const text = `
+    ${receptor.nome} recebeu uma doação de ${valor} ponto(s)!\n
+    Professor: ${user.nome}
+    `
+    sendEmail(receptorEmail, title, text);
 
 }
