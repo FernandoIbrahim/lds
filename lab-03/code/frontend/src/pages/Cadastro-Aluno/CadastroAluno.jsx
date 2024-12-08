@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para navegação programática
 import { useUserContext } from '../../hooks/UserContext';
+import { createAluno } from "../../services/aluno";
 
 
 function CadastroAluno() {
@@ -28,22 +29,9 @@ function CadastroAluno() {
     };
 
     try {
-      // Faz a requisição para criar o aluno
-      const response = await fetch("http://localhost:3000/alunos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(alunoData),
-      });
+      const createdAluno = await createAluno(alunoData);
 
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar aluno");
-      }
-
-      const createdAluno = await response.json(); // Recebe o aluno criado da resposta
       console.log("Aluno criado:", createdAluno); // Log do aluno criado
-
      
       setUserId(createdAluno.id);
       setUserType('aluno');

@@ -3,6 +3,8 @@ import { FaDonate, FaShoppingCart, FaFilter, FaBitcoin } from "react-icons/fa";
 import { useUserContext } from "../../hooks/UserContext";
 import { GrTransaction } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";  // Importe useNavigate
+import { getTransacoes } from "../../services/transacao";
+
 
 function ListaTransacoes() {
   const { token, userId } = useUserContext();
@@ -19,47 +21,10 @@ function ListaTransacoes() {
 
   const navigate = useNavigate(); // Hook para navegação
 
-  // Função para buscar detalhes da vantagem
-  const fetchVantagem = async (vantagemId) => {
-    if (vantagens[vantagemId]) return vantagens[vantagemId]; // Evitar fetch duplicado
-    try {
-      const response = await fetch(`http://localhost:3000/vantagens/${vantagemId}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao carregar vantagem.");
-      }
-
-      const data = await response.json();
-      setVantagens((prev) => ({ ...prev, [vantagemId]: data.nome }));
-      return data.nome;
-    } catch (error) {
-      console.error(`Erro ao buscar vantagem ${vantagemId}:`, error);
-      return "Detalhes indisponíveis";
-    }
-  };
-
   useEffect(() => {
     const fetchTransacoes = async () => {
       try {
-        const response = await fetch("http://localhost:3000/transacao", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Erro ao carregar as transações.");
-        }
-
-        const data = await response.json();
+        const data = await getTransacoes();
 
         // Ordenando as transações pela data (do mais recente para o mais antigo)
         data.sort((a, b) => new Date(b.data) - new Date(a.data));

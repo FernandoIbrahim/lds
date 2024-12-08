@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Para obter parâmetros da URL e navegação
 import { useUserContext } from '../../hooks/UserContext';
+import { getAluno, updateAluno, deleteAluno } from "../../services/aluno";
 
 
 function EditarDadosAluno() {
@@ -25,11 +26,7 @@ function EditarDadosAluno() {
   // Função para buscar os dados do aluno
   const fetchAluno = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/alunos/${id}`);
-      if (!response.ok) {
-        throw new Error("Erro ao buscar aluno");
-      }
-      const data = await response.json();
+      const data = await getAluno(id);
       setAluno(data);
     } catch (error) {
       console.error("Erro ao buscar aluno:", error);
@@ -40,16 +37,7 @@ function EditarDadosAluno() {
   const handleUpdate = async (e) => {
     e.preventDefault(); // Evita o comportamento padrão do formulário
     try {
-      const response = await fetch(`http://localhost:3000/alunos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(aluno),
-      });
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar aluno");
-      }
+      await updateAluno(id, aluno);
       navigate("/listar-alunos"); // Navega de volta para a lista de alunos após a atualização
     } catch (error) {
       console.error("Erro ao atualizar aluno:", error);
@@ -60,12 +48,7 @@ function EditarDadosAluno() {
   const handleDelete = async () => {
     console.log(id)
     try {
-      const response = await fetch(`http://localhost:3000/alunos/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Erro ao deletar aluno");
-      }
+      await deleteAluno(id);
       setUserId(null)
       setUserType(null)
       setToken(null)

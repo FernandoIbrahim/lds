@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../hooks/UserContext"; // Importando seu contexto
+import { login } from "../services/auth";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,23 +15,7 @@ function Login() {
 
     try {
       // Enviar requisição POST para o backend usando fetch
-      const response = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          senha,
-        }),
-      });
-
-      // Verifica se a resposta é bem-sucedida
-      if (!response.ok) {
-        throw new Error("Email ou senha inválidos.");
-      }
-
-      const data = await response.json();
+      const data = await login(email, senha);
 
       // Desestruturando a resposta
       const { token, usuario, tipoUser } = data;

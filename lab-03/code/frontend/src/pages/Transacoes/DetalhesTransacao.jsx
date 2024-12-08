@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaDonate, FaShoppingCart, FaBitcoin } from "react-icons/fa";
 import { useUserContext } from "../../hooks/UserContext";
+import { getTransacao } from "../../services/transacao";
+import { getAluno } from "../../services/aluno";
+import { getProfessor } from "../../services/professor";
+import { getEmpresa } from "../../services/empresa";
 
 function DetalhesTransacao() {
   const { id } = useParams();
-  const { token, userId } = useUserContext(); 
+  const { userType } = useUserContext(); 
   const [transacao, setTransacao] = useState(null);
   const [erro, setErro] = useState(null);
   const [vantagem, setVantagem] = useState(null);
@@ -13,53 +17,22 @@ function DetalhesTransacao() {
   const [usuario2, setUsuario2] = useState(null);
 
   const fetchUsuario = async (id, setUsuario) => {
-    let response1, response2, response3;
     try {
-      response1 = await fetch(`http://localhost:3000/alunos/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      let data;
+      if (userType === 'aluno') {
+        data = await getAluno(id);
+      } else if (userType === 'professor') {
+        data = await getProfessor(id);
+      } else {
+        data = await getEmpresa(id);
+      }
   
-      response2 = await fetch(`http://localhost:3000/professores/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-  
-      response3 = await fetch(`http://localhost:3000/empresas/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (response1.ok || response2.ok || response3.ok) {
-        const data1 = await response1.json();
-        let data2 = null;
-        if (response2.ok && response2.status !== 404) {
-          data2 = await response2.json();
-        }
-        const data3 = await response3.json();
-        let responseFinal;
-  
-        if (data1) responseFinal = data1;
-        else if (data2) responseFinal = data2;
-        else responseFinal = data3;
-  
-        if (responseFinal && responseFinal.usuario && responseFinal.usuario.email) {
-          setUsuario(responseFinal.usuario.email);
-        } else {
-          throw new Error("Usuário não encontrado.");
-        }
+      if (data.usuario && data.usuario.email) {
+        setUsuario(data.usuario.email);
       } else {
         throw new Error("Usuário não encontrado.");
       }
+
     } catch (error) {
       console.error("Erro ao buscar o usuário:", error);
       setErro(error.message);
@@ -68,41 +41,17 @@ function DetalhesTransacao() {
   
   const fetchTransacao = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/transacao`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const data = await getTransacao(id);
+      setTransacao(data);
 
-      if (!response.ok) {
-        throw new Error("Erro ao carregar as transações.");
-      }
-
-      const data = await response.json();
-      const transacaoEncontrada = data.find((transacao) => transacao.id === parseInt(id));
-      setTransacao(transacaoEncontrada);
-
-      if (transacaoEncontrada) {
-        await fetchUsuario(transacaoEncontrada.usuario2, setUsuario2);
+      if (data) {
+        await fetchUsuario(data.usuario2, setUsuario2);
         //setUsuario1(userId);
-        await fetchUsuario(transacaoEncontrada.usuario1, setUsuario1);
+        await fetchUsuario(data.usuario1, setUsuario1);
 
 
-        if (transacaoEncontrada.vantagem_id) {
-          const vantagemResponse = await fetch(`http://localhost:3000/vantagens/${transacaoEncontrada.vantagem_id}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
-
-          if (vantagemResponse.ok) {
-            const vantagemData = await vantagemResponse.json();
-            setVantagem(vantagemData);
-          }
+        if (data.vantagem) {
+          setVantagem(data.vantagem);
         }
       }
     } catch (error) {
@@ -113,7 +62,7 @@ function DetalhesTransacao() {
 
   useEffect(() => {
     fetchTransacao();
-  }, [id, token, userId]);
+  }, [id]);
 
   if (erro) {
     return (

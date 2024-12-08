@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { useUserContext } from '../hooks/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { FaSignOutAlt } from 'react-icons/fa'; // Importando o ícone de logout
+import { getUser } from '../services/usuario';
 
 function Navbar() {
-  const { userType, setUserId, setUserType, setToken, userId, token, mudar } = useUserContext();
+  const { userType, setUserId, setUserType, setToken, userId, mudar } = useUserContext();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
 
@@ -24,27 +25,17 @@ function Navbar() {
     // Função para buscar as informações do usuário logado
     const fetchUserInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/user/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setUserInfo(data);
-        } else {
-          console.error('Erro ao buscar informações do usuário');
-        }
+        const data = await getUser();
+        setUserInfo(data);
       } catch (error) {
-        console.error('Erro ao buscar informações do usuário:', error);
+        console.error(error);
       }
     };
 
     if (userId) {
       fetchUserInfo();
     }
-  }, [userId, token, mudar]);
+  }, [userId, mudar]);
 
   return (
     <nav className="bg-blue-600 p-4 shadow-md">

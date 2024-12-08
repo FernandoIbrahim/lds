@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../hooks/UserContext";
-import { FaGift } from "react-icons/fa";
+import { FaGift } from "react-icons/fa";  
+import { createTransacao } from "../../services/transacao";
+import { getAlunos } from "../../services/aluno";
 
 function AlunoList() {
   const { userType, token, setMudar, mudar } = useUserContext();
@@ -13,11 +15,7 @@ function AlunoList() {
 
   const fetchAlunos = async () => {
     try {
-      const response = await fetch("http://localhost:3000/alunos");
-      if (!response.ok) {
-        throw new Error("Erro ao buscar alunos");
-      }
-      const data = await response.json();
+      const data = await getAlunos(token);
       setAlunos(data);
     } catch (error) {
       console.error("Erro ao buscar alunos:", error);
@@ -38,23 +36,12 @@ function AlunoList() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/transacao", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tipo: "doacao",
-          receptorUserId: alunoSelecionado.usuario.id,
-          valor: parseInt(valorDoacao),
-          desc: justificativa,
-        }),
+      await createTransacao({
+        tipo: "doacao",
+        receptorUserId: alunoSelecionado.usuario.id,
+        valor: parseInt(valorDoacao),
+        desc: justificativa,
       });
-
-      if (!response.ok) {
-        throw new Error("Erro ao fazer a doação");
-      }
 
       setValorDoacao("");
       setJustificativa(""); // Limpar o estado da justificativa

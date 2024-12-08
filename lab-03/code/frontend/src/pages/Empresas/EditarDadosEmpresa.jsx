@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Para obter parâmetros da URL e navegação
 import { useUserContext } from '../../hooks/UserContext';
-
+import { getEmpresa, updateEmpresa, deleteEmpresa } from "../../services/empresa";
 
 function EditarDadosEmpresa() {
   const { setUserId, setUserType, setToken } = useUserContext(); // Usa o contexto
@@ -20,11 +20,7 @@ function EditarDadosEmpresa() {
   // Função para buscar os dados da empresa
   const fetchEmpresa = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/empresas/${id}`);
-      if (!response.ok) {
-        throw new Error("Erro ao buscar empresa");
-      }
-      const data = await response.json();
+      const data = await getEmpresa(id);
       setEmpresa(data);
     } catch (error) {
       console.error("Erro ao buscar empresa:", error);
@@ -42,16 +38,7 @@ function EditarDadosEmpresa() {
     };
     console.log(empresaUpdate);
     try {
-      const response = await fetch(`http://localhost:3000/empresas/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(empresaUpdate),
-      });
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar empresa");
-      }
+      await updateEmpresa(id, empresaUpdate);
       navigate("/listar-empresas"); // Navega de volta para a lista de empresas após a atualização
     } catch (error) {
       console.error("Erro ao atualizar empresa:", error);
@@ -61,12 +48,7 @@ function EditarDadosEmpresa() {
   // Função para deletar a empresa
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/empresas/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Erro ao deletar empresa");
-      }
+      await deleteEmpresa(id);
       setUserId(null)
       setUserType(null)
       setToken(null)

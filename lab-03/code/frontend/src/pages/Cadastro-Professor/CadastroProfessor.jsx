@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from '../../hooks/UserContext';
+import { createProfessor } from "../../services/professor";
+import { login } from "../../services/auth";
 
 function CadastroProfessor() {
   const { setUserId, setUserType, setToken } = useUserContext();
@@ -26,41 +28,14 @@ function CadastroProfessor() {
 
     try {
       // Cria o professor
-      const response = await fetch("http://localhost:3000/professores", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(professorData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar professor");
-      }
-
-      const createdProfessor = await response.json();
+      const createdProfessor = await createProfessor(professorData);
       console.log("Professor criado:", createdProfessor);
 
       setUserId(createdProfessor.id);
       setUserType('professor');
 
       // Realiza login após cadastro
-      const loginResponse = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          senha,
-        }),
-      });
-
-      if (!loginResponse.ok) {
-        throw new Error("Erro ao fazer login");
-      }
-
-      const loginData = await loginResponse.json();
+      const loginData = await login(email, senha);
       setToken(loginData.token);
 
       alert("Professor cadastrado com sucesso!");

@@ -2,20 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../hooks/UserContext";
 import Modal from "./Modal"; // Importando o Modal
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { getUser } from "../../services/usuario";
+import { createTransacao } from "../../services/transacao";
+import { getVantagens } from "../../services/vantagem";
 
 function VantagensList() {
   const [vantagens, setVantagens] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const { userType, token, userId, mudar, setMudar } = useUserContext();
+  const { userType, userId, mudar, setMudar } = useUserContext();
 
   const fetchVantagens = async () => {
     try {
-      const response = await fetch("http://localhost:3000/vantagens");
-      if (!response.ok) {
-        throw new Error("Erro ao buscar vantagens");
-      }
-      const data = await response.json();
+      const data = await getVantagens();
 
       if (userType === "empresa") {
         const vantagensDaEmpresa = data.filter(
@@ -32,20 +31,10 @@ function VantagensList() {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/user/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserInfo(data);
-      } else {
-        console.error("Erro ao buscar informações do usuário");
-      }
+      const data = await getUser();
+      setUserInfo(data);
     } catch (error) {
-      console.error("Erro ao buscar informações do usuário:", error);
+      console.error(error);
     }
   };
 
@@ -53,21 +42,10 @@ function VantagensList() {
     if (!userInfo || userInfo.pontos <= 0) return;
 
     try {
-      const response = await fetch("http://localhost:3000/transacao", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tipo: "compra",
-          vantagemId,
-        }),
+      await createTransacao({
+        tipo: "compra",
+        vantagemId,
       });
-
-      if (!response.ok) {
-        throw new Error("Erro ao realizar a compra");
-      }
 
       setMudar(mudar + 1)
       alert("Compra realizada com sucesso!");
