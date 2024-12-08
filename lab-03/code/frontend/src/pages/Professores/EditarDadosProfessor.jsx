@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Para obter parâmetros da URL e navegação
 import { useUserContext } from '../../hooks/UserContext';
+import { getProfessor, updateProfessor, deleteProfessor } from "../../services/professor";
 
 function EditarDadosProfessor() {
   const { setUserId, setUserType, setToken } = useUserContext(); // Usa o contexto
@@ -18,11 +19,7 @@ function EditarDadosProfessor() {
   // Função para buscar os dados do professor
   const fetchProfessor = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/professores/${id}`);
-      if (!response.ok) {
-        throw new Error("Erro ao buscar professor");
-      }
-      const data = await response.json();
+      const data = await getProfessor(id);
       setProfessor(data);
       console.log(professor)
     } catch (error) {
@@ -34,16 +31,7 @@ function EditarDadosProfessor() {
   const handleUpdate = async (e) => {
     e.preventDefault(); // Evita o comportamento padrão do formulário
     try {
-      const response = await fetch(`http://localhost:3000/professores/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(professor),
-      });
-      if (!response.ok) {email
-        throw new Error("Erro ao atualizar professor");
-      }
+      await updateProfessor(id, professor);
       navigate("/listar-professores"); // Navega de volta para a lista de professores após a atualização
     } catch (error) {
       console.error("Erro ao atualizar professor:", error);
@@ -53,12 +41,7 @@ function EditarDadosProfessor() {
   // Função para deletar o professor
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/professores/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Erro ao deletar professor");
-      }
+      await deleteProfessor(id);
       setUserId(null);
       setUserType(null);
       setToken(null);

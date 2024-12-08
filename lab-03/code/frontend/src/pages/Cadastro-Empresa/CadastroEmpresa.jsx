@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Para navegação programática
 import { useUserContext } from '../../hooks/UserContext';
+import { createEmpresa } from "../../services/empresa";
+import { login } from "../../services/auth";
 
 function CadastroEmpresa() {
   const { setUserId, setUserType, setToken } = useUserContext(); // Usa o contexto
@@ -23,19 +25,7 @@ function CadastroEmpresa() {
 
     try {
       // Faz a requisição para criar a empresa
-      const response = await fetch("http://localhost:3000/empresas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(empresaData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar empresa");
-      }
-
-      const createdEmpresa = await response.json(); // Recebe a empresa criada da resposta
+      const createdEmpresa = await createEmpresa(empresaData);
       console.log("Empresa criada:", createdEmpresa); // Log da empresa criada
 
       setUserId(createdEmpresa.id);
@@ -43,22 +33,7 @@ function CadastroEmpresa() {
       
 
       // Realiza o login após o cadastro da empresa
-      const loginResponse = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          senha
-        }),
-      });
-
-      if (!loginResponse.ok) {
-        throw new Error("Erro ao fazer login");
-      }
-
-      const loginData = await loginResponse.json();
+      const loginData = await login(email, senha);
       console.log("Login realizado com sucesso:", loginData);
 
       // Atualiza o contexto com o token recebido

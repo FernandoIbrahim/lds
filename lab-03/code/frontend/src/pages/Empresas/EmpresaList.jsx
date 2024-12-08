@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getEmpresas } from "../../services/empresa";
 
 function EmpresaList() {
   const [empresas, setEmpresas] = useState([]); // Estado para armazenar empresas
@@ -7,11 +8,7 @@ function EmpresaList() {
   // Função para buscar as empresas
   const fetchEmpresas = async () => {
     try {
-      const response = await fetch("http://localhost:3000/empresas");
-      if (!response.ok) {
-        throw new Error("Erro ao buscar empresas");
-      }
-      const data = await response.json();
+      const data = await getEmpresas();
       setEmpresas(data);
     } catch (error) {
       console.error("Erro ao buscar empresas:", error);
